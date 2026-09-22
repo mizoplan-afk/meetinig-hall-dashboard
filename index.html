@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <base target="_top">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <style>
+
+    /* =========================================
+       GENERAL
+    ========================================= */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f6f8;
+      color: #172b3a;
+    }
+
+
+    /* =========================================
+       HEADER
+    ========================================= */
+
+    .header {
+      background: linear-gradient(
+        135deg,
+        #B83228,
+        #FF6347
+      );
+
+      color: white;
+
+      padding: 12px 40px;
+
+      min-height: 100px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      box-shadow:
+        0 3px 10px rgba(0,0,0,0.10);
+    }
+
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+
+  
+    }
+
+
+    .header-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+
+    .department {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 1.15;
+    }
+
+
+    .government {
+      font-size: 14px;
+      margin-top: 7px;
+      opacity: 0.95;
+      letter-spacing: 0.5px;
+    }
+
+
+    /* =========================================
+       CLOCK
+    ========================================= */
+
+    .clock {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+
+    #time {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+
+    #date {
+      font-size: 14px;
+      margin-top: 5px;
+      opacity: 0.95;
+    }
+
+
+    /* =========================================
+       MAIN CONTAINER
+    ========================================= */
+
+    .container {
+      padding: 22px 40px 15px;
+      max-width: 1920px;
+      margin: auto;
+    }
+
+
+    /* =========================================
+       MAIN TITLE
+    ========================================= */
+
+    .main-title {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+
+    .main-title h1 {
+      margin: 0;
+      color: #0b3558;
+      font-size: 32px;
+      letter-spacing: 1.5px;
+    }
+
+
+    .main-title p {
+      margin: 5px 0 0;
+      color: #637381;
+      font-size: 15px;
+    }
+
+
+    /* =========================================
+       HALL GRID
+    ========================================= */
+
+    .hall-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+
+    /* =========================================
+       HALL CARD
+    ========================================= */
+
+    .hall-card {
+      background: white;
+
+      border-radius: 16px;
+
+      border-top:
+        6px solid #075f85;
+
+      padding: 22px 24px;
+
+      min-height: 190px;
+
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.08);
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+
+    .hall-card:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 8px 22px rgba(0,0,0,0.10);
+    }
+
+
+    .hall-name {
+      font-size: 22px;
+      font-weight: bold;
+      color: #0b3558;
+    }
+
+
+    /* =========================================
+       STATUS
+    ========================================= */
+
+    .status {
+      font-size: 25px;
+      font-weight: bold;
+
+      margin: 17px 0;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+
+    .dot {
+      width: 14px;
+      height: 14px;
+
+      border-radius: 50%;
+
+      flex-shrink: 0;
+    }
+
+
+    /* AVAILABLE */
+
+    .AVAILABLE {
+      color: #168a4a;
+    }
+
+
+    .AVAILABLE .dot {
+      background: #168a4a;
+
+      box-shadow:
+        0 0 0 4px rgba(22,138,74,0.10);
+    }
+
+
+    /* OCCUPIED */
+
+    .OCCUPIED {
+      color: #c63b3b;
+    }
+
+
+    .OCCUPIED .dot {
+      background: #c63b3b;
+
+      box-shadow:
+        0 0 0 4px rgba(198,59,59,0.10);
+    }
+
+
+    /* UPCOMING */
+
+    .UPCOMING {
+      color: #c57a10;
+    }
+
+
+    .UPCOMING .dot {
+      background: #c57a10;
+
+      box-shadow:
+        0 0 0 4px rgba(197,122,16,0.10);
+    }
+
+
+    /* ERROR */
+
+    .ERROR {
+      color: #777;
+    }
+
+
+    .ERROR .dot {
+      background: #777;
+    }
+
+
+    /* =========================================
+       HALL INFORMATION
+    ========================================= */
+
+    .label {
+      font-size: 12px;
+
+      font-weight: bold;
+
+      letter-spacing: 1px;
+
+      color: #637381;
+
+      text-transform: uppercase;
+    }
+
+
+    .meeting-time {
+      font-size: 18px;
+
+      font-weight: bold;
+
+      margin-top: 6px;
+
+      color: #172b3a;
+    }
+
+
+    .meeting-title {
+      margin-top: 6px;
+
+      font-size: 15px;
+
+      color: #435563;
+
+      min-height: 18px;
+    }
+
+
+    /* =========================================
+       TODAY + TOMORROW
+    ========================================= */
+
+    .schedule-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 18px;
+
+      margin-top: 20px;
+    }
+
+
+    .schedule {
+      background: white;
+
+      border-radius: 16px;
+
+      padding: 20px 24px;
+
+      min-height: 170px;
+
+      box-shadow:
+        0 5px 18px rgba(0,0,0,0.07);
+    }
+
+
+    .schedule-header {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin-bottom: 13px;
+    }
+
+
+    .schedule h2 {
+      color: #0b3558;
+
+      margin: 0;
+
+      font-size: 20px;
+
+      letter-spacing: 0.3px;
+    }
+
+
+    .schedule-day {
+      font-size: 11px;
+
+      font-weight: bold;
+
+      letter-spacing: 1px;
+
+      padding: 6px 9px;
+
+      border-radius: 20px;
+
+      background: #eef4f7;
+
+      color: #637381;
+
+      white-space: nowrap;
+    }
+
+
+    /* =========================================
+       SCHEDULE ROW
+    ========================================= */
+
+    .schedule-row {
+      display: grid;
+
+      grid-template-columns:
+        165px 1fr;
+
+      gap: 14px;
+
+      align-items: start;
+
+      padding: 11px 4px;
+
+      border-top:
+        1px solid #e5eaee;
+    }
+
+
+    .schedule-time {
+      font-weight: bold;
+
+      font-size: 14px;
+
+      color: #172b3a;
+
+      white-space: nowrap;
+
+      padding-top: 4px;
+    }
+
+
+    .meeting-info {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+
+    .hall-badge {
+      display: inline-block;
+
+      background: #eaf3f7;
+
+      color: #075f85;
+
+      padding: 6px 9px;
+
+      border-radius: 7px;
+
+      font-size: 12px;
+
+      font-weight: bold;
+
+      letter-spacing: 0.2px;
+    }
+
+
+    .meeting-name {
+      color: #435563;
+
+      font-size: 14px;
+
+      line-height: 1.4;
+    }
+
+
+    .empty-schedule {
+      padding: 18px 5px;
+
+      color: #7a8993;
+
+      font-size: 14px;
+    }
+
+
+    /* =========================================
+       LOADING
+    ========================================= */
+
+    .loading {
+      text-align: center;
+
+      padding: 35px;
+
+      color: #637381;
+    }
+
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+
+    .footer {
+      text-align: center;
+
+      padding: 8px 20px 4px;
+
+      font-size: 11px;
+
+      color: #7a8993;
+    }
+
+
+    /* =========================================
+       BUILDING IMAGE
+    ========================================= */
+
+    .bottom-image-container {
+      width: 100%;
+
+      text-align: center;
+
+      padding: 4px 15px 15px;
+
+      overflow: hidden;
+    }
+
+
+    .bottom-image {
+      display: block;
+
+      width: auto;
+
+      max-width: 900px;
+
+      max-height: 350px;
+
+      height: auto;
+
+      object-fit: contain;
+
+      object-position: center;
+
+      margin: 0 auto;
+    }
+
+
+    /* =========================================
+       TABLET
+    ========================================= */
+
+    @media (max-width: 900px) {
+
+      .header {
+        padding: 10px 16px;
+        min-height: 78px;
+      }
+
+
+      .header-left {
+        gap: 10px;
+      }
+
+
+      .ashoka-emblem {
+        width: 52px;
+        height: 62px;
+      }
+
+
+      .department {
+        font-size: 16px;
+      }
+
+
+      .government {
+        font-size: 11px;
+        margin-top: 4px;
+      }
+
+
+      .clock {
+        display: none;
+      }
+
+
+      .container {
+        padding: 14px;
+      }
+
+
+      .main-title {
+        margin-bottom: 12px;
+      }
+
+
+      .main-title h1 {
+        font-size: 25px;
+      }
+
+
+      .main-title p {
+        font-size: 13px;
+      }
+
+
+      .hall-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+
+      .hall-card {
+        min-height: 0;
+        padding: 16px 20px;
+      }
+
+
+      .schedule-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+
+      .schedule {
+        min-height: 0;
+      }
+
+    }
+
+
+    /* =========================================
+       MOBILE PHONE
+    ========================================= */
+
+    @media (max-width: 600px) {
+
+      body {
+        font-size: 10px;
+      }
+
+
+      /* HEADER */
+
+      .header {
+        min-height: 52px;
+
+        padding: 5px 9px;
+      }
+
+
+      .header-left {
+        gap: 7px;
+
+        width: 100%;
+      }
+
+
+      .ashoka-emblem {
+        width: 37px;
+
+        height: 42px;
+
+        object-fit: contain;
+      }
+
+
+      .department {
+        font-size: 10.5px;
+
+        line-height: 1.08;
+
+        letter-spacing: 0.1px;
+      }
+
+
+      .government {
+        font-size: 7.5px;
+
+        margin-top: 2px;
+      }
+
+
+      .clock {
+        display: none;
+      }
+
+
+      /* MAIN */
+
+      .container {
+        padding:
+          6px 8px 3px;
+      }
+
+
+      /* TITLE */
+
+      .main-title {
+        margin-bottom: 5px;
+      }
+
+
+      .main-title h1 {
+        font-size: 15px;
+
+        line-height: 1;
+
+        letter-spacing: 0.4px;
+      }
+
+
+      .main-title p {
+        font-size: 7.5px;
+
+        margin-top: 2px;
+      }
+
+
+      /* HALL GRID */
+
+      .hall-grid {
+        grid-template-columns: 1fr;
+
+        gap: 4px;
+      }
+
+
+      /* HALL CARD */
+
+      .hall-card {
+        padding:
+          6px 10px;
+
+        min-height: 0;
+
+        border-radius: 7px;
+
+        border-top-width: 3px;
+
+        box-shadow:
+          0 2px 5px rgba(0,0,0,0.06);
+      }
+
+
+      .hall-card:hover {
+        transform: none;
+      }
+
+
+      .hall-name {
+        font-size: 11.5px;
+
+        line-height: 1.05;
+      }
+
+
+      /* STATUS */
+
+      .status {
+        font-size: 11.5px;
+
+        line-height: 1;
+
+        margin: 4px 0;
+
+        gap: 5px;
+      }
+
+
+      .dot {
+        width: 7px;
+
+        height: 7px;
+      }
+
+
+      .AVAILABLE .dot {
+        box-shadow:
+          0 0 0 2px rgba(22,138,74,0.10);
+      }
+
+
+      .OCCUPIED .dot {
+        box-shadow:
+          0 0 0 2px rgba(198,59,59,0.10);
+      }
+
+
+      .UPCOMING .dot {
+        box-shadow:
+          0 0 0 2px rgba(197,122,16,0.10);
+      }
+
+
+      /* HALL INFO */
+
+      .label {
+        font-size: 6px;
+
+        letter-spacing: 0.3px;
+      }
+
+
+      .meeting-time {
+        font-size: 9.5px;
+
+        line-height: 1.05;
+
+        margin-top: 1px;
+      }
+
+
+      .meeting-title {
+        font-size: 7.5px;
+
+        line-height: 1.05;
+
+        margin-top: 1px;
+
+        min-height: 0;
+      }
+
+
+      /* TODAY + TOMORROW */
+
+      .schedule-grid {
+        grid-template-columns:
+          1fr 1fr;
+
+        gap: 4px;
+
+        margin-top: 5px;
+      }
+
+
+      .schedule {
+        padding: 6px;
+
+        min-height: 0;
+
+        border-radius: 7px;
+
+        box-shadow:
+          0 2px 5px rgba(0,0,0,0.05);
+      }
+
+
+      .schedule-header {
+        margin-bottom: 3px;
+
+        gap: 2px;
+
+        align-items: flex-start;
+      }
+
+
+      .schedule h2 {
+        font-size: 7.5px;
+
+        line-height: 1.05;
+
+        letter-spacing: 0;
+      }
+
+
+      .schedule-day {
+        font-size: 4.5px;
+
+        line-height: 1;
+
+        padding: 2px 3px;
+
+        letter-spacing: 0;
+
+        border-radius: 10px;
+      }
+
+
+      /* SCHEDULE ROW */
+
+      .schedule-row {
+        display: block;
+
+        padding: 3px 1px;
+
+        border-top:
+          1px solid #e5eaee;
+      }
+
+
+      .schedule-time {
+        font-size: 6.5px;
+
+        line-height: 1.05;
+
+        padding-top: 0;
+
+        white-space: normal;
+      }
+
+
+      .meeting-info {
+        gap: 1px;
+
+        margin-top: 1px;
+      }
+
+
+      .hall-badge {
+        font-size: 5.5px;
+
+        line-height: 1;
+
+        padding: 2px 3px;
+
+        border-radius: 3px;
+      }
+
+
+      .meeting-name {
+        font-size: 6.5px;
+
+        line-height: 1.05;
+      }
+
+
+      .empty-schedule {
+        padding: 4px 1px;
+
+        font-size: 6.5px;
+
+        line-height: 1.1;
+      }
+
+
+      /* LOADING */
+
+      .loading {
+        padding: 8px;
+
+        font-size: 8px;
+      }
+
+
+      /* FOOTER */
+
+      .footer {
+        padding:
+          3px 5px 1px;
+
+        font-size: 5.5px;
+
+        line-height: 1.05;
+      }
+
+
+      /* =========================================
+         BUILDING - LARGE ON MOBILE
+      ========================================= */
+
+      .bottom-image-container {
+        width: 100%;
+
+        padding:
+          2px 0 6px;
+
+        margin: 0;
+
+        text-align: center;
+
+        overflow: hidden;
+      }
+
+
+      .bottom-image {
+        display: block;
+
+        width: 92%;
+
+        max-width: none;
+
+        height: auto;
+
+        max-height: 190px;
+
+        object-fit: contain;
+
+        object-position: center;
+
+        margin: 0 auto;
+      }
+
+    }
+
+
+    /* =========================================
+       VERY SMALL PHONE
+    ========================================= */
+
+    @media (max-width: 380px) {
+
+      .header {
+        min-height: 48px;
+
+        padding:
+          4px 7px;
+      }
+
+
+      .ashoka-emblem {
+        width: 33px;
+
+        height: 38px;
+      }
+
+
+      .department {
+        font-size: 9.5px;
+      }
+
+
+      .government {
+        font-size: 7px;
+      }
+
+
+      .container {
+        padding:
+          5px 6px 2px;
+      }
+
+
+      .main-title h1 {
+        font-size: 14px;
+      }
+
+
+      .hall-card {
+        padding:
+          5px 8px;
+      }
+
+
+      .hall-name {
+        font-size: 10.5px;
+      }
+
+
+      .status {
+        font-size: 10.5px;
+
+        margin:
+          3px 0;
+      }
+
+
+      .bottom-image {
+        width: 94%;
+
+        max-height: 175px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<div class="header">
+
+  <div class="header-left">
+
+  
+
+  
+
+
+    <div class="header-text">
+
+      <div class="department">
+
+        PLANNING &amp; PROGRAMME IMPLEMENTATION DEPARTMENT
+
+      </div>
+
+
+      <div class="government">
+
+        GOVERNMENT OF MIZORAM
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- CLOCK -->
+
+  <div class="clock">
+
+    <div id="time"></div>
+
+    <div id="date"></div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<div class="container">
+
+
+  <!-- TITLE -->
+
+  <div class="main-title">
+
+    <h1>
+      MEETING HALL AVAILABILITY
+    </h1>
+
+    <p>
+      Real-time Meeting Hall Status
+    </p>
+
+  </div>
+
+
+
+  <!-- =====================================
+       HALL CARDS
+  ====================================== -->
+
+  <div
+    id="hallCards"
+    class="hall-grid"
+  >
+
+    <div class="loading">
+
+      Loading hall information...
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================
+       TODAY + TOMORROW
+  ====================================== -->
+
+  <div class="schedule-grid">
+
+
+    <!-- TODAY -->
+
+    <div class="schedule">
+
+      <div class="schedule-header">
+
+        <h2>
+          TODAY'S MEETING SCHEDULE
+        </h2>
+
+        <span class="schedule-day">
+          TODAY
+        </span>
+
+      </div>
+
+
+      <div id="todaySchedule">
+
+        Loading schedule...
+
+      </div>
+
+    </div>
+
+
+
+    <!-- TOMORROW -->
+
+    <div class="schedule">
+
+      <div class="schedule-header">
+
+        <h2>
+          TOMORROW'S MEETING SCHEDULE
+        </h2>
+
+        <span class="schedule-day">
+          TOMORROW
+        </span>
+
+      </div>
+
+
+      <div id="tomorrowSchedule">
+
+        Loading schedule...
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<div class="footer">
+
+  Planning &amp; Programme Implementation Department
+  • Government of Mizoram
+
+</div>
+
+
+
+<script>
+
+
+/* =========================================
+   CLOCK
+========================================= */
+
+function updateClock() {
+
+  const now =
+    new Date();
+
+
+  document
+    .getElementById("time")
+    .innerHTML =
+
+      now.toLocaleTimeString(
+
+        "en-IN",
+
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true
+        }
+
+      );
+
+
+  document
+    .getElementById("date")
+    .innerHTML =
+
+      now.toLocaleDateString(
+
+        "en-IN",
+
+        {
+          weekday: "long",
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        }
+
+      );
+
+}
+
+
+
+/* =========================================
+   FORMAT TIME
+========================================= */
+
+function formatTime(timestamp) {
+
+  const date =
+    new Date(timestamp);
+
+
+  return date.toLocaleTimeString(
+
+    "en-IN",
+
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true
+    }
+
+  );
+
+}
+
+
+
+/* =========================================
+   LOAD DASHBOARD
+========================================= */
+
+function loadDashboard() {
+
+  google.script.run
+
+    .withSuccessHandler(
+
+      function(data) {
+
+        displayHallCards(data);
+
+        displayTodaySchedule(data);
+
+        displayTomorrowSchedule(data);
+
+      }
+
+    )
+
+    .withFailureHandler(
+
+      function(error) {
+
+        document
+          .getElementById("hallCards")
+          .innerHTML =
+          "<div class='loading'>Unable to load calendar data.</div>";
+
+
+        document
+          .getElementById("todaySchedule")
+          .innerHTML =
+          "<div class='empty-schedule'>Unable to load schedule.</div>";
+
+
+        document
+          .getElementById("tomorrowSchedule")
+          .innerHTML =
+          "<div class='empty-schedule'>Unable to load schedule.</div>";
+
+
+        console.error(error);
+
+      }
+
+    )
+
+    .getHallData();
+
+}
+
+
+
+/* =========================================
+   DISPLAY HALL CARDS
+========================================= */
+
+function displayHallCards(data) {
+
+  const container =
+    document.getElementById("hallCards");
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(
+
+    function(hall) {
+
+      let meeting = null;
+
+      let label = "STATUS";
+
+      let timeText =
+        "No booking at present";
+
+      let meetingTitle = "";
+
+
+      /* OCCUPIED */
+
+      if (
+        hall.status === "OCCUPIED"
+      ) {
+
+        meeting =
+          hall.currentMeeting;
+
+        label =
+          "CURRENT MEETING";
+
+      }
+
+
+      /* NEXT BOOKING */
+
+      else if (
+        hall.nextMeeting
+      ) {
+
+        meeting =
+          hall.nextMeeting;
+
+        label =
+          "NEXT BOOKING";
+
+      }
+
+
+      if (meeting) {
+
+        timeText =
+
+          formatTime(
+            meeting.start
+          )
+
+          +
+
+          " – "
+
+          +
+
+          formatTime(
+            meeting.end
+          );
+
+
+        meetingTitle =
+          meeting.title;
+
+      }
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "hall-card";
+
+
+      card.innerHTML = `
+
+        <div class="hall-name">
+          ${hall.name}
+        </div>
+
+
+        <div class="status ${hall.status}">
+
+          <span class="dot"></span>
+
+          ${hall.status}
+
+        </div>
+
+
+        <div class="label">
+          ${label}
+        </div>
+
+
+        <div class="meeting-time">
+          ${timeText}
+        </div>
+
+
+        <div class="meeting-title">
+          ${meetingTitle}
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+
+  );
+
+}
+
+
+
+/* =========================================
+   TODAY'S SCHEDULE
+========================================= */
+
+function displayTodaySchedule(data) {
+
+  const container =
+    document.getElementById(
+      "todaySchedule"
+    );
+
+
+  let meetings = [];
+
+
+  data.forEach(
+
+    function(hall) {
+
+      if (
+        hall.todayMeetings
+      ) {
+
+        hall.todayMeetings.forEach(
+
+          function(meeting) {
+
+            meetings.push({
+
+              hall:
+                hall.name,
+
+              title:
+                meeting.title,
+
+              start:
+                meeting.start,
+
+              end:
+                meeting.end
+
+            });
+
+          }
+
+        );
+
+      }
+
+    }
+
+  );
+
+
+  meetings.sort(
+
+    function(a, b) {
+
+      return a.start - b.start;
+
+    }
+
+  );
+
+
+  displayScheduleList(
+
+    container,
+
+    meetings,
+
+    "No meetings scheduled for today."
+
+  );
+
+}
+
+
+
+/* =========================================
+   TOMORROW'S SCHEDULE
+========================================= */
+
+function displayTomorrowSchedule(data) {
+
+  const container =
+    document.getElementById(
+      "tomorrowSchedule"
+    );
+
+
+  let meetings = [];
+
+
+  data.forEach(
+
+    function(hall) {
+
+      if (
+        hall.tomorrowMeetings
+      ) {
+
+        hall.tomorrowMeetings.forEach(
+
+          function(meeting) {
+
+            meetings.push({
+
+              hall:
+                hall.name,
+
+              title:
+                meeting.title,
+
+              start:
+                meeting.start,
+
+              end:
+                meeting.end
+
+            });
+
+          }
+
+        );
+
+      }
+
+    }
+
+  );
+
+
+  meetings.sort(
+
+    function(a, b) {
+
+      return a.start - b.start;
+
+    }
+
+  );
+
+
+  displayScheduleList(
+
+    container,
+
+    meetings,
+
+    "No meetings scheduled for tomorrow."
+
+  );
+
+}
+
+
+
+/* =========================================
+   DISPLAY SCHEDULE LIST
+========================================= */
+
+function displayScheduleList(
+  container,
+  meetings,
+  emptyMessage
+) {
+
+  container.innerHTML = "";
+
+
+  /* NO MEETING */
+
+  if (
+    meetings.length === 0
+  ) {
+
+    const empty =
+      document.createElement(
+        "div"
+      );
+
+
+    empty.className =
+      "empty-schedule";
+
+
+    empty.textContent =
+      emptyMessage;
+
+
+    container.appendChild(
+      empty
+    );
+
+
+    return;
+
+  }
+
+
+  /* DISPLAY MEETINGS */
+
+  meetings.forEach(
+
+    function(meeting) {
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "schedule-row";
+
+
+      const title =
+        meeting.title
+          ? meeting.title
+          : "Meeting";
+
+
+      row.innerHTML = `
+
+        <div class="schedule-time">
+
+          ${formatTime(meeting.start)}
+          –
+          ${formatTime(meeting.end)}
+
+        </div>
+
+
+        <div class="meeting-info">
+
+          <div>
+
+            <span class="hall-badge">
+              ${meeting.hall}
+            </span>
+
+          </div>
+
+
+          <div class="meeting-name">
+            ${title}
+          </div>
+
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        row
+      );
+
+    }
+
+  );
+
+}
+
+
+
+/* =========================================
+   START
+========================================= */
+
+
+/* CLOCK */
+
+updateClock();
+
+
+setInterval(
+  updateClock,
+  1000
+);
+
+
+
+/* CALENDAR DATA */
+
+loadDashboard();
+
+
+
+/* AUTO REFRESH EVERY 60 SECONDS */
+
+setInterval(
+  loadDashboard,
+  60000
+);
+
+
+</script>
+
+
+</body>
+
+</html>
