@@ -2,62 +2,2552 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Meeting Hall Availability</title>
+
 <style>
-*{box-sizing:border-box} html,body{margin:0;width:100%;min-height:100%;} body{font-family:Arial,Helvetica,sans-serif;background:#f3f6f8;color:#172b3a}
-.header{height:108px;background:linear-gradient(135deg,#B83228,#FF6347);color:#fff;padding:12px 34px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 3px 10px rgba(0,0,0,.1)}
-.header-left{display:flex;align-items:center;gap:16px}.ashoka-emblem{width:62px;height:80px;object-fit:contain}.department{font-size:20px;font-weight:700;letter-spacing:.4px}.government{font-size:14px;margin-top:7px}.clock{text-align:right}#time{font-size:31px;font-weight:700}#date{font-size:13px;margin-top:6px}
-.container{width:100%;max-width:1080px;margin:auto;padding:22px 28px 18px}.main-title{text-align:center;margin-bottom:20px}.main-title h1{margin:0;color:#0b3558;font-size:34px;letter-spacing:1.5px}.main-title p{margin:5px 0 0;color:#637381;font-size:14px}
-.hall-grid{display:grid;grid-template-columns:1fr;gap:12px}.hall-card{background:#fff;border-radius:15px;border-top:5px solid #075f85;padding:18px 22px;box-shadow:0 5px 16px rgba(0,0,0,.07)}.hall-name{font-size:22px;font-weight:700;color:#0b3558}.status{font-size:22px;font-weight:700;margin:10px 0;display:flex;align-items:center;gap:9px}.dot{width:13px;height:13px;border-radius:50%}.AVAILABLE{color:#168a4a}.AVAILABLE .dot{background:#168a4a}.OCCUPIED{color:#c63b3b}.OCCUPIED .dot{background:#c63b3b}.UPCOMING{color:#c57a10}.UPCOMING .dot{background:#c57a10}.ERROR{color:#777}.ERROR .dot{background:#777}.label{font-size:10px;font-weight:700;letter-spacing:1px;color:#637381}.meeting-time{font-size:16px;font-weight:700;margin-top:4px}.meeting-title{font-size:13px;color:#435563;margin-top:3px}
-.schedule-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px}.schedule{background:#fff;border-radius:15px;padding:17px 21px;min-height:125px;box-shadow:0 5px 16px rgba(0,0,0,.06)}.schedule-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.schedule h2{margin:0;color:#0b3558;font-size:19px}.schedule-day{font-size:9px;font-weight:700;padding:5px 9px;border-radius:20px;background:#eef4f7;color:#637381}.schedule-row{display:grid;grid-template-columns:155px 1fr;gap:12px;padding:8px 3px;border-top:1px solid #e5eaee}.schedule-time{font-weight:700;font-size:13px}.hall-badge{display:inline-block;background:#eaf3f7;color:#075f85;padding:4px 7px;border-radius:6px;font-size:10px;font-weight:700}.meeting-name{font-size:12px;color:#435563;margin-top:4px}.empty-schedule{padding:13px 3px;color:#7a8993;font-size:12px}
-.bottom-grid{display:grid;grid-template-columns:1.35fr .85fr;gap:14px;margin-top:14px;align-items:stretch}.monthly-card,.building-card{background:#fff;border-radius:15px;box-shadow:0 5px 16px rgba(0,0,0,.07);overflow:hidden}.monthly-card{padding:16px}.month-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.month-title{font-size:18px;font-weight:700;color:#0b3558}.month-name{font-size:15px;font-weight:700;color:#172b3a}.legend{display:flex;gap:10px;font-size:9px;color:#637381;white-space:nowrap}.legend span{display:flex;align-items:center;gap:4px}.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block}.lg-free{background:#168a4a}.lg-booked{background:#c63b3b}
-.month-table-wrap{max-height:610px;overflow-y:auto;border:1px solid #e4eaee;border-radius:9px}.month-table{width:100%;border-collapse:collapse;table-layout:fixed}.month-table th{position:sticky;top:0;z-index:2;background:#eef4f7;color:#0b3558;font-size:10px;padding:7px 4px;border-bottom:1px solid #dce5ea}.month-table td{padding:5px 4px;border-bottom:1px solid #edf1f3;border-right:1px solid #edf1f3;text-align:center;vertical-align:middle;font-size:10px}.month-table td:last-child,.month-table th:last-child{border-right:0}.date-cell{width:54px;font-weight:700;color:#172b3a}.today-row{background:#f0f8ff}.day-status{display:flex;align-items:flex-start;justify-content:center;gap:4px;line-height:1.15}.mini-dot{width:8px;height:8px;border-radius:50%;margin-top:2px;flex:0 0 auto}.mini-free{background:#168a4a}.mini-booked{background:#c63b3b}.booking-names{font-size:8px;color:#435563;text-align:left;max-width:115px;overflow-wrap:anywhere}.free-text{font-size:8px;color:#168a4a}
-.building-card{position:relative;min-height:100%;background:#0b3558}.building-image{width:100%;height:100%;min-height:360px;object-fit:cover;object-position:center;display:block}.building-caption{position:absolute;left:0;right:0;bottom:0;background:rgba(7,95,133,.9);color:#fff;text-align:center;padding:13px 8px}.building-caption strong{font-size:13px;letter-spacing:.7px}.building-caption div{font-size:8px;letter-spacing:3px;margin-top:4px}.footer{text-align:center;padding:8px 10px 14px;color:#7a8993;font-size:9px}.loading{text-align:center;padding:25px;color:#637381}
-@media(max-width:760px){.header{height:80px;padding:8px 14px}.ashoka-emblem{width:45px;height:58px}.department{font-size:14px}.government{font-size:10px}.clock{display:none}.container{padding:12px}.main-title h1{font-size:24px}.bottom-grid{grid-template-columns:1fr}.month-table-wrap{max-height:520px}.building-image{min-height:240px}.legend{font-size:8px}}
+:root{
+  --navy:#063b63;
+  --blue:#075f85;
+  --blue2:#0781b8;
+  --red:#c83229;
+  --tomato:#ff5d45;
+  --green:#129654;
+  --booked:#e52525;
+  --grey:#83909a;
+  --bg:#f2f6f8;
+  --line:#dce6eb;
+  --text:#102c43;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(180deg,#f7fafb 0%,#edf3f6 100%);
+  color:var(--text);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  min-height:100px;
+  padding:10px 34px;
+
+  background:
+    linear-gradient(110deg,#c92f27 0%,#e84232 48%,#ff6048 100%);
+
+  color:#fff;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  box-shadow:0 3px 10px rgba(0,0,0,.13);
+}
+
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:17px;
+}
+
+.ashoka{
+  width:58px;
+  height:76px;
+  object-fit:contain;
+}
+
+.department{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+
+.government{
+  margin-top:7px;
+  font-size:13px;
+  letter-spacing:.4px;
+}
+
+.clock{
+  text-align:right;
+}
+
+#time{
+  font-size:30px;
+  font-weight:800;
+}
+
+#date{
+  margin-top:6px;
+  font-size:12px;
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.page{
+  max-width:1920px;
+  margin:auto;
+  padding:18px 28px 8px;
+}
+
+.title-area{
+  text-align:center;
+  margin-bottom:17px;
+}
+
+.title-area h1{
+  margin:0;
+  color:var(--navy);
+  font-size:31px;
+  letter-spacing:2px;
+}
+
+.subtitle{
+  margin-top:5px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+
+  color:#71818c;
+  font-size:13px;
+}
+
+.subtitle:before,
+.subtitle:after{
+  content:"";
+  width:90px;
+  height:1px;
+  background:#2d7ca6;
+}
+
+/* =========================
+   HALL STATUS
+========================= */
+
+.hall-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.hall-card{
+  min-height:155px;
+  padding:19px 21px;
+
+  background:#fff;
+
+  border-radius:13px;
+  border-top:5px solid var(--blue);
+
+  box-shadow:0 5px 17px rgba(22,55,75,.08);
+
+  display:grid;
+  grid-template-columns:58px 1fr;
+  gap:15px;
+  align-items:start;
+}
+
+.hall-icon{
+  width:55px;
+  height:55px;
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:white;
+  font-size:25px;
+  font-weight:bold;
+
+  background:linear-gradient(135deg,#087cb7,#075f85);
+}
+
+.hall-card:nth-child(2) .hall-icon{
+  background:linear-gradient(135deg,#16a28f,#007a6d);
+}
+
+.hall-card:nth-child(3) .hall-icon{
+  background:linear-gradient(135deg,#ff8b19,#ff5c12);
+}
+
+.hall-name{
+  color:var(--navy);
+  font-size:19px;
+  font-weight:800;
+  margin:2px 0 10px;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  font-size:22px;
+  font-weight:800;
+
+  margin-bottom:12px;
+}
+
+.status-dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+}
+
+.AVAILABLE{
+  color:var(--green);
+}
+
+.AVAILABLE .status-dot{
+  background:var(--green);
+}
+
+.OCCUPIED{
+  color:var(--booked);
+}
+
+.OCCUPIED .status-dot{
+  background:var(--booked);
+}
+
+.UPCOMING{
+  color:#d5850d;
+}
+
+.UPCOMING .status-dot{
+  background:#d5850d;
+}
+
+.ERROR{
+  color:#777;
+}
+
+.ERROR .status-dot{
+  background:#777;
+}
+
+.status-label{
+  color:#73838e;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.2px;
+}
+
+.status-detail{
+  margin-top:4px;
+  font-size:14px;
+  font-weight:700;
+  color:#102c43;
+}
+
+.status-title{
+  margin-top:3px;
+  font-size:12px;
+  color:#60727f;
+}
+
+/* =========================
+   SCHEDULE
+========================= */
+
+.schedule-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:16px;
+}
+
+.schedule-box{
+  overflow:hidden;
+
+  background:white;
+  border-radius:13px;
+
+  box-shadow:0 5px 17px rgba(22,55,75,.07);
+}
+
+.section-header{
+  min-height:54px;
+  padding:11px 18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+
+  color:white;
+
+  background:
+    linear-gradient(110deg,#075681,#0780b6);
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  font-size:17px;
+  font-weight:800;
+}
+
+.calendar-icon{
+  font-size:22px;
+}
+
+.date-badge{
+  background:#e8f5fb;
+  color:#075681;
+
+  border-radius:18px;
+
+  padding:7px 12px;
+
+  font-size:10px;
+  font-weight:800;
+
+  white-space:nowrap;
+}
+
+.schedule-table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+
+.schedule-table th{
+  padding:10px 9px;
+
+  background:#eef5f8;
+
+  color:#173c59;
+
+  border-right:1px solid #dce6eb;
+  border-bottom:1px solid #dce6eb;
+
+  font-size:11px;
+  text-align:left;
+}
+
+.schedule-table td{
+  padding:11px 9px;
+
+  border-right:1px solid #e4ebef;
+  border-bottom:1px solid #e4ebef;
+
+  font-size:11px;
+  vertical-align:top;
+}
+
+.schedule-table th:nth-child(1){
+  width:21%;
+}
+
+.schedule-table th:nth-child(2){
+  width:23%;
+}
+
+.schedule-table th:nth-child(3){
+  width:35%;
+}
+
+.schedule-table th:nth-child(4){
+  width:21%;
+}
+
+.table-time{
+  font-weight:800;
+  color:#143a57;
+}
+
+.table-hall{
+  display:inline-block;
+
+  padding:5px 7px;
+
+  border-radius:6px;
+
+  background:#e8f4fa;
+  color:#07658f;
+
+  font-size:9px;
+  font-weight:800;
+}
+
+.table-title{
+  font-weight:700;
+}
+
+.organiser{
+  font-size:10px;
+  color:#687b87;
+}
+
+.empty{
+  padding:29px 15px;
+  text-align:center;
+
+  color:#71818c;
+  font-size:12px;
+}
+
+/* =========================
+   LOWER SECTION
+========================= */
+
+.lower-grid{
+  display:grid;
+  grid-template-columns:1.45fr .85fr;
+  gap:16px;
+  margin-top:16px;
+  align-items:stretch;
+}
+
+/* =========================
+   MONTHLY CALENDAR
+========================= */
+
+.month-panel{
+  overflow:hidden;
+
+  background:#fff;
+
+  border-radius:13px;
+
+  box-shadow:0 5px 17px rgba(22,55,75,.08);
+}
+
+.month-top{
+  min-height:54px;
+  padding:11px 18px;
+
+  display:flex;
+  align-items:center;
+
+  background:
+    linear-gradient(110deg,#075681,#0780b6);
+
+  color:white;
+
+  font-size:18px;
+  font-weight:800;
+}
+
+.month-toolbar{
+  min-height:50px;
+
+  padding:8px 15px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.month-name{
+  display:flex;
+  align-items:center;
+  gap:15px;
+
+  color:var(--navy);
+
+  font-size:17px;
+  font-weight:800;
+}
+
+.month-arrow{
+  width:30px;
+  height:30px;
+
+  border:0;
+  border-radius:50%;
+
+  background:#edf5f8;
+  color:#075f85;
+
+  cursor:pointer;
+
+  font-size:19px;
+  font-weight:bold;
+}
+
+.legend{
+  display:flex;
+  align-items:center;
+  gap:13px;
+
+  color:#536976;
+  font-size:9px;
+}
+
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.legend-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+}
+
+.legend-green{
+  background:var(--green);
+}
+
+.legend-red{
+  background:var(--booked);
+}
+
+.legend-grey{
+  background:#aeb7bc;
+}
+
+.calendar-wrap{
+  padding:0 13px 13px;
+}
+
+.month-calendar{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+
+.month-calendar th{
+  padding:7px 2px;
+
+  background:var(--navy);
+  color:white;
+
+  border-right:1px solid rgba(255,255,255,.3);
+
+  font-size:10px;
+}
+
+.month-calendar td{
+  height:92px;
+  padding:5px;
+
+  border:1px solid #dce5ea;
+
+  vertical-align:top;
+
+  background:white;
+}
+
+.month-calendar td.outside{
+  background:#f7f9fa;
+}
+
+.month-calendar td.today-cell{
+  background:#e6f4fb;
+}
+
+.day-number{
+  font-size:11px;
+  font-weight:800;
+  color:#183b55;
+  margin-bottom:5px;
+}
+
+.hall-mini{
+  display:grid;
+  grid-template-columns:30px 8px 1fr;
+  align-items:start;
+  gap:3px;
+
+  margin:3px 0;
+
+  font-size:7px;
+  line-height:1.15;
+}
+
+.hall-short{
+  font-weight:800;
+  color:#536b7b;
+}
+
+.mini-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  margin-top:1px;
+}
+
+.mini-available{
+  background:var(--green);
+}
+
+.mini-booked{
+  background:var(--booked);
+}
+
+.mini-title{
+  color:#455b69;
+
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+
+.mini-title.booked{
+  color:#a51f1f;
+  font-weight:700;
+}
+
+.calendar-note{
+  padding:0 15px 13px;
+
+  color:#748591;
+  font-size:9px;
+}
+
+/* =========================
+   BUILDING
+========================= */
+
+.building-card{
+  min-height:100%;
+
+  position:relative;
+  overflow:hidden;
+
+  border-radius:13px;
+
+  background:#075681;
+
+  box-shadow:0 5px 17px rgba(22,55,75,.08);
+}
+
+.building-card img{
+  display:block;
+
+  width:100%;
+  height:100%;
+
+  min-height:430px;
+
+  object-fit:cover;
+  object-position:center;
+}
+
+.building-overlay{
+  position:absolute;
+
+  left:0;
+  right:0;
+  bottom:0;
+
+  padding:28px 15px 17px;
+
+  text-align:center;
+
+  color:white;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4,63,100,0) 0%,
+      rgba(4,63,100,.90) 42%,
+      #06446e 100%
+    );
+}
+
+.building-title{
+  font-size:17px;
+  font-weight:800;
+}
+
+.building-subtitle{
+  margin-top:9px;
+
+  font-size:9px;
+  letter-spacing:4px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  padding:11px 2px 8px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  color:#71818c;
+  font-size:9px;
+}
+
+/* =========================
+   PORTRAIT TV
+========================= */
+
+@media (orientation:portrait){
+
+  .page{
+    padding:18px 22px 8px;
+  }
+
+  .hall-grid{
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+  }
+
+  .hall-card{
+    grid-template-columns:1fr;
+    min-height:180px;
+    padding:16px;
+  }
+
+  .hall-icon{
+    width:43px;
+    height:43px;
+    font-size:20px;
+  }
+
+  .hall-name{
+    font-size:15px;
+  }
+
+  .status{
+    font-size:17px;
+  }
+
+  .schedule-grid{
+    grid-template-columns:1fr;
+  }
+
+  .lower-grid{
+    grid-template-columns:1fr;
+  }
+
+  .building-card img{
+    height:390px;
+    min-height:390px;
+  }
+
+  .month-calendar td{
+    height:105px;
+  }
+
+  .hall-mini{
+    font-size:8px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:650px){
+
+  .header{
+    min-height:72px;
+    padding:7px 10px;
+  }
+
+  .ashoka{
+    width:38px;
+    height:50px;
+  }
+
+  .department{
+    font-size:11px;
+  }
+
+  .government{
+    font-size:8px;
+    margin-top:3px;
+  }
+
+  #time{
+    font-size:17px;
+  }
+
+  #date{
+    font-size:7px;
+  }
+
+  .page{
+    padding:10px 8px 5px;
+  }
+
+  .title-area h1{
+    font-size:19px;
+  }
+
+  .subtitle{
+    font-size:9px;
+  }
+
+  .subtitle:before,
+  .subtitle:after{
+    width:35px;
+  }
+
+  .hall-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hall-card{
+    grid-template-columns:42px 1fr;
+    min-height:0;
+    padding:11px;
+  }
+
+  .hall-icon{
+    width:38px;
+    height:38px;
+  }
+
+  .hall-name{
+    font-size:13px;
+    margin-bottom:5px;
+  }
+
+  .status{
+    font-size:14px;
+    margin-bottom:6px;
+  }
+
+  .schedule-grid{
+    grid-template-columns:1fr;
+  }
+
+  .section-title{
+    font-size:12px;
+  }
+
+  .date-badge{
+    font-size:7px;
+  }
+
+  .lower-grid{
+    grid-template-columns:1fr;
+  }
+
+  .month-toolbar{
+    flex-direction:column;
+  }
+
+  .legend{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .month-calendar td{
+    height:78px;
+    padding:3px;
+  }
+
+  .hall-mini{
+    grid-template-columns:18px 6px 1fr;
+    font-size:5.5px;
+  }
+
+  .day-number{
+    font-size:8px;
+  }
+
+  .building-card img{
+    height:250px;
+    min-height:250px;
+  }
+
+  .footer{
+    font-size:7px;
+  }
+}
+
 </style>
 </head>
+
 <body>
-<div class="header"><div class="header-left"><img class="ashoka-emblem" src="Ashoka-Pillar.png" alt="State Emblem of India"><div><div class="department">PLANNING &amp; PROGRAMME IMPLEMENTATION DEPARTMENT</div><div class="government">GOVERNMENT OF MIZORAM</div></div></div><div class="clock"><div id="time"></div><div id="date"></div></div></div>
-<div class="container">
-  <div class="main-title"><h1>MEETING HALL AVAILABILITY</h1><p>Real-time Meeting Hall Status</p></div>
-  <div id="hallCards" class="hall-grid"><div class="loading">Loading hall information...</div></div>
-  <div class="schedule-grid">
-    <div class="schedule"><div class="schedule-header"><h2>TODAY'S MEETING SCHEDULE</h2><span class="schedule-day">TODAY</span></div><div id="todaySchedule">Loading schedule...</div></div>
-    <div class="schedule"><div class="schedule-header"><h2>TOMORROW'S MEETING SCHEDULE</h2><span class="schedule-day">TOMORROW</span></div><div id="tomorrowSchedule">Loading schedule...</div></div>
-  </div>
-  <div class="bottom-grid">
-    <div class="monthly-card">
-      <div class="month-header"><div class="month-title">MONTHLY CALENDAR</div><div id="monthName" class="month-name"></div><div class="legend"><span><i class="legend-dot lg-free"></i>Available</span><span><i class="legend-dot lg-booked"></i>Booked</span></div></div>
-      <div class="month-table-wrap"><table class="month-table"><thead><tr><th class="date-cell">DATE</th><th>CONFERENCE HALL</th><th>COMMITTEE ROOM</th><th>VIDEO CONFERENCE ROOM</th></tr></thead><tbody id="monthBody"><tr><td colspan="4" class="loading">Loading monthly calendar...</td></tr></tbody></table></div>
+
+<!-- HEADER -->
+
+<header class="header">
+
+  <div class="header-left">
+
+    <img
+      src="Ashoka-Pillar.png"
+      class="ashoka"
+      alt="State Emblem of India"
+    >
+
+    <div>
+      <div class="department">
+        PLANNING &amp; PROGRAMME IMPLEMENTATION DEPARTMENT
+      </div>
+
+      <div class="government">
+        GOVERNMENT OF MIZORAM
+      </div>
     </div>
-    <div class="building-card"><img class="building-image" src="planning-building.png" alt="Planning and Programme Implementation Department Office"><div class="building-caption"><strong>PLANNING FOR A BETTER MIZORAM</strong><div>PEOPLE • PLANS • PROGRESS</div></div></div>
+
   </div>
-</div>
-<div class="footer">Planning &amp; Programme Implementation Department • Government of Mizoram</div>
+
+  <div class="clock">
+    <div id="time"></div>
+    <div id="date"></div>
+  </div>
+
+</header>
+
+
+<main class="page">
+
+  <!-- TITLE -->
+
+  <section class="title-area">
+
+    <h1>MEETING HALL AVAILABILITY</h1>
+
+    <div class="subtitle">
+      Real-time Meeting Hall Status
+    </div>
+
+  </section>
+
+
+  <!-- HALL STATUS -->
+
+  <section
+    id="hallCards"
+    class="hall-grid"
+  >
+  </section>
+
+
+  <!-- TODAY / TOMORROW -->
+
+  <section class="schedule-grid">
+
+    <div class="schedule-box">
+
+      <div class="section-header">
+
+        <div class="section-title">
+          <span class="calendar-icon">▣</span>
+          TODAY'S MEETING SCHEDULE
+        </div>
+
+        <div
+          id="todayBadge"
+          class="date-badge"
+        ></div>
+
+      </div>
+
+      <div id="todaySchedule"></div>
+
+    </div>
+
+
+    <div class="schedule-box">
+
+      <div class="section-header">
+
+        <div class="section-title">
+          <span class="calendar-icon">▣</span>
+          TOMORROW'S MEETING SCHEDULE
+        </div>
+
+        <div
+          id="tomorrowBadge"
+          class="date-badge"
+        ></div>
+
+      </div>
+
+      <div id="tomorrowSchedule"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- MONTH + BUILDING -->
+
+  <section class="lower-grid">
+
+    <!-- MONTH CALENDAR -->
+
+    <div class="month-panel">
+
+      <div class="month-top">
+        <span class="calendar-icon">▣</span>
+        &nbsp;&nbsp;MONTHLY CALENDAR
+      </div>
+
+
+      <div class="month-toolbar">
+
+        <div class="month-name">
+
+          <button
+            class="month-arrow"
+            onclick="changeMonth(-1)"
+          >
+            ‹
+          </button>
+
+          <span id="monthTitle"></span>
+
+          <button
+            class="month-arrow"
+            onclick="changeMonth(1)"
+          >
+            ›
+          </button>
+
+        </div>
+
+
+        <div class="legend">
+
+          <span class="legend-item">
+            <span class="legend-dot legend-green"></span>
+            Available
+          </span>
+
+          <span class="legend-item">
+            <span class="legend-dot legend-red"></span>
+            Booked
+          </span>
+
+          <span class="legend-item">
+            <b>CH</b> Conference Hall
+          </span>
+
+          <span class="legend-item">
+            <b>CR</b> Committee Room
+          </span>
+
+          <span class="legend-item">
+            <b>VCR</b> Video Conference Room
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="calendar-wrap">
+
+        <table class="month-calendar">
+
+          <thead>
+            <tr>
+              <th>Sun</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+            </tr>
+          </thead>
+
+          <tbody id="monthBody"></tbody>
+
+        </table>
+
+      </div>
+
+
+      <div class="calendar-note">
+        Green = Available • Red = Booked.
+        Meeting title / organiser is shown in smaller text where available.
+      </div>
+
+    </div>
+
+
+    <!-- BUILDING -->
+
+    <div class="building-card">
+
+      <img
+        src="planning-building.png"
+        alt="Planning and Programme Implementation Department Building"
+      >
+
+      <div class="building-overlay">
+
+        <div class="building-title">
+          PLANNING FOR A BETTER MIZORAM
+        </div>
+
+        <div class="building-subtitle">
+          PEOPLE • PLANS • PROGRESS
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer class="footer">
+
+    <div>
+      Planning &amp; Programme Implementation Department
+      &nbsp;•&nbsp;
+      Government of Mizoram
+    </div>
+
+    <div id="lastUpdated"></div>
+
+  </footer>
+
+</main>
+
+
 <script>
-const API_KEY = "AIzaSyAp_nB9CvTK3PKTyazD_AWSKV0ezyzfCqo";
-const HALLS=[
-{name:"CONFERENCE HALL",calendarId:"1a727dbc052a4a88462feac7a0e03e122e7a1569d9bd58482771456420fc07a2@group.calendar.google.com"},
-{name:"COMMITTEE ROOM",calendarId:"07dae74985fb0b53ce7019844db0100f4aaa1e0450024da9e8fde5b4200094fc@group.calendar.google.com"},
-{name:"VIDEO CONFERENCE ROOM",calendarId:"e869e2932faa565e995f3b08e6fbf35b31d6f66770bdb6d02e947c3ab0e482b4@group.calendar.google.com"}
+
+/* ==========================================================
+   IMPORTANT
+
+   Replace only PASTE_YOUR_API_KEY_HERE
+   with your current working restricted API key.
+
+   Do not send your API key in ChatGPT.
+========================================================== */
+
+const API_KEY =
+  "AIzaSyAp_nB9CvTK3PKTyazD_AWSKV0ezyzfCqo";
+
+
+/* ==========================================================
+   GOOGLE CALENDARS
+========================================================== */
+
+const HALLS = [
+
+  {
+    name:"CONFERENCE HALL",
+    short:"CH",
+    icon:"♙",
+
+    calendarId:
+    "1a727dbc052a4a88462feac7a0e03e122e7a1569d9bd58482771456420fc07a2@group.calendar.google.com"
+  },
+
+  {
+    name:"COMMITTEE ROOM",
+    short:"CR",
+    icon:"♙",
+
+    calendarId:
+    "07dae74985fb0b53ce7019844db0100f4aaa1e0450024da9e8fde5b4200094fc@group.calendar.google.com"
+  },
+
+  {
+    name:"VIDEO CONFERENCE ROOM",
+    short:"VCR",
+    icon:"▣",
+
+    calendarId:
+    "e869e2932faa565e995f3b08e6fbf35b31d6f66770bdb6d02e947c3ab0e482b4@group.calendar.google.com"
+  }
+
 ];
-function escapeHTML(v){return String(v||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function updateClock(){const n=new Date();time.textContent=n.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",hour12:true,timeZone:"Asia/Kolkata"});date.textContent=n.toLocaleDateString("en-IN",{weekday:"long",day:"2-digit",month:"long",year:"numeric",timeZone:"Asia/Kolkata"})}
-function formatTime(t){return new Date(t).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",hour12:true,timeZone:"Asia/Kolkata"})}
-function indiaParts(add=0){const f=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"});const v={};f.formatToParts(new Date()).forEach(p=>{if(p.type!=="literal")v[p.type]=p.value});const b=new Date(Date.UTC(+v.year,+v.month-1,+v.day+add));return{year:b.getUTCFullYear(),month:String(b.getUTCMonth()+1).padStart(2,"0"),day:String(b.getUTCDate()).padStart(2,"0")}}
-function dayRange(add=0){const d=indiaParts(add);return{start:new Date(`${d.year}-${d.month}-${d.day}T00:00:00+05:30`),end:new Date(`${d.year}-${d.month}-${d.day}T23:59:59+05:30`)}}
-function monthRange(){const d=indiaParts(0),y=+d.year,m=+d.month;const days=new Date(y,m,0).getDate();return{year:y,month:m,days,start:new Date(`${y}-${String(m).padStart(2,"0")}-01T00:00:00+05:30`),end:new Date(`${y}-${String(m).padStart(2,"0")}-${String(days).padStart(2,"0")}T23:59:59+05:30`)}}
-async function getEvents(id,start,end){const u="https://www.googleapis.com/calendar/v3/calendars/"+encodeURIComponent(id)+"/events?key="+encodeURIComponent(API_KEY)+"&timeMin="+encodeURIComponent(start.toISOString())+"&timeMax="+encodeURIComponent(end.toISOString())+"&singleEvents=true&orderBy=startTime&maxResults=250";const r=await fetch(u);if(!r.ok)throw new Error("Calendar API "+r.status);return (await r.json()).items||[]}
-function meeting(e){if(e.start?.dateTime)return{title:e.summary||"Meeting",start:new Date(e.start.dateTime).getTime(),end:new Date(e.end.dateTime).getTime()};if(e.start?.date)return{title:e.summary||"Meeting",start:new Date(e.start.date+"T00:00:00+05:30").getTime(),end:new Date(e.end.date+"T00:00:00+05:30").getTime()};return null}
-async function loadHall(h){const now=Date.now(),t=dayRange(0),tm=dayRange(1);try{const [a,b]=await Promise.all([getEvents(h.calendarId,t.start,t.end),getEvents(h.calendarId,tm.start,tm.end)]);const today=a.map(meeting).filter(Boolean),tomorrow=b.map(meeting).filter(Boolean);let current=null,next=null;today.forEach(x=>{if(now>=x.start&&now<x.end)current=x;if(x.start>now&&(!next||x.start<next.start))next=x});let status=current?"OCCUPIED":(next&&next.start-now<=1800000?"UPCOMING":"AVAILABLE");return{name:h.name,status,currentMeeting:current,nextMeeting:next,todayMeetings:today,tomorrowMeetings:tomorrow}}catch(e){console.error(h.name,e);return{name:h.name,status:"ERROR",currentMeeting:null,nextMeeting:null,todayMeetings:[],tomorrowMeetings:[]}}}
-function displayHallCards(data){hallCards.innerHTML="";data.forEach(h=>{let x=h.status==="OCCUPIED"?h.currentMeeting:h.nextMeeting,label=h.status==="OCCUPIED"?"CURRENT MEETING":(x?"NEXT BOOKING":"STATUS");const c=document.createElement("div");c.className="hall-card";c.innerHTML=`<div class="hall-name">${escapeHTML(h.name)}</div><div class="status ${h.status}"><span class="dot"></span>${escapeHTML(h.status)}</div><div class="label">${label}</div><div class="meeting-time">${x?escapeHTML(formatTime(x.start)+" – "+formatTime(x.end)):"No booking at present"}</div><div class="meeting-title">${x?escapeHTML(x.title):""}</div>`;hallCards.appendChild(c)})}
-function displaySchedule(el,items,empty){el.innerHTML="";if(!items.length){el.innerHTML=`<div class="empty-schedule">${empty}</div>`;return}items.sort((a,b)=>a.start-b.start).forEach(x=>{const r=document.createElement("div");r.className="schedule-row";r.innerHTML=`<div class="schedule-time">${escapeHTML(formatTime(x.start))} – ${escapeHTML(formatTime(x.end))}</div><div><span class="hall-badge">${escapeHTML(x.hall)}</span><div class="meeting-name">${escapeHTML(x.title)}</div></div>`;el.appendChild(r)})}
-function renderSchedules(data){let a=[],b=[];data.forEach(h=>{h.todayMeetings.forEach(x=>a.push({...x,hall:h.name}));h.tomorrowMeetings.forEach(x=>b.push({...x,hall:h.name}))});displaySchedule(todaySchedule,a,"No meetings scheduled for today.");displaySchedule(tomorrowSchedule,b,"No meetings scheduled for tomorrow.")}
-function eventTouchesDate(e,y,m,d){const ds=new Date(`${y}-${String(m).padStart(2,"0")}-${String(d).padStart(2,"0")}T00:00:00+05:30`).getTime(),de=ds+86400000;return e.start<de&&e.end>ds}
-async function loadMonth(){const mr=monthRange();monthName.textContent=new Date(mr.year,mr.month-1,1).toLocaleDateString("en-IN",{month:"long",year:"numeric"});try{const all=await Promise.all(HALLS.map(async h=>({name:h.name,events:(await getEvents(h.calendarId,mr.start,mr.end)).map(meeting).filter(Boolean)})));const today=+indiaParts().day;monthBody.innerHTML="";for(let d=1;d<=mr.days;d++){const tr=document.createElement("tr");if(d===today)tr.className="today-row";const wd=new Date(mr.year,mr.month-1,d).toLocaleDateString("en-IN",{weekday:"short"});let html=`<td class="date-cell">${d} ${wd}</td>`;all.forEach(h=>{const es=h.events.filter(e=>eventTouchesDate(e,mr.year,mr.month,d));if(es.length){const names=[...new Set(es.map(e=>e.title))].join(" • ");html+=`<td><div class="day-status"><span class="mini-dot mini-booked"></span><span class="booking-names">${escapeHTML(names)}</span></div></td>`}else{html+=`<td><div class="day-status"><span class="mini-dot mini-free"></span><span class="free-text">Available</span></div></td>`}});tr.innerHTML=html;monthBody.appendChild(tr)}}catch(e){console.error(e);monthBody.innerHTML='<tr><td colspan="4" class="empty-schedule">Unable to load monthly calendar.</td></tr>'}}
-async function loadDashboard(){if(API_KEY==="PASTE_YOUR_API_KEY_HERE"){hallCards.innerHTML='<div class="loading">Please add your Google Calendar API key.</div>';return}const data=await Promise.all(HALLS.map(loadHall));displayHallCards(data);renderSchedules(data);await loadMonth()}
-updateClock();setInterval(updateClock,1000);loadDashboard();setInterval(loadDashboard,60000);
+
+
+/* ==========================================================
+   VARIABLES
+========================================================== */
+
+let currentMonthDate =
+  new Date();
+
+let monthData = {};
+
+
+/* ==========================================================
+   CLOCK
+========================================================== */
+
+function updateClock(){
+
+  const now =
+    new Date();
+
+  document.getElementById("time")
+    .textContent =
+    now.toLocaleTimeString(
+      "en-IN",
+      {
+        hour:"2-digit",
+        minute:"2-digit",
+        hour12:true,
+        timeZone:"Asia/Kolkata"
+      }
+    );
+
+  document.getElementById("date")
+    .textContent =
+    now.toLocaleDateString(
+      "en-IN",
+      {
+        weekday:"long",
+        day:"2-digit",
+        month:"long",
+        year:"numeric",
+        timeZone:"Asia/Kolkata"
+      }
+    );
+}
+
+
+/* ==========================================================
+   HELPERS
+========================================================== */
+
+function escapeHTML(value){
+
+  return String(value || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
+function formatTime(timestamp){
+
+  return new Date(timestamp)
+    .toLocaleTimeString(
+      "en-IN",
+      {
+        hour:"2-digit",
+        minute:"2-digit",
+        hour12:true,
+        timeZone:"Asia/Kolkata"
+      }
+    );
+}
+
+
+function formatBadge(date){
+
+  return date
+    .toLocaleDateString(
+      "en-IN",
+      {
+        weekday:"long",
+        day:"2-digit",
+        month:"short",
+        year:"numeric",
+        timeZone:"Asia/Kolkata"
+      }
+    )
+    .toUpperCase();
+}
+
+
+function indiaDateParts(date = new Date()){
+
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-CA",
+      {
+        timeZone:"Asia/Kolkata",
+        year:"numeric",
+        month:"2-digit",
+        day:"2-digit"
+      }
+    )
+    .formatToParts(date);
+
+  const obj = {};
+
+  parts.forEach(p => {
+
+    if(p.type !== "literal"){
+      obj[p.type] = p.value;
+    }
+
+  });
+
+  return obj;
+}
+
+
+function getDayRange(addDays = 0){
+
+  const p =
+    indiaDateParts();
+
+  const base =
+    new Date(
+      Date.UTC(
+        Number(p.year),
+        Number(p.month)-1,
+        Number(p.day)+addDays
+      )
+    );
+
+  const year =
+    base.getUTCFullYear();
+
+  const month =
+    String(
+      base.getUTCMonth()+1
+    ).padStart(2,"0");
+
+  const day =
+    String(
+      base.getUTCDate()
+    ).padStart(2,"0");
+
+  return {
+
+    start:
+      new Date(
+        `${year}-${month}-${day}T00:00:00+05:30`
+      ),
+
+    end:
+      new Date(
+        `${year}-${month}-${day}T23:59:59+05:30`
+      )
+
+  };
+}
+
+
+/* ==========================================================
+   CALENDAR API
+========================================================== */
+
+async function getCalendarEvents(
+  calendarId,
+  start,
+  end
+){
+
+  const url =
+
+    "https://www.googleapis.com/calendar/v3/calendars/"
+    +
+    encodeURIComponent(calendarId)
+    +
+    "/events"
+    +
+    "?key="
+    +
+    encodeURIComponent(API_KEY)
+    +
+    "&timeMin="
+    +
+    encodeURIComponent(start.toISOString())
+    +
+    "&timeMax="
+    +
+    encodeURIComponent(end.toISOString())
+    +
+    "&singleEvents=true"
+    +
+    "&orderBy=startTime"
+    +
+    "&maxResults=250";
+
+  const response =
+    await fetch(url);
+
+  if(!response.ok){
+
+    const error =
+      await response.text();
+
+    console.error(
+      "Google Calendar API error:",
+      response.status,
+      error
+    );
+
+    throw new Error(
+      "Calendar API returned "
+      +
+      response.status
+    );
+  }
+
+  const data =
+    await response.json();
+
+  return data.items || [];
+}
+
+
+/* ==========================================================
+   EVENT FORMAT
+========================================================== */
+
+function eventToMeeting(event){
+
+  let start;
+  let end;
+
+  if(
+    event.start &&
+    event.start.dateTime
+  ){
+
+    start =
+      new Date(
+        event.start.dateTime
+      ).getTime();
+
+    end =
+      new Date(
+        event.end.dateTime
+      ).getTime();
+
+  }
+
+  else if(
+    event.start &&
+    event.start.date
+  ){
+
+    start =
+      new Date(
+        event.start.date +
+        "T00:00:00+05:30"
+      ).getTime();
+
+    end =
+      new Date(
+        event.end.date +
+        "T00:00:00+05:30"
+      ).getTime();
+
+  }
+
+  else{
+    return null;
+  }
+
+
+  let organiser = "-";
+
+  if(event.organizer){
+
+    organiser =
+      event.organizer.displayName
+      ||
+      event.organizer.email
+      ||
+      "-";
+  }
+
+
+  return {
+
+    title:
+      event.summary || "Meeting",
+
+    organiser:
+      organiser,
+
+    start:
+      start,
+
+    end:
+      end
+
+  };
+}
+
+
+/* ==========================================================
+   LOAD TODAY / TOMORROW
+========================================================== */
+
+async function loadHall(hall){
+
+  const today =
+    getDayRange(0);
+
+  const tomorrow =
+    getDayRange(1);
+
+  const now =
+    Date.now();
+
+  try{
+
+    const result =
+      await Promise.all([
+
+        getCalendarEvents(
+          hall.calendarId,
+          today.start,
+          today.end
+        ),
+
+        getCalendarEvents(
+          hall.calendarId,
+          tomorrow.start,
+          tomorrow.end
+        )
+
+      ]);
+
+
+    const todayMeetings =
+      result[0]
+      .map(eventToMeeting)
+      .filter(Boolean);
+
+
+    const tomorrowMeetings =
+      result[1]
+      .map(eventToMeeting)
+      .filter(Boolean);
+
+
+    let currentMeeting = null;
+    let nextMeeting = null;
+
+
+    todayMeetings.forEach(
+      meeting => {
+
+        if(
+          now >= meeting.start &&
+          now < meeting.end
+        ){
+
+          currentMeeting =
+            meeting;
+
+        }
+
+
+        if(
+          meeting.start > now &&
+          (
+            !nextMeeting ||
+            meeting.start <
+            nextMeeting.start
+          )
+        ){
+
+          nextMeeting =
+            meeting;
+
+        }
+
+      }
+    );
+
+
+    let status =
+      "AVAILABLE";
+
+
+    if(currentMeeting){
+
+      status =
+        "OCCUPIED";
+
+    }
+
+    else if(
+      nextMeeting &&
+      nextMeeting.start - now
+      <=
+      30 * 60 * 1000
+    ){
+
+      status =
+        "UPCOMING";
+
+    }
+
+
+    return {
+
+      ...hall,
+
+      status,
+      currentMeeting,
+      nextMeeting,
+      todayMeetings,
+      tomorrowMeetings
+
+    };
+
+  }
+
+  catch(error){
+
+    console.error(
+      hall.name,
+      error
+    );
+
+    return {
+
+      ...hall,
+
+      status:"ERROR",
+
+      currentMeeting:null,
+      nextMeeting:null,
+
+      todayMeetings:[],
+      tomorrowMeetings:[]
+
+    };
+  }
+}
+
+
+/* ==========================================================
+   HALL CARDS
+========================================================== */
+
+function displayHallCards(data){
+
+  const container =
+    document.getElementById(
+      "hallCards"
+    );
+
+  container.innerHTML = "";
+
+
+  data.forEach(
+    hall => {
+
+      let label =
+        "STATUS";
+
+      let detail =
+        "No booking at present";
+
+      let title =
+        "";
+
+
+      if(
+        hall.status ===
+        "OCCUPIED"
+      ){
+
+        label =
+          "CURRENT MEETING";
+
+        detail =
+          formatTime(
+            hall.currentMeeting.start
+          )
+          +
+          " – "
+          +
+          formatTime(
+            hall.currentMeeting.end
+          );
+
+        title =
+          hall.currentMeeting.title;
+
+      }
+
+      else if(
+        hall.nextMeeting
+      ){
+
+        label =
+          "NEXT BOOKING";
+
+        detail =
+          formatTime(
+            hall.nextMeeting.start
+          )
+          +
+          " – "
+          +
+          formatTime(
+            hall.nextMeeting.end
+          );
+
+        title =
+          hall.nextMeeting.title;
+
+      }
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        "hall-card";
+
+
+      card.innerHTML = `
+
+        <div class="hall-icon">
+          ${escapeHTML(hall.icon)}
+        </div>
+
+        <div>
+
+          <div class="hall-name">
+            ${escapeHTML(hall.name)}
+          </div>
+
+          <div class="status ${hall.status}">
+
+            <span class="status-dot"></span>
+
+            ${escapeHTML(hall.status)}
+
+          </div>
+
+          <div class="status-label">
+            ${escapeHTML(label)}
+          </div>
+
+          <div class="status-detail">
+            ${escapeHTML(detail)}
+          </div>
+
+          <div class="status-title">
+            ${escapeHTML(title)}
+          </div>
+
+        </div>
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
+}
+
+
+/* ==========================================================
+   SCHEDULE TABLE
+========================================================== */
+
+function displaySchedule(
+  elementId,
+  data,
+  type
+){
+
+  const container =
+    document.getElementById(
+      elementId
+    );
+
+  const meetings = [];
+
+
+  data.forEach(
+    hall => {
+
+      const list =
+        type === "today"
+        ?
+        hall.todayMeetings
+        :
+        hall.tomorrowMeetings;
+
+
+      list.forEach(
+        meeting => {
+
+          meetings.push({
+
+            ...meeting,
+
+            hall:
+              hall.name
+
+          });
+
+        }
+      );
+
+    }
+  );
+
+
+  meetings.sort(
+    (a,b) =>
+    a.start - b.start
+  );
+
+
+  if(
+    meetings.length === 0
+  ){
+
+    container.innerHTML = `
+
+      <div class="empty">
+
+        No meetings scheduled for
+        ${
+          type === "today"
+          ?
+          "today"
+          :
+          "tomorrow"
+        }.
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  let html = `
+
+    <table class="schedule-table">
+
+      <thead>
+
+        <tr>
+
+          <th>Time</th>
+
+          <th>Hall</th>
+
+          <th>
+            Meeting Title / Purpose
+          </th>
+
+          <th>
+            Organised by
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+  `;
+
+
+  meetings.forEach(
+    meeting => {
+
+      html += `
+
+        <tr>
+
+          <td class="table-time">
+
+            ${escapeHTML(
+              formatTime(
+                meeting.start
+              )
+            )}
+
+            –
+
+            ${escapeHTML(
+              formatTime(
+                meeting.end
+              )
+            )}
+
+          </td>
+
+          <td>
+
+            <span class="table-hall">
+
+              ${escapeHTML(
+                meeting.hall
+              )}
+
+            </span>
+
+          </td>
+
+          <td class="table-title">
+
+            ${escapeHTML(
+              meeting.title
+            )}
+
+          </td>
+
+          <td class="organiser">
+
+            ${escapeHTML(
+              meeting.organiser
+            )}
+
+          </td>
+
+        </tr>
+      `;
+
+    }
+  );
+
+
+  html += `
+
+      </tbody>
+
+    </table>
+  `;
+
+
+  container.innerHTML =
+    html;
+}
+
+
+/* ==========================================================
+   MONTH RANGE
+========================================================== */
+
+function getMonthRange(date){
+
+  const year =
+    date.getFullYear();
+
+  const month =
+    date.getMonth();
+
+
+  return {
+
+    start:
+      new Date(
+        `${year}-${String(month+1).padStart(2,"0")}-01T00:00:00+05:30`
+      ),
+
+    end:
+      new Date(
+        new Date(
+          year,
+          month+1,
+          1
+        ).getTime()
+        -
+        1
+      )
+
+  };
+}
+
+
+/* ==========================================================
+   DATE KEY
+========================================================== */
+
+function getIndiaDateKey(timestamp){
+
+  const d =
+    new Date(timestamp);
+
+  const parts =
+    new Intl.DateTimeFormat(
+      "en-CA",
+      {
+        timeZone:"Asia/Kolkata",
+        year:"numeric",
+        month:"2-digit",
+        day:"2-digit"
+      }
+    )
+    .formatToParts(d);
+
+
+  const value = {};
+
+  parts.forEach(
+    p => {
+
+      if(
+        p.type !==
+        "literal"
+      ){
+
+        value[p.type] =
+          p.value;
+
+      }
+
+    }
+  );
+
+
+  return (
+    value.year
+    +
+    "-"
+    +
+    value.month
+    +
+    "-"
+    +
+    value.day
+  );
+}
+
+
+/* ==========================================================
+   LOAD MONTH
+========================================================== */
+
+async function loadMonth(){
+
+  const range =
+    getMonthRange(
+      currentMonthDate
+    );
+
+
+  monthData = {};
+
+
+  const requests =
+    HALLS.map(
+      async hall => {
+
+        try{
+
+          const events =
+            await getCalendarEvents(
+              hall.calendarId,
+              range.start,
+              range.end
+            );
+
+
+          events
+          .map(eventToMeeting)
+          .filter(Boolean)
+          .forEach(
+            meeting => {
+
+              const key =
+                getIndiaDateKey(
+                  meeting.start
+                );
+
+
+              if(!monthData[key]){
+
+                monthData[key] =
+                  {};
+
+              }
+
+
+              if(
+                !monthData[key][hall.short]
+              ){
+
+                monthData[key][hall.short] =
+                  [];
+
+              }
+
+
+              monthData[key][hall.short]
+                .push(
+                  meeting
+                );
+
+            }
+          );
+
+        }
+
+        catch(error){
+
+          console.error(
+            "Monthly calendar:",
+            hall.name,
+            error
+          );
+
+        }
+
+      }
+    );
+
+
+  await Promise.all(
+    requests
+  );
+
+
+  renderMonthCalendar();
+}
+
+
+/* ==========================================================
+   MONTH CALENDAR
+========================================================== */
+
+function renderMonthCalendar(){
+
+  const year =
+    currentMonthDate
+      .getFullYear();
+
+  const month =
+    currentMonthDate
+      .getMonth();
+
+
+  document
+    .getElementById(
+      "monthTitle"
+    )
+    .textContent =
+
+    new Date(
+      year,
+      month,
+      1
+    )
+    .toLocaleDateString(
+      "en-IN",
+      {
+        month:"long",
+        year:"numeric"
+      }
+    );
+
+
+  const firstDay =
+    new Date(
+      year,
+      month,
+      1
+    ).getDay();
+
+
+  const daysInMonth =
+    new Date(
+      year,
+      month+1,
+      0
+    ).getDate();
+
+
+  const todayParts =
+    indiaDateParts();
+
+
+  const todayKey =
+    todayParts.year
+    +
+    "-"
+    +
+    todayParts.month
+    +
+    "-"
+    +
+    todayParts.day;
+
+
+  let day = 1;
+
+  let html = "";
+
+
+  for(
+    let week = 0;
+    week < 6;
+    week++
+  ){
+
+    if(day > daysInMonth){
+      break;
+    }
+
+
+    html += "<tr>";
+
+
+    for(
+      let dow = 0;
+      dow < 7;
+      dow++
+    ){
+
+      if(
+        week === 0 &&
+        dow < firstDay
+      ){
+
+        html +=
+          `<td class="outside"></td>`;
+
+        continue;
+      }
+
+
+      if(
+        day > daysInMonth
+      ){
+
+        html +=
+          `<td class="outside"></td>`;
+
+        continue;
+      }
+
+
+      const key =
+        year
+        +
+        "-"
+        +
+        String(
+          month+1
+        ).padStart(2,"0")
+        +
+        "-"
+        +
+        String(day)
+          .padStart(2,"0");
+
+
+      const todayClass =
+        key === todayKey
+        ?
+        "today-cell"
+        :
+        "";
+
+
+      html += `
+
+        <td class="${todayClass}">
+
+          <div class="day-number">
+            ${day}
+          </div>
+      `;
+
+
+      HALLS.forEach(
+        hall => {
+
+          const events =
+            monthData[key]
+            &&
+            monthData[key][hall.short]
+            ?
+            monthData[key][hall.short]
+            :
+            [];
+
+
+          const booked =
+            events.length > 0;
+
+
+          let title =
+            booked
+            ?
+            events
+              .map(
+                e => e.title
+              )
+              .join(", ")
+            :
+            "Available";
+
+
+          if(
+            booked &&
+            events[0].organiser &&
+            events[0].organiser !== "-"
+          ){
+
+            title +=
+              " • "
+              +
+              events[0].organiser;
+
+          }
+
+
+          html += `
+
+            <div class="hall-mini">
+
+              <span class="hall-short">
+                ${hall.short}
+              </span>
+
+              <span
+                class="mini-dot
+                ${
+                  booked
+                  ?
+                  "mini-booked"
+                  :
+                  "mini-available"
+                }"
+              ></span>
+
+              <span
+                class="mini-title
+                ${
+                  booked
+                  ?
+                  "booked"
+                  :
+                  ""
+                }"
+                title="${escapeHTML(title)}"
+              >
+
+                ${escapeHTML(title)}
+
+              </span>
+
+            </div>
+          `;
+
+        }
+      );
+
+
+      html += "</td>";
+
+      day++;
+
+    }
+
+
+    html += "</tr>";
+
+  }
+
+
+  document
+    .getElementById(
+      "monthBody"
+    )
+    .innerHTML =
+    html;
+}
+
+
+/* ==========================================================
+   CHANGE MONTH
+========================================================== */
+
+function changeMonth(amount){
+
+  currentMonthDate =
+    new Date(
+      currentMonthDate
+        .getFullYear(),
+
+      currentMonthDate
+        .getMonth()
+        +
+        amount,
+
+      1
+    );
+
+
+  loadMonth();
+}
+
+
+/* ==========================================================
+   DASHBOARD
+========================================================== */
+
+async function loadDashboard(){
+
+  if(
+    API_KEY ===
+    "PASTE_YOUR_API_KEY_HERE"
+  ){
+
+    document
+      .getElementById(
+        "hallCards"
+      )
+      .innerHTML = `
+
+        <div
+          style="
+            grid-column:1/-1;
+            padding:30px;
+            text-align:center;
+            background:white;
+            border-radius:12px;
+          "
+        >
+
+          Please add your
+          Google Calendar API key.
+
+        </div>
+      `;
+
+    return;
+  }
+
+
+  const today =
+    getDayRange(0);
+
+  const tomorrow =
+    getDayRange(1);
+
+
+  document
+    .getElementById(
+      "todayBadge"
+    )
+    .textContent =
+    formatBadge(
+      today.start
+    );
+
+
+  document
+    .getElementById(
+      "tomorrowBadge"
+    )
+    .textContent =
+    formatBadge(
+      tomorrow.start
+    );
+
+
+  const data =
+    await Promise.all(
+      HALLS.map(
+        loadHall
+      )
+    );
+
+
+  displayHallCards(
+    data
+  );
+
+
+  displaySchedule(
+    "todaySchedule",
+    data,
+    "today"
+  );
+
+
+  displaySchedule(
+    "tomorrowSchedule",
+    data,
+    "tomorrow"
+  );
+
+
+  document
+    .getElementById(
+      "lastUpdated"
+    )
+    .textContent =
+
+    "Last updated: "
+    +
+    new Date()
+      .toLocaleTimeString(
+        "en-IN",
+        {
+          hour:"2-digit",
+          minute:"2-digit",
+          hour12:true,
+          timeZone:"Asia/Kolkata"
+        }
+      );
+
+}
+
+
+/* ==========================================================
+   START
+========================================================== */
+
+updateClock();
+
+setInterval(
+  updateClock,
+  1000
+);
+
+
+loadDashboard();
+
+loadMonth();
+
+
+setInterval(
+  function(){
+
+    loadDashboard();
+
+    loadMonth();
+
+  },
+
+  60000
+);
+
 </script>
+
 </body>
 </html>
