@@ -1,562 +1,599 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
-
-  <title>Meeting Hall Availability</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f3f6f8;
-      color: #172b3a;
-    }
-
-
-    /* ================================
-       HEADER
-    ================================= */
-
-    .header {
-      background: linear-gradient(
-        135deg,
-        #B83228,
-        #FF6347
-      );
-
-      color: white;
-      padding: 12px 40px;
-      min-height: 100px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      box-shadow:
-        0 3px 10px rgba(0,0,0,0.10);
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .header-text {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .department {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      line-height: 1.15;
-    }
-
-    .government {
-      font-size: 14px;
-      margin-top: 7px;
-      opacity: 0.95;
-      letter-spacing: 0.5px;
-    }
-
-
-    /* ================================
-       CLOCK
-    ================================= */
-
-    .clock {
-      text-align: right;
-      flex-shrink: 0;
-    }
-
-    #time {
-      font-size: 30px;
-      font-weight: bold;
-    }
-
-    #date {
-      font-size: 14px;
-      margin-top: 5px;
-      opacity: 0.95;
-    }
-
-
-    /* ================================
-       MAIN
-    ================================= */
-
-    .container {
-      padding: 22px 40px 15px;
-      max-width: 1920px;
-      margin: auto;
-    }
-
-    .main-title {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .main-title h1 {
-      margin: 0;
-      color: #0b3558;
-      font-size: 32px;
-      letter-spacing: 1.5px;
-    }
-
-    .main-title p {
-      margin: 5px 0 0;
-      color: #637381;
-      font-size: 15px;
-    }
-
-
-    /* ================================
-       HALL GRID
-    ================================= */
-
-    .hall-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .hall-card {
-      background: white;
-      border-radius: 16px;
-      border-top: 6px solid #075f85;
-      padding: 22px 24px;
-      min-height: 190px;
-
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
-    }
-
-    .hall-name {
-      font-size: 22px;
-      font-weight: bold;
-      color: #0b3558;
-    }
-
-
-    /* ================================
-       STATUS
-    ================================= */
-
-    .status {
-      font-size: 25px;
-      font-weight: bold;
-      margin: 17px 0;
-
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .AVAILABLE {
-      color: #168a4a;
-    }
-
-    .AVAILABLE .dot {
-      background: #168a4a;
-      box-shadow:
-        0 0 0 4px rgba(22,138,74,0.10);
-    }
-
-    .OCCUPIED {
-      color: #c63b3b;
-    }
-
-    .OCCUPIED .dot {
-      background: #c63b3b;
-      box-shadow:
-        0 0 0 4px rgba(198,59,59,0.10);
-    }
-
-    .UPCOMING {
-      color: #c57a10;
-    }
-
-    .UPCOMING .dot {
-      background: #c57a10;
-      box-shadow:
-        0 0 0 4px rgba(197,122,16,0.10);
-    }
-
-    .ERROR {
-      color: #777;
-    }
-
-    .ERROR .dot {
-      background: #777;
-    }
-
-
-    /* ================================
-       HALL INFORMATION
-    ================================= */
-
-    .label {
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      color: #637381;
-      text-transform: uppercase;
-    }
-
-    .meeting-time {
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: 6px;
-      color: #172b3a;
-    }
-
-    .meeting-title {
-      margin-top: 6px;
-      font-size: 15px;
-      color: #435563;
-      min-height: 18px;
-    }
-
-
-    /* ================================
-       SCHEDULE
-    ================================= */
-
-    .schedule-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 20px;
-    }
-
-    .schedule {
-      background: white;
-      border-radius: 16px;
-      padding: 20px 24px;
-      min-height: 170px;
-
-      box-shadow:
-        0 5px 18px rgba(0,0,0,0.07);
-    }
-
-    .schedule-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 13px;
-    }
-
-    .schedule h2 {
-      color: #0b3558;
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .schedule-day {
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      padding: 6px 9px;
-      border-radius: 20px;
-      background: #eef4f7;
-      color: #637381;
-    }
-
-    .schedule-row {
-      display: grid;
-      grid-template-columns: 165px 1fr;
-      gap: 14px;
-      align-items: start;
-      padding: 11px 4px;
-
-      border-top:
-        1px solid #e5eaee;
-    }
-
-    .schedule-time {
-      font-weight: bold;
-      font-size: 14px;
-      color: #172b3a;
-      white-space: nowrap;
-      padding-top: 4px;
-    }
-
-    .meeting-info {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .hall-badge {
-      display: inline-block;
-      background: #eaf3f7;
-      color: #075f85;
-      padding: 6px 9px;
-      border-radius: 7px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .meeting-name {
-      color: #435563;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-
-    .empty-schedule {
-      padding: 18px 5px;
-      color: #7a8993;
-      font-size: 14px;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 35px;
-      color: #637381;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 8px 20px 4px;
-      font-size: 11px;
-      color: #7a8993;
-    }
-
-
-    /* ================================
-       TABLET
-    ================================= */
-
-    @media (max-width: 900px) {
-
-      .header {
-        padding: 10px 16px;
-        min-height: 78px;
-      }
-
-      .department {
-        font-size: 16px;
-      }
-
-      .government {
-        font-size: 11px;
-      }
-
-      .clock {
-        display: none;
-      }
-
-      .container {
-        padding: 14px;
-      }
-
-      .main-title h1 {
-        font-size: 25px;
-      }
-
-      .hall-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-
-      .schedule-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-
-    }
-
-
-    /* ================================
-       MOBILE
-    ================================= */
-
-    @media (max-width: 600px) {
-
-      body {
-        font-size: 10px;
-      }
-
-      .header {
-        min-height: 52px;
-        padding: 5px 9px;
-      }
-
-      .department {
-        font-size: 10.5px;
-      }
-
-      .government {
-        font-size: 7.5px;
-        margin-top: 2px;
-      }
-
-      .container {
-        padding: 6px 8px 3px;
-      }
-
-      .main-title {
-        margin-bottom: 5px;
-      }
-
-      .main-title h1 {
-        font-size: 15px;
-      }
-
-      .main-title p {
-        font-size: 7.5px;
-      }
-
-      .hall-grid {
-        grid-template-columns: 1fr;
-        gap: 4px;
-      }
-
-      .hall-card {
-        padding: 6px 10px;
-        min-height: 0;
-        border-radius: 7px;
-        border-top-width: 3px;
-      }
-
-      .hall-name {
-        font-size: 11.5px;
-      }
-
-      .status {
-        font-size: 11.5px;
-        margin: 4px 0;
-        gap: 5px;
-      }
-
-      .dot {
-        width: 7px;
-        height: 7px;
-      }
-
-      .label {
-        font-size: 6px;
-      }
-
-      .meeting-time {
-        font-size: 9.5px;
-        margin-top: 1px;
-      }
-
-      .meeting-title {
-        font-size: 7.5px;
-        margin-top: 1px;
-        min-height: 0;
-      }
-
-      .schedule-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 4px;
-        margin-top: 5px;
-      }
-
-      .schedule {
-        padding: 6px;
-        min-height: 0;
-        border-radius: 7px;
-      }
-
-      .schedule-header {
-        margin-bottom: 3px;
-      }
-
-      .schedule h2 {
-        font-size: 7.5px;
-      }
-
-      .schedule-day {
-        font-size: 4.5px;
-        padding: 2px 3px;
-      }
-
-      .schedule-row {
-        display: block;
-        padding: 3px 1px;
-      }
-
-      .schedule-time {
-        font-size: 6.5px;
-        padding-top: 0;
-        white-space: normal;
-      }
-
-      .meeting-info {
-        gap: 1px;
-        margin-top: 1px;
-      }
-
-      .hall-badge {
-        font-size: 5.5px;
-        padding: 2px 3px;
-      }
-
-      .meeting-name {
-        font-size: 6.5px;
-      }
-
-      .empty-schedule {
-        padding: 4px 1px;
-        font-size: 6.5px;
-      }
-
-      .loading {
-        padding: 8px;
-        font-size: 8px;
-      }
-
-      .footer {
-        padding: 3px 5px 1px;
-        font-size: 5.5px;
-      }
-
-    }
-
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meeting Hall Availability</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f6f8;
+  color: #172b3a;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  background: linear-gradient(135deg, #B83228, #FF6347);
+  color: white;
+  padding: 10px 40px;
+  min-height: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-shadow: 0 3px 10px rgba(0,0,0,0.10);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.ashoka-emblem {
+  width: 62px;
+  height: 76px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.department {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.15;
+}
+
+.government {
+  font-size: 14px;
+  margin-top: 7px;
+  opacity: 0.95;
+  letter-spacing: 0.5px;
+}
+
+/* =========================
+   CLOCK
+========================= */
+
+.clock {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+#time {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#date {
+  font-size: 14px;
+  margin-top: 5px;
+  opacity: 0.95;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container {
+  padding: 22px 40px 15px;
+  max-width: 1920px;
+  margin: auto;
+}
+
+.main-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.main-title h1 {
+  margin: 0;
+  color: #0b3558;
+  font-size: 32px;
+  letter-spacing: 1.5px;
+}
+
+.main-title p {
+  margin: 5px 0 0;
+  color: #637381;
+  font-size: 15px;
+}
+
+/* =========================
+   HALL CARDS
+========================= */
+
+.hall-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.hall-card {
+  background: white;
+  border-radius: 16px;
+  border-top: 6px solid #075f85;
+  padding: 22px 24px;
+  min-height: 190px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+}
+
+.hall-name {
+  font-size: 22px;
+  font-weight: bold;
+  color: #0b3558;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 17px 0;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.AVAILABLE {
+  color: #168a4a;
+}
+
+.AVAILABLE .dot {
+  background: #168a4a;
+  box-shadow: 0 0 0 4px rgba(22,138,74,0.10);
+}
+
+.OCCUPIED {
+  color: #c63b3b;
+}
+
+.OCCUPIED .dot {
+  background: #c63b3b;
+  box-shadow: 0 0 0 4px rgba(198,59,59,0.10);
+}
+
+.UPCOMING {
+  color: #c57a10;
+}
+
+.UPCOMING .dot {
+  background: #c57a10;
+  box-shadow: 0 0 0 4px rgba(197,122,16,0.10);
+}
+
+.ERROR {
+  color: #777;
+}
+
+.ERROR .dot {
+  background: #777;
+}
+
+/* =========================
+   MEETING INFORMATION
+========================= */
+
+.label {
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #637381;
+  text-transform: uppercase;
+}
+
+.meeting-time {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 6px;
+  color: #172b3a;
+}
+
+.meeting-title {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #435563;
+  min-height: 18px;
+}
+
+/* =========================
+   SCHEDULE
+========================= */
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.schedule {
+  background: white;
+  border-radius: 16px;
+  padding: 20px 24px;
+  min-height: 170px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+}
+
+.schedule-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.schedule h2 {
+  color: #0b3558;
+  margin: 0;
+  font-size: 20px;
+}
+
+.schedule-day {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding: 6px 9px;
+  border-radius: 20px;
+  background: #eef4f7;
+  color: #637381;
+}
+
+.schedule-row {
+  display: grid;
+  grid-template-columns: 165px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 11px 4px;
+  border-top: 1px solid #e5eaee;
+}
+
+.schedule-time {
+  font-weight: bold;
+  font-size: 14px;
+  color: #172b3a;
+  white-space: nowrap;
+  padding-top: 4px;
+}
+
+.meeting-info {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.hall-badge {
+  display: inline-block;
+  background: #eaf3f7;
+  color: #075f85;
+  padding: 6px 9px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.meeting-name {
+  color: #435563;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.empty-schedule {
+  padding: 18px 5px;
+  color: #7a8993;
+  font-size: 14px;
+}
+
+.loading {
+  text-align: center;
+  padding: 35px;
+  color: #637381;
+}
+
+/* =========================
+   OFFICE BUILDING
+========================= */
+
+.building-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 22px auto 0;
+  padding: 0 40px;
+}
+
+.building-image {
+  display: block;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 16px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.10);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+  text-align: center;
+  padding: 12px 20px 16px;
+  font-size: 11px;
+  color: #7a8993;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+  .header {
+    padding: 10px 16px;
+    min-height: 78px;
+  }
+
+  .ashoka-emblem {
+    width: 48px;
+    height: 60px;
+  }
+
+  .department {
+    font-size: 16px;
+  }
+
+  .government {
+    font-size: 11px;
+  }
+
+  .clock {
+    display: none;
+  }
+
+  .container {
+    padding: 14px;
+  }
+
+  .main-title h1 {
+    font-size: 25px;
+  }
+
+  .hall-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .schedule-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .building-section {
+    padding: 0 14px;
+    margin-top: 10px;
+  }
+
+  .building-image {
+    height: 260px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  body {
+    font-size: 10px;
+  }
+
+  .header {
+    min-height: 52px;
+    padding: 5px 9px;
+  }
+
+  .header-left {
+    gap: 7px;
+  }
+
+  .ashoka-emblem {
+    width: 30px;
+    height: 38px;
+  }
+
+  .department {
+    font-size: 10.5px;
+  }
+
+  .government {
+    font-size: 7.5px;
+    margin-top: 2px;
+  }
+
+  .container {
+    padding: 6px 8px 3px;
+  }
+
+  .main-title {
+    margin-bottom: 5px;
+  }
+
+  .main-title h1 {
+    font-size: 15px;
+  }
+
+  .main-title p {
+    font-size: 7.5px;
+  }
+
+  .hall-grid {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .hall-card {
+    padding: 6px 10px;
+    min-height: 0;
+    border-radius: 7px;
+    border-top-width: 3px;
+  }
+
+  .hall-name {
+    font-size: 11.5px;
+  }
+
+  .status {
+    font-size: 11.5px;
+    margin: 4px 0;
+    gap: 5px;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .label {
+    font-size: 6px;
+  }
+
+  .meeting-time {
+    font-size: 9.5px;
+    margin-top: 1px;
+  }
+
+  .meeting-title {
+    font-size: 7.5px;
+    margin-top: 1px;
+    min-height: 0;
+  }
+
+  .schedule-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin-top: 5px;
+  }
+
+  .schedule {
+    padding: 6px;
+    min-height: 0;
+    border-radius: 7px;
+  }
+
+  .schedule-header {
+    margin-bottom: 3px;
+  }
+
+  .schedule h2 {
+    font-size: 7.5px;
+  }
+
+  .schedule-day {
+    font-size: 4.5px;
+    padding: 2px 3px;
+  }
+
+  .schedule-row {
+    display: block;
+    padding: 3px 1px;
+  }
+
+  .schedule-time {
+    font-size: 6.5px;
+    padding-top: 0;
+    white-space: normal;
+  }
+
+  .meeting-info {
+    gap: 1px;
+    margin-top: 1px;
+  }
+
+  .hall-badge {
+    font-size: 5.5px;
+    padding: 2px 3px;
+  }
+
+  .meeting-name {
+    font-size: 6.5px;
+  }
+
+  .empty-schedule {
+    padding: 4px 1px;
+    font-size: 6.5px;
+  }
+
+  .loading {
+    padding: 8px;
+    font-size: 8px;
+  }
+
+  .building-section {
+    margin-top: 6px;
+    padding: 0 8px;
+  }
+
+  .building-image {
+    height: 150px;
+    border-radius: 7px;
+  }
+
+  .footer {
+    padding: 4px 5px;
+    font-size: 5.5px;
+  }
+}
+
+</style>
 </head>
-
 
 <body>
 
+<!-- =========================
+     HEADER
+========================= -->
 
 <div class="header">
 
   <div class="header-left">
+
+    <img
+      src="Ashoka-Pillar.png"
+      alt="State Emblem of India"
+      class="ashoka-emblem"
+    >
 
     <div class="header-text">
 
@@ -572,18 +609,17 @@
 
   </div>
 
-
   <div class="clock">
-
     <div id="time"></div>
-
     <div id="date"></div>
-
   </div>
 
 </div>
 
 
+<!-- =========================
+     MAIN CONTENT
+========================= -->
 
 <div class="container">
 
@@ -614,6 +650,7 @@
 
   <div class="schedule-grid">
 
+    <!-- TODAY -->
 
     <div class="schedule">
 
@@ -636,6 +673,8 @@
     </div>
 
 
+    <!-- TOMORROW -->
+
     <div class="schedule">
 
       <div class="schedule-header">
@@ -656,31 +695,46 @@
 
     </div>
 
-
   </div>
 
 </div>
 
 
-<div class="footer">
+<!-- =========================
+     OFFICE BUILDING
+========================= -->
 
-  Planning &amp; Programme Implementation Department
-  • Government of Mizoram
+<div class="building-section">
+
+  <img
+    src="planning-building.png"
+    alt="Planning & Programme Implementation Department Office"
+    class="building-image"
+  >
 
 </div>
 
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<div class="footer">
+  Planning &amp; Programme Implementation Department
+  • Government of Mizoram
+</div>
 
 
 <script>
 
 /* =========================================================
-   IMPORTANT
-   Replace ONLY the text below with your NEW Google API key.
-   Do not add spaces.
+   GOOGLE CALENDAR API KEY
+
+   Replace PASTE_YOUR_API_KEY_HERE
+   with your restricted Google Calendar API key.
 ========================================================= */
 
-const API_KEY =
-  "AIzaSyBLFTIL_PZKAioX3NxSHKrNNgzinA5wzv4";
+const API_KEY = "PASTE_YOUR_API_KEY_HERE";
 
 
 /* =========================================================
@@ -691,21 +745,18 @@ const HALLS = [
 
   {
     name: "CONFERENCE HALL",
-
     calendarId:
       "1a727dbc052a4a88462feac7a0e03e122e7a1569d9bd58482771456420fc07a2@group.calendar.google.com"
   },
 
   {
     name: "COMMITTEE ROOM",
-
     calendarId:
       "07dae74985fb0b53ce7019844db0100f4aaa1e0450024da9e8fde5b4200094fc@group.calendar.google.com"
   },
 
   {
     name: "VIDEO CONFERENCE ROOM",
-
     calendarId:
       "e869e2932faa565e995f3b08e6fbf35b31d6f66770bdb6d02e947c3ab0e482b4@group.calendar.google.com"
   }
@@ -721,39 +772,33 @@ function updateClock() {
 
   const now = new Date();
 
-  document
-    .getElementById("time")
-    .textContent =
-      now.toLocaleTimeString(
-        "en-IN",
-        {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-          timeZone: "Asia/Kolkata"
-        }
-      );
+  document.getElementById("time").textContent =
+    now.toLocaleTimeString(
+      "en-IN",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "Asia/Kolkata"
+      }
+    );
 
-
-  document
-    .getElementById("date")
-    .textContent =
-      now.toLocaleDateString(
-        "en-IN",
-        {
-          weekday: "long",
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-          timeZone: "Asia/Kolkata"
-        }
-      );
-
+  document.getElementById("date").textContent =
+    now.toLocaleDateString(
+      "en-IN",
+      {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        timeZone: "Asia/Kolkata"
+      }
+    );
 }
 
 
 /* =========================================================
-   TIME FORMAT
+   FORMAT TIME
 ========================================================= */
 
 function formatTime(timestamp) {
@@ -768,7 +813,6 @@ function formatTime(timestamp) {
         timeZone: "Asia/Kolkata"
       }
     );
-
 }
 
 
@@ -784,12 +828,11 @@ function escapeHTML(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
-
 }
 
 
 /* =========================================================
-   INDIA DATE PARTS
+   INDIA DATE
 ========================================================= */
 
 function getIndiaDateParts(addDays = 0) {
@@ -805,25 +848,18 @@ function getIndiaDateParts(addDays = 0) {
       }
     );
 
-
   const parts =
-    formatter.formatToParts(
-      new Date()
-    );
-
+    formatter.formatToParts(new Date());
 
   const values = {};
 
-  parts.forEach(
-    function(part) {
+  parts.forEach(function(part) {
 
-      if (part.type !== "literal") {
-        values[part.type] = part.value;
-      }
-
+    if (part.type !== "literal") {
+      values[part.type] = part.value;
     }
-  );
 
+  });
 
   const base =
     new Date(
@@ -833,7 +869,6 @@ function getIndiaDateParts(addDays = 0) {
         Number(values.day) + addDays
       )
     );
-
 
   return {
 
@@ -851,12 +886,11 @@ function getIndiaDateParts(addDays = 0) {
       ).padStart(2, "0")
 
   };
-
 }
 
 
 /* =========================================================
-   DAY RANGE - IST
+   DAY RANGE - INDIA
 ========================================================= */
 
 function getDayRange(addDays = 0) {
@@ -864,31 +898,20 @@ function getDayRange(addDays = 0) {
   const d =
     getIndiaDateParts(addDays);
 
-
-  /*
-     India = UTC +05:30
-
-     00:00 IST =
-     previous UTC day 18:30
-  */
-
   const start =
     new Date(
       `${d.year}-${d.month}-${d.day}T00:00:00+05:30`
     );
-
 
   const end =
     new Date(
       `${d.year}-${d.month}-${d.day}T23:59:59+05:30`
     );
 
-
   return {
     start: start,
     end: end
   };
-
 }
 
 
@@ -904,7 +927,6 @@ async function getCalendarEvents(
 
   const baseURL =
     "https://www.googleapis.com/calendar/v3/calendars/";
-
 
   const url =
     baseURL
@@ -931,10 +953,8 @@ async function getCalendarEvents(
     +
     "&maxResults=100";
 
-
   const response =
     await fetch(url);
-
 
   if (!response.ok) {
 
@@ -952,32 +972,23 @@ async function getCalendarEvents(
       +
       response.status
     );
-
   }
-
 
   const result =
     await response.json();
 
-
   return result.items || [];
-
 }
 
 
 /* =========================================================
-   EVENT TO MEETING
+   EVENT → MEETING
 ========================================================= */
 
 function eventToMeeting(event) {
 
-  /*
-     Timed meeting
-  */
-
   if (
-    event.start
-    &&
+    event.start &&
     event.start.dateTime
   ) {
 
@@ -997,17 +1008,11 @@ function eventToMeeting(event) {
         ).getTime()
 
     };
-
   }
 
 
-  /*
-     All-day event
-  */
-
   if (
-    event.start
-    &&
+    event.start &&
     event.start.date
   ) {
 
@@ -1018,25 +1023,20 @@ function eventToMeeting(event) {
 
       start:
         new Date(
-          event.start.date
-          +
+          event.start.date +
           "T00:00:00+05:30"
         ).getTime(),
 
       end:
         new Date(
-          event.end.date
-          +
+          event.end.date +
           "T00:00:00+05:30"
         ).getTime()
 
     };
-
   }
 
-
   return null;
-
 }
 
 
@@ -1049,14 +1049,11 @@ async function loadHall(hall) {
   const now =
     Date.now();
 
-
   const todayRange =
     getDayRange(0);
 
-
   const tomorrowRange =
     getDayRange(1);
-
 
   try {
 
@@ -1077,63 +1074,44 @@ async function loadHall(hall) {
 
       ]);
 
-
     const todayMeetings =
       results[0]
         .map(eventToMeeting)
         .filter(Boolean);
-
 
     const tomorrowMeetings =
       results[1]
         .map(eventToMeeting)
         .filter(Boolean);
 
-
     let currentMeeting = null;
-
     let nextMeeting = null;
-
 
     todayMeetings.forEach(
       function(meeting) {
 
         if (
-          now >= meeting.start
-          &&
+          now >= meeting.start &&
           now < meeting.end
         ) {
-
-          currentMeeting =
-            meeting;
-
+          currentMeeting = meeting;
         }
 
-
         if (
-          meeting.start > now
-          &&
+          meeting.start > now &&
           (
-            nextMeeting === null
-            ||
-            meeting.start
-              <
-            nextMeeting.start
+            nextMeeting === null ||
+            meeting.start < nextMeeting.start
           )
         ) {
-
-          nextMeeting =
-            meeting;
-
+          nextMeeting = meeting;
         }
 
       }
     );
 
-
     let status =
       "AVAILABLE";
-
 
     if (currentMeeting) {
 
@@ -1143,10 +1121,9 @@ async function loadHall(hall) {
     }
 
     else if (
-      nextMeeting
-      &&
+      nextMeeting &&
       nextMeeting.start - now
-        <=
+      <=
       30 * 60 * 1000
     ) {
 
@@ -1154,7 +1131,6 @@ async function loadHall(hall) {
         "UPCOMING";
 
     }
-
 
     return {
 
@@ -1187,7 +1163,6 @@ async function loadHall(hall) {
       error
     );
 
-
     return {
 
       name:
@@ -1209,9 +1184,7 @@ async function loadHall(hall) {
         []
 
     };
-
   }
-
 }
 
 
@@ -1223,31 +1196,26 @@ async function loadDashboard() {
 
   if (
     API_KEY ===
-    "PASTE_YOUR_NEW_API_KEY_HERE"
+    "PASTE_YOUR_API_KEY_HERE"
   ) {
 
     document
       .getElementById("hallCards")
       .innerHTML =
-        "<div class='loading'>Please add your Google Calendar API key.</div>";
-
+      "<div class='loading'>Please add your Google Calendar API key.</div>";
 
     document
       .getElementById("todaySchedule")
       .innerHTML =
-        "<div class='empty-schedule'>API key required.</div>";
-
+      "<div class='empty-schedule'>API key required.</div>";
 
     document
       .getElementById("tomorrowSchedule")
       .innerHTML =
-        "<div class='empty-schedule'>API key required.</div>";
-
+      "<div class='empty-schedule'>API key required.</div>";
 
     return;
-
   }
-
 
   try {
 
@@ -1256,11 +1224,8 @@ async function loadDashboard() {
         HALLS.map(loadHall)
       );
 
-
     displayHallCards(data);
-
     displayTodaySchedule(data);
-
     displayTomorrowSchedule(data);
 
   }
@@ -1268,16 +1233,14 @@ async function loadDashboard() {
   catch (error) {
 
     console.error(error);
-
     showLoadError();
 
   }
-
 }
 
 
 /* =========================================================
-   ERROR MESSAGE
+   LOAD ERROR
 ========================================================= */
 
 function showLoadError() {
@@ -1285,20 +1248,17 @@ function showLoadError() {
   document
     .getElementById("hallCards")
     .innerHTML =
-      "<div class='loading'>Unable to load calendar data.</div>";
-
+    "<div class='loading'>Unable to load calendar data.</div>";
 
   document
     .getElementById("todaySchedule")
     .innerHTML =
-      "<div class='empty-schedule'>Unable to load schedule.</div>";
-
+    "<div class='empty-schedule'>Unable to load schedule.</div>";
 
   document
     .getElementById("tomorrowSchedule")
     .innerHTML =
-      "<div class='empty-schedule'>Unable to load schedule.</div>";
-
+    "<div class='empty-schedule'>Unable to load schedule.</div>";
 }
 
 
@@ -1313,22 +1273,16 @@ function displayHallCards(data) {
       "hallCards"
     );
 
-
   container.innerHTML = "";
-
 
   data.forEach(
     function(hall) {
 
       let meeting = null;
-
       let label = "STATUS";
-
       let timeText =
         "No booking at present";
-
       let meetingTitle = "";
-
 
       if (
         hall.status ===
@@ -1355,7 +1309,6 @@ function displayHallCards(data) {
 
       }
 
-
       if (meeting) {
 
         timeText =
@@ -1369,22 +1322,18 @@ function displayHallCards(data) {
             meeting.end
           );
 
-
         meetingTitle =
           meeting.title;
 
       }
-
 
       const card =
         document.createElement(
           "div"
         );
 
-
       card.className =
         "hall-card";
-
 
       card.innerHTML = `
 
@@ -1414,19 +1363,17 @@ function displayHallCards(data) {
 
       `;
 
-
       container.appendChild(
         card
       );
 
     }
   );
-
 }
 
 
 /* =========================================================
-   TODAY
+   TODAY SCHEDULE
 ========================================================= */
 
 function displayTodaySchedule(data) {
@@ -1436,9 +1383,7 @@ function displayTodaySchedule(data) {
       "todaySchedule"
     );
 
-
   const meetings = [];
-
 
   data.forEach(
     function(hall) {
@@ -1469,27 +1414,22 @@ function displayTodaySchedule(data) {
     }
   );
 
-
   meetings.sort(
     function(a, b) {
-
       return a.start - b.start;
-
     }
   );
-
 
   displayScheduleList(
     container,
     meetings,
     "No meetings scheduled for today."
   );
-
 }
 
 
 /* =========================================================
-   TOMORROW
+   TOMORROW SCHEDULE
 ========================================================= */
 
 function displayTomorrowSchedule(data) {
@@ -1499,9 +1439,7 @@ function displayTomorrowSchedule(data) {
       "tomorrowSchedule"
     );
 
-
   const meetings = [];
-
 
   data.forEach(
     function(hall) {
@@ -1532,27 +1470,22 @@ function displayTomorrowSchedule(data) {
     }
   );
 
-
   meetings.sort(
     function(a, b) {
-
       return a.start - b.start;
-
     }
   );
-
 
   displayScheduleList(
     container,
     meetings,
     "No meetings scheduled for tomorrow."
   );
-
 }
 
 
 /* =========================================================
-   DISPLAY SCHEDULE
+   DISPLAY SCHEDULE LIST
 ========================================================= */
 
 function displayScheduleList(
@@ -1563,7 +1496,6 @@ function displayScheduleList(
 
   container.innerHTML = "";
 
-
   if (
     meetings.length === 0
   ) {
@@ -1573,24 +1505,18 @@ function displayScheduleList(
         "div"
       );
 
-
     empty.className =
       "empty-schedule";
 
-
     empty.textContent =
       emptyMessage;
-
 
     container.appendChild(
       empty
     );
 
-
     return;
-
   }
-
 
   meetings.forEach(
     function(meeting) {
@@ -1600,16 +1526,12 @@ function displayScheduleList(
           "div"
         );
 
-
       row.className =
         "schedule-row";
 
-
       const title =
-        meeting.title
-        ||
+        meeting.title ||
         "Meeting";
-
 
       row.innerHTML = `
 
@@ -1627,7 +1549,6 @@ function displayScheduleList(
 
         </div>
 
-
         <div class="meeting-info">
 
           <div>
@@ -1638,7 +1559,6 @@ function displayScheduleList(
 
           </div>
 
-
           <div class="meeting-name">
             ${escapeHTML(title)}
           </div>
@@ -1647,19 +1567,17 @@ function displayScheduleList(
 
       `;
 
-
       container.appendChild(
         row
       );
 
     }
   );
-
 }
 
 
 /* =========================================================
-   START
+   START DASHBOARD
 ========================================================= */
 
 updateClock();
@@ -1669,14 +1587,9 @@ setInterval(
   1000
 );
 
-
 loadDashboard();
 
-
-/*
-   Refresh Google Calendar data
-   every 60 seconds.
-*/
+/* Calendar data refresh every 60 seconds */
 
 setInterval(
   loadDashboard,
@@ -1684,7 +1597,6 @@ setInterval(
 );
 
 </script>
-
 
 </body>
 </html>
