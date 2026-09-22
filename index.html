@@ -1198,6 +1198,187 @@ and
 
 }
 
+
+/* =========================================================
+   FINAL MONTHLY CALENDAR — FULL WIDTH, CLEARER & LARGER
+========================================================= */
+.lower-grid{
+  display:block;
+  width:100%;
+  margin-top:10px;
+}
+
+.month-panel{
+  width:100%;
+  height:auto;
+  border-radius:11px;
+}
+
+.month-top{
+  height:42px;
+  min-height:42px;
+  padding:8px 16px;
+  font-size:16px;
+  font-weight:600;
+}
+
+.month-toolbar{
+  height:46px;
+  min-height:46px;
+  padding:5px 15px;
+}
+
+.month-name{
+  gap:10px;
+  font-size:17px;
+  font-weight:500;
+}
+
+.month-arrow{
+  width:28px;
+  height:28px;
+  font-size:18px;
+}
+
+.legend{
+  gap:14px;
+  font-size:10px;
+  font-weight:400;
+}
+
+.legend-item{ gap:5px; }
+.legend-item b{ font-size:10px; font-weight:600; }
+.legend-dot{ width:9px; height:9px; }
+
+.calendar-wrap{
+  width:100%;
+  padding:0 12px 6px;
+}
+
+.month-calendar{
+  width:100%;
+  height:auto;
+  table-layout:fixed;
+  border-collapse:collapse;
+}
+
+.month-calendar th{
+  height:30px;
+  padding:5px;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.3px;
+}
+
+.month-calendar td{
+  height:61px;
+  padding:5px 7px;
+  vertical-align:top;
+  border:1px solid #d8e3e8;
+}
+
+.month-calendar td.today-cell{
+  background:#e5f4fb;
+  box-shadow:inset 0 0 0 2px #6ab0d0;
+}
+
+.day-number{
+  margin-bottom:4px;
+  color:#173d58;
+  font-size:13px;
+  font-weight:600;
+}
+
+.hall-mini{
+  display:grid;
+  grid-template-columns:31px 9px minmax(0,1fr);
+  align-items:center;
+  gap:4px;
+  margin:2px 0;
+  font-size:10px;
+  line-height:1.1;
+}
+
+.hall-short{
+  color:#425f71;
+  font-size:10px;
+  font-weight:600;
+}
+
+.mini-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+}
+
+.mini-title{
+  min-width:0;
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#617784;
+  font-size:10px;
+  font-weight:400;
+}
+
+.mini-title.booked{
+  color:#b02d28;
+  font-size:10px;
+  font-weight:500;
+}
+
+.calendar-note{
+  padding:3px 14px 7px;
+  color:#72838d;
+  font-size:9px;
+}
+
+@media (min-width:1000px) and (orientation:landscape){
+  .lower-grid{ flex:1 1 auto; min-height:0; }
+  .month-panel{ height:100%; min-height:0; display:flex; flex-direction:column; }
+  .month-top,.month-toolbar,.calendar-note{ flex:0 0 auto; }
+  .calendar-wrap{ flex:1 1 auto; min-height:0; overflow:hidden; }
+  .month-calendar{ height:100%; }
+  .month-calendar tbody tr{ height:auto; }
+  .month-calendar td{ height:auto; padding:4px 7px; }
+  .day-number{ font-size:13px; }
+  .hall-mini{ grid-template-columns:31px 9px minmax(0,1fr); gap:4px; margin:2px 0; font-size:10px; }
+  .hall-short,.mini-title,.mini-title.booked{ font-size:10px; }
+}
+
+@media (min-width:1500px){
+  .month-top{ font-size:17px; }
+  .month-name{ font-size:18px; }
+  .legend{ font-size:11px; }
+  .month-calendar th{ font-size:12px; }
+  .day-number{ font-size:14px; }
+  .hall-mini{ grid-template-columns:35px 10px minmax(0,1fr); font-size:11px; }
+  .hall-short,.mini-title,.mini-title.booked{ font-size:11px; }
+  .mini-dot{ width:8px; height:8px; }
+}
+
+@media (orientation:portrait) and (min-width:651px){
+  .lower-grid{ display:block; }
+  .month-panel{ width:100%; }
+  .month-calendar td{ height:105px; padding:7px; }
+  .day-number{ font-size:14px; }
+  .hall-mini{ grid-template-columns:36px 10px minmax(0,1fr); margin:4px 0; font-size:11px; }
+  .hall-short,.mini-title,.mini-title.booked{ font-size:11px; }
+  .mini-dot{ width:8px; height:8px; }
+}
+
+@media(max-width:650px){
+  .lower-grid{ display:block; }
+  .month-toolbar{ height:auto; }
+  .month-calendar td{ height:82px; padding:4px; }
+  .month-calendar th{ font-size:9px; }
+  .day-number{ font-size:10px; }
+  .hall-mini{ grid-template-columns:23px 7px minmax(0,1fr); gap:2px; font-size:7px; }
+  .hall-short,.mini-title,.mini-title.booked{ font-size:7px; }
+  .mini-dot{ width:6px; height:6px; }
+}
+
 </style>
 </head>
 
@@ -1436,7 +1617,7 @@ and
 
 
 <!-- ======================================================
-     MONTH + SMALL BUILDING
+     FULL WIDTH MONTHLY CALENDAR
 ====================================================== -->
 
 <section class="lower-grid">
@@ -1570,34 +1751,6 @@ and
 
 </div>
 
-
-<!-- SMALL BUILDING -->
-
-<div class="building-column">
-
-  <div class="building-card">
-
-    <img
-      src="planning-building.png"
-      alt="Planning and Programme Implementation Department Building"
-    >
-
-
-    <div class="building-overlay">
-
-      <div class="building-title">
-        PLANNING FOR A BETTER MIZORAM
-      </div>
-
-      <div class="building-subtitle">
-        PEOPLE • PLANS • PROGRESS
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
 
 </section>
 
