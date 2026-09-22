@@ -1379,6 +1379,29 @@ and
   .mini-dot{ width:6px; height:6px; }
 }
 
+
+/* ===== FINAL DISPLAY ENHANCEMENTS ===== */
+.hall-name{
+  font-weight:700;
+  text-shadow:0 1px 2px rgba(11,53,88,.18);
+  letter-spacing:.15px;
+}
+.hall-icon{
+  width:52px; height:52px;
+  box-shadow:0 5px 12px rgba(11,53,88,.20);
+}
+.hall-icon svg{width:29px;height:29px;display:block;stroke:currentColor;}
+#time{font-variant-numeric:tabular-nums; white-space:nowrap;}
+@media (min-width:1500px){
+  .hall-name{font-size:18px;}
+  .hall-icon{width:56px;height:56px;}
+  .hall-icon svg{width:31px;height:31px;}
+}
+@media(max-width:650px){
+  .hall-icon{width:40px;height:40px;}
+  .hall-icon svg{width:23px;height:23px;}
+}
+
 </style>
 </head>
 
@@ -1456,9 +1479,7 @@ and
 
   <div class="hall-card">
 
-    <div class="hall-icon">
-      CH
-    </div>
+    <div class="hall-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="7" r="2.3"/><circle cx="16" cy="7" r="2.3"/><path d="M3.5 17v-3.2c0-2 1.7-3.6 3.7-3.6h1.6c2 0 3.7 1.6 3.7 3.6V17"/><path d="M11.5 17v-3.2c0-2 1.7-3.6 3.7-3.6h1.6c2 0 3.7 1.6 3.7 3.6V17"/><path d="M2.5 18.5h19"/></svg></div>
 
     <div>
 
@@ -1481,9 +1502,7 @@ and
 
   <div class="hall-card">
 
-    <div class="hall-icon">
-      CR
-    </div>
+    <div class="hall-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="6.5" r="2.5"/><circle cx="5.5" cy="9" r="2"/><circle cx="18.5" cy="9" r="2"/><path d="M7.5 18v-3.2c0-2.2 1.8-4 4-4h1c2.2 0 4 1.8 4 4V18"/><path d="M2.5 18v-2.6c0-1.7 1.3-3 3-3h1"/><path d="M21.5 18v-2.6c0-1.7-1.3-3-3-3h-1"/></svg></div>
 
     <div>
 
@@ -1506,9 +1525,7 @@ and
 
   <div class="hall-card">
 
-    <div class="hall-icon">
-      VC
-    </div>
+    <div class="hall-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1.8"/><path d="M8 21h8M12 17v4"/><circle cx="12" cy="9" r="1.6"/><path d="M8.8 14c.5-1.5 1.6-2.3 3.2-2.3s2.7.8 3.2 2.3"/></svg></div>
 
     <div>
 
@@ -1861,6 +1878,7 @@ function updateClock(){
       {
         hour:"2-digit",
         minute:"2-digit",
+        second:"2-digit",
         hour12:true,
         timeZone:"Asia/Kolkata"
       }
@@ -1935,6 +1953,7 @@ function formatTime(timestamp){
       {
         hour:"2-digit",
         minute:"2-digit",
+        second:"2-digit",
         hour12:true,
         timeZone:"Asia/Kolkata"
       }
@@ -2532,6 +2551,12 @@ async function loadHall(hall){
    DISPLAY HALL CARDS
 ========================================================= */
 
+function getHallIcon(short){
+  if(short === "CH") return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="7" r="2.3"/><circle cx="16" cy="7" r="2.3"/><path d="M3.5 17v-3.2c0-2 1.7-3.6 3.7-3.6h1.6c2 0 3.7 1.6 3.7 3.6V17"/><path d="M11.5 17v-3.2c0-2 1.7-3.6 3.7-3.6h1.6c2 0 3.7 1.6 3.7 3.6V17"/><path d="M2.5 18.5h19"/></svg>`;
+  if(short === "CR") return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="6.5" r="2.5"/><circle cx="5.5" cy="9" r="2"/><circle cx="18.5" cy="9" r="2"/><path d="M7.5 18v-3.2c0-2.2 1.8-4 4-4h1c2.2 0 4 1.8 4 4V18"/><path d="M2.5 18v-2.6c0-1.7 1.3-3 3-3h1"/><path d="M21.5 18v-2.6c0-1.7-1.3-3-3-3h-1"/></svg>`;
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1.8"/><path d="M8 21h8M12 17v4"/><circle cx="12" cy="9" r="1.6"/><path d="M8.8 14c.5-1.5 1.6-2.3 3.2-2.3s2.7.8 3.2 2.3"/></svg>`;
+}
+
 function displayHallCards(data){
 
   const container =
@@ -2639,15 +2664,7 @@ function displayHallCards(data){
       card.innerHTML = `
 
         <div class="hall-icon">
-
-          ${
-            hall.short === "VCR"
-            ?
-            "VC"
-            :
-            hall.short
-          }
-
+          ${getHallIcon(hall.short)}
         </div>
 
 
