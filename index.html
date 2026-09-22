@@ -7,25 +7,28 @@
 <title>Meeting Hall Availability</title>
 
 <style>
+
 :root{
-  --navy:#063b63;
+  --navy:#0b3558;
   --blue:#075f85;
-  --blue2:#0781b8;
-  --red:#c83229;
-  --tomato:#ff5d45;
-  --green:#129654;
-  --booked:#e52525;
-  --grey:#83909a;
-  --bg:#f2f6f8;
+  --blue-light:#eef6fa;
+  --red:#bd322b;
+  --tomato:#ff6347;
+  --green:#159455;
+  --occupied:#d83b35;
+  --orange:#d88916;
+  --text:#253d4d;
+  --muted:#70818c;
   --line:#dce6eb;
-  --text:#102c43;
+  --background:#f3f7f9;
 }
 
 *{
   box-sizing:border-box;
 }
 
-html,body{
+html,
+body{
   margin:0;
   padding:0;
   width:100%;
@@ -33,53 +36,69 @@ html,body{
 }
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:linear-gradient(180deg,#f7fafb 0%,#edf3f6 100%);
+  font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+  font-weight:400;
+  background:var(--background);
   color:var(--text);
 }
 
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
 .header{
-  min-height:100px;
-  padding:10px 34px;
+  height:82px;
+  min-height:82px;
 
-  background:
-    linear-gradient(110deg,#c92f27 0%,#e84232 48%,#ff6048 100%);
-
-  color:#fff;
+  padding:6px 30px;
 
   display:flex;
   align-items:center;
   justify-content:space-between;
 
-  box-shadow:0 3px 10px rgba(0,0,0,.13);
+  color:white;
+
+  background:
+    linear-gradient(
+      110deg,
+      #b92e28 0%,
+      #d94234 48%,
+      #ff6347 100%
+    );
+
+  box-shadow:
+    0 3px 12px rgba(0,0,0,.12);
 }
 
 .header-left{
   display:flex;
   align-items:center;
-  gap:17px;
+  gap:14px;
 }
 
 .ashoka{
-  width:58px;
-  height:76px;
+  width:48px;
+  height:64px;
+
   object-fit:contain;
+  flex-shrink:0;
 }
 
 .department{
-  font-size:20px;
-  font-weight:800;
-  letter-spacing:.2px;
+  font-size:17px;
+  font-weight:600;
+  letter-spacing:.4px;
+  line-height:1.2;
 }
 
 .government{
-  margin-top:7px;
-  font-size:13px;
-  letter-spacing:.4px;
+  margin-top:4px;
+
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:.5px;
+
+  opacity:.96;
 }
 
 .clock{
@@ -87,129 +106,170 @@ body{
 }
 
 #time{
-  font-size:30px;
-  font-weight:800;
+  font-size:25px;
+  font-weight:500;
+  line-height:1;
 }
 
 #date{
-  margin-top:6px;
-  font-size:12px;
+  margin-top:5px;
+
+  font-size:10px;
+  font-weight:400;
+
+  opacity:.95;
 }
 
-/* =========================
+/* =========================================================
    PAGE
-========================= */
+========================================================= */
 
 .page{
+  width:100%;
   max-width:1920px;
+
   margin:auto;
-  padding:18px 28px 8px;
+  padding:10px 26px 5px;
 }
+
+/* =========================================================
+   TITLE
+========================================================= */
 
 .title-area{
   text-align:center;
-  margin-bottom:17px;
+  margin-bottom:9px;
 }
 
 .title-area h1{
   margin:0;
+
   color:var(--navy);
-  font-size:31px;
-  letter-spacing:2px;
+
+  font-size:25px;
+  font-weight:600;
+  letter-spacing:1.8px;
 }
 
 .subtitle{
-  margin-top:5px;
+  margin-top:3px;
 
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   gap:10px;
 
-  color:#71818c;
-  font-size:13px;
+  color:var(--muted);
+
+  font-size:10px;
+  font-weight:400;
 }
 
-.subtitle:before,
-.subtitle:after{
+.subtitle::before,
+.subtitle::after{
   content:"";
-  width:90px;
+
+  width:65px;
   height:1px;
-  background:#2d7ca6;
+
+  background:#5590ad;
 }
 
-/* =========================
+/* =========================================================
    HALL STATUS
-========================= */
+========================================================= */
 
 .hall-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:16px;
+
+  gap:12px;
 }
 
 .hall-card{
-  min-height:155px;
-  padding:19px 21px;
+  height:125px;
+  min-height:125px;
 
-  background:#fff;
-
-  border-radius:13px;
-  border-top:5px solid var(--blue);
-
-  box-shadow:0 5px 17px rgba(22,55,75,.08);
+  padding:12px 16px;
 
   display:grid;
-  grid-template-columns:58px 1fr;
-  gap:15px;
-  align-items:start;
+  grid-template-columns:46px 1fr;
+  gap:11px;
+
+  background:white;
+
+  border-radius:11px;
+  border-top:4px solid var(--blue);
+
+  box-shadow:
+    0 4px 15px rgba(31,64,83,.07);
 }
 
 .hall-icon{
-  width:55px;
-  height:55px;
-  border-radius:50%;
+  width:43px;
+  height:43px;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  color:white;
-  font-size:25px;
-  font-weight:bold;
+  border-radius:50%;
 
-  background:linear-gradient(135deg,#087cb7,#075f85);
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1688bb,
+      #075f85
+    );
+
+  font-size:18px;
+  font-weight:500;
 }
 
 .hall-card:nth-child(2) .hall-icon{
-  background:linear-gradient(135deg,#16a28f,#007a6d);
+  background:
+    linear-gradient(
+      135deg,
+      #28a99b,
+      #087d70
+    );
 }
 
 .hall-card:nth-child(3) .hall-icon{
-  background:linear-gradient(135deg,#ff8b19,#ff5c12);
+  background:
+    linear-gradient(
+      135deg,
+      #f3a136,
+      #ef6e1b
+    );
 }
 
 .hall-name{
+  margin:1px 0 5px;
+
   color:var(--navy);
-  font-size:19px;
-  font-weight:800;
-  margin:2px 0 10px;
+
+  font-size:16px;
+  font-weight:600;
 }
 
 .status{
+  margin-bottom:6px;
+
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:6px;
 
-  font-size:22px;
-  font-weight:800;
-
-  margin-bottom:12px;
+  font-size:18px;
+  font-weight:600;
 }
 
 .status-dot{
-  width:12px;
-  height:12px;
+  width:9px;
+  height:9px;
+
   border-radius:50%;
 }
 
@@ -222,19 +282,19 @@ body{
 }
 
 .OCCUPIED{
-  color:var(--booked);
+  color:var(--occupied);
 }
 
 .OCCUPIED .status-dot{
-  background:var(--booked);
+  background:var(--occupied);
 }
 
 .UPCOMING{
-  color:#d5850d;
+  color:var(--orange);
 }
 
 .UPCOMING .status-dot{
-  background:#d5850d;
+  background:var(--orange);
 }
 
 .ERROR{
@@ -246,115 +306,145 @@ body{
 }
 
 .status-label{
-  color:#73838e;
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:1.2px;
+  color:var(--muted);
+
+  font-size:7px;
+  font-weight:500;
+  letter-spacing:1px;
+
+  text-transform:uppercase;
 }
 
 .status-detail{
-  margin-top:4px;
-  font-size:14px;
-  font-weight:700;
-  color:#102c43;
+  margin-top:2px;
+
+  color:#314b5b;
+
+  font-size:11px;
+  font-weight:500;
 }
 
 .status-title{
-  margin-top:3px;
-  font-size:12px;
-  color:#60727f;
+  margin-top:2px;
+
+  color:#657985;
+
+  font-size:9px;
+  font-weight:400;
 }
 
-/* =========================
+/* =========================================================
    SCHEDULE
-========================= */
+========================================================= */
 
 .schedule-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:16px;
-  margin-top:16px;
+
+  gap:12px;
+  margin-top:10px;
 }
 
 .schedule-box{
+  height:145px;
+
   overflow:hidden;
 
   background:white;
-  border-radius:13px;
 
-  box-shadow:0 5px 17px rgba(22,55,75,.07);
+  border-radius:11px;
+
+  box-shadow:
+    0 4px 15px rgba(31,64,83,.06);
 }
 
 .section-header{
-  min-height:54px;
-  padding:11px 18px;
+  height:42px;
+  min-height:42px;
+
+  padding:7px 14px;
 
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
+  gap:10px;
 
   color:white;
 
   background:
-    linear-gradient(110deg,#075681,#0780b6);
+    linear-gradient(
+      110deg,
+      #075681,
+      #0780b6
+    );
 }
 
 .section-title{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:7px;
 
-  font-size:17px;
-  font-weight:800;
+  font-size:14px;
+  font-weight:600;
 }
 
 .calendar-icon{
-  font-size:22px;
+  font-size:16px;
+  font-weight:400;
 }
 
 .date-badge{
-  background:#e8f5fb;
+  padding:5px 9px;
+
+  background:#e9f5fa;
   color:#075681;
 
-  border-radius:18px;
+  border-radius:20px;
 
-  padding:7px 12px;
-
-  font-size:10px;
-  font-weight:800;
+  font-size:8px;
+  font-weight:500;
 
   white-space:nowrap;
 }
 
+.schedule-content{
+  height:103px;
+  overflow:auto;
+}
+
 .schedule-table{
   width:100%;
+
   border-collapse:collapse;
   table-layout:fixed;
 }
 
 .schedule-table th{
-  padding:10px 9px;
+  padding:6px 7px;
 
   background:#eef5f8;
 
-  color:#173c59;
+  color:#24465d;
 
-  border-right:1px solid #dce6eb;
-  border-bottom:1px solid #dce6eb;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
 
-  font-size:11px;
   text-align:left;
+
+  font-size:9px;
+  font-weight:500;
 }
 
 .schedule-table td{
-  padding:11px 9px;
+  padding:7px;
 
-  border-right:1px solid #e4ebef;
-  border-bottom:1px solid #e4ebef;
+  border-right:1px solid #e5ecef;
+  border-bottom:1px solid #e5ecef;
 
-  font-size:11px;
   vertical-align:top;
+
+  font-size:9px;
+  font-weight:400;
 }
 
 .schedule-table th:nth-child(1){
@@ -374,108 +464,134 @@ body{
 }
 
 .table-time{
-  font-weight:800;
-  color:#143a57;
+  color:#26485e;
+
+  font-weight:500;
 }
 
 .table-hall{
   display:inline-block;
 
-  padding:5px 7px;
+  padding:3px 5px;
 
-  border-radius:6px;
+  background:#e7f3f8;
+  color:#075f85;
 
-  background:#e8f4fa;
-  color:#07658f;
+  border-radius:5px;
 
-  font-size:9px;
-  font-weight:800;
+  font-size:7px;
+  font-weight:500;
 }
 
 .table-title{
-  font-weight:700;
+  color:#334e5e;
+
+  font-weight:400;
 }
 
 .organiser{
-  font-size:10px;
-  color:#687b87;
+  color:#71818c;
+
+  font-size:8px;
+  font-weight:400;
 }
 
 .empty{
-  padding:29px 15px;
-  text-align:center;
+  height:103px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
   color:#71818c;
-  font-size:12px;
+
+  font-size:10px;
+  font-weight:400;
 }
 
-/* =========================
-   LOWER SECTION
-========================= */
+/* =========================================================
+   LOWER AREA
+========================================================= */
 
 .lower-grid{
   display:grid;
-  grid-template-columns:1.45fr .85fr;
-  gap:16px;
-  margin-top:16px;
-  align-items:stretch;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    310px;
+
+  gap:12px;
+
+  margin-top:10px;
 }
 
-/* =========================
+/* =========================================================
    MONTHLY CALENDAR
-========================= */
+========================================================= */
 
 .month-panel{
   overflow:hidden;
 
-  background:#fff;
+  background:white;
 
-  border-radius:13px;
+  border-radius:11px;
 
-  box-shadow:0 5px 17px rgba(22,55,75,.08);
+  box-shadow:
+    0 4px 15px rgba(31,64,83,.07);
 }
 
 .month-top{
-  min-height:54px;
-  padding:11px 18px;
+  height:40px;
+  min-height:40px;
+
+  padding:7px 14px;
 
   display:flex;
   align-items:center;
 
-  background:
-    linear-gradient(110deg,#075681,#0780b6);
-
   color:white;
 
-  font-size:18px;
-  font-weight:800;
+  background:
+    linear-gradient(
+      110deg,
+      #075681,
+      #0780b6
+    );
+
+  font-size:14px;
+  font-weight:600;
 }
 
 .month-toolbar{
-  min-height:50px;
+  height:39px;
+  min-height:39px;
 
-  padding:8px 15px;
+  padding:4px 12px;
 
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
+  gap:10px;
 }
 
 .month-name{
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:8px;
 
   color:var(--navy);
 
-  font-size:17px;
-  font-weight:800;
+  font-size:13px;
+  font-weight:500;
+
+  white-space:nowrap;
 }
 
 .month-arrow{
-  width:30px;
-  height:30px;
+  width:24px;
+  height:24px;
+
+  padding:0;
 
   border:0;
   border-radius:50%;
@@ -485,28 +601,39 @@ body{
 
   cursor:pointer;
 
-  font-size:19px;
-  font-weight:bold;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:400;
 }
 
 .legend{
   display:flex;
   align-items:center;
-  gap:13px;
+  justify-content:flex-end;
+  gap:9px;
 
-  color:#536976;
-  font-size:9px;
+  color:#647884;
+
+  font-size:7px;
+  font-weight:400;
+
+  flex-wrap:wrap;
 }
 
 .legend-item{
   display:flex;
   align-items:center;
-  gap:5px;
+  gap:4px;
+}
+
+.legend-item b{
+  font-weight:600;
 }
 
 .legend-dot{
-  width:10px;
-  height:10px;
+  width:7px;
+  height:7px;
+
   border-radius:50%;
 }
 
@@ -515,39 +642,41 @@ body{
 }
 
 .legend-red{
-  background:var(--booked);
-}
-
-.legend-grey{
-  background:#aeb7bc;
+  background:var(--occupied);
 }
 
 .calendar-wrap{
-  padding:0 13px 13px;
+  padding:0 10px 5px;
 }
 
 .month-calendar{
   width:100%;
+
   border-collapse:collapse;
   table-layout:fixed;
 }
 
 .month-calendar th{
-  padding:7px 2px;
+  height:25px;
+
+  padding:4px 2px;
 
   background:var(--navy);
   color:white;
 
-  border-right:1px solid rgba(255,255,255,.3);
+  border-right:
+    1px solid rgba(255,255,255,.25);
 
-  font-size:10px;
+  font-size:8px;
+  font-weight:500;
 }
 
 .month-calendar td{
-  height:92px;
-  padding:5px;
+  height:48px;
 
-  border:1px solid #dce5ea;
+  padding:3px;
+
+  border:1px solid var(--line);
 
   vertical-align:top;
 
@@ -559,38 +688,46 @@ body{
 }
 
 .month-calendar td.today-cell{
-  background:#e6f4fb;
+  background:#e8f5fb;
 }
 
 .day-number{
-  font-size:11px;
-  font-weight:800;
-  color:#183b55;
-  margin-bottom:5px;
+  margin-bottom:2px;
+
+  color:#29475a;
+
+  font-size:8px;
+  font-weight:500;
 }
 
 .hall-mini{
+  margin:1px 0;
+
   display:grid;
-  grid-template-columns:30px 8px 1fr;
-  align-items:start;
-  gap:3px;
 
-  margin:3px 0;
+  grid-template-columns:
+    20px
+    6px
+    minmax(0,1fr);
 
-  font-size:7px;
-  line-height:1.15;
+  gap:2px;
+  align-items:center;
+
+  font-size:5.5px;
+  line-height:1.05;
 }
 
 .hall-short{
-  font-weight:800;
-  color:#536b7b;
+  color:#647884;
+
+  font-weight:500;
 }
 
 .mini-dot{
-  width:7px;
-  height:7px;
+  width:5px;
+  height:5px;
+
   border-radius:50%;
-  margin-top:1px;
 }
 
 .mini-available{
@@ -598,47 +735,60 @@ body{
 }
 
 .mini-booked{
-  background:var(--booked);
+  background:var(--occupied);
 }
 
 .mini-title{
-  color:#455b69;
+  display:block;
+
+  min-width:0;
 
   overflow:hidden;
   text-overflow:ellipsis;
+  white-space:nowrap;
 
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
+  color:#657985;
+
+  font-weight:400;
 }
 
 .mini-title.booked{
-  color:#a51f1f;
-  font-weight:700;
+  color:#9c332e;
 }
 
 .calendar-note{
-  padding:0 15px 13px;
+  padding:1px 11px 5px;
 
-  color:#748591;
-  font-size:9px;
+  color:#84919a;
+
+  font-size:7px;
+  font-weight:400;
 }
 
-/* =========================
-   BUILDING
-========================= */
+/* =========================================================
+   SMALL BUILDING PANEL
+========================================================= */
+
+.building-column{
+  display:flex;
+  align-items:flex-end;
+  justify-content:flex-end;
+}
 
 .building-card{
-  min-height:100%;
-
   position:relative;
-  overflow:hidden;
 
-  border-radius:13px;
+  width:310px;
+  height:245px;
+
+  overflow:hidden;
 
   background:#075681;
 
-  box-shadow:0 5px 17px rgba(22,55,75,.08);
+  border-radius:11px;
+
+  box-shadow:
+    0 4px 15px rgba(31,64,83,.08);
 }
 
 .building-card img{
@@ -646,8 +796,6 @@ body{
 
   width:100%;
   height:100%;
-
-  min-height:430px;
 
   object-fit:cover;
   object-position:center;
@@ -660,7 +808,7 @@ body{
   right:0;
   bottom:0;
 
-  padding:28px 15px 17px;
+  padding:30px 10px 10px;
 
   text-align:center;
 
@@ -669,181 +817,334 @@ body{
   background:
     linear-gradient(
       180deg,
-      rgba(4,63,100,0) 0%,
-      rgba(4,63,100,.90) 42%,
-      #06446e 100%
+      rgba(4,63,100,0),
+      rgba(4,63,100,.82)
     );
 }
 
 .building-title{
-  font-size:17px;
-  font-weight:800;
+  font-size:12px;
+  font-weight:500;
 }
 
 .building-subtitle{
-  margin-top:9px;
+  margin-top:4px;
 
-  font-size:9px;
-  letter-spacing:4px;
+  font-size:6px;
+  font-weight:400;
+  letter-spacing:2.5px;
 }
 
-/* =========================
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
 .footer{
-  padding:11px 2px 8px;
+  height:24px;
+
+  padding:6px 2px 2px;
 
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
 
-  color:#71818c;
-  font-size:9px;
+  color:#7a8992;
+
+  font-size:7px;
+  font-weight:400;
 }
 
-/* =========================
-   PORTRAIT TV
-========================= */
+/* =========================================================
+   DESKTOP 1080p - NO PAGE SCROLL
+========================================================= */
 
-@media (orientation:portrait){
+@media
+(min-width:1000px)
+and
+(orientation:landscape){
+
+  html,
+  body{
+    height:100vh;
+    overflow:hidden;
+  }
 
   .page{
-    padding:18px 22px 8px;
+    height:calc(100vh - 82px);
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:hidden;
+  }
+
+  .title-area{
+    flex:0 0 auto;
   }
 
   .hall-grid{
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
+    flex:0 0 125px;
+  }
+
+  .schedule-grid{
+    flex:0 0 145px;
+  }
+
+  .lower-grid{
+    flex:1 1 auto;
+    min-height:0;
+  }
+
+  .month-panel{
+    height:100%;
+    min-height:0;
+  }
+
+  .calendar-wrap{
+    height:
+      calc(100% - 84px);
+
+    overflow:hidden;
+  }
+
+  .month-calendar{
+    height:100%;
+  }
+
+  .month-calendar td{
+    height:auto;
+  }
+
+}
+
+/* =========================================================
+   PORTRAIT TV / TABLET
+========================================================= */
+
+@media
+(orientation:portrait)
+and
+(min-width:651px){
+
+  .header{
+    height:90px;
+    min-height:90px;
+
+    padding:8px 22px;
+  }
+
+  .ashoka{
+    width:52px;
+    height:68px;
+  }
+
+  .department{
+    font-size:17px;
+  }
+
+  #time{
+    font-size:23px;
+  }
+
+  .page{
+    padding:14px 18px 8px;
+  }
+
+  .title-area{
+    margin-bottom:13px;
+  }
+
+  .title-area h1{
+    font-size:25px;
+  }
+
+  /* Hall 3 horizontal even in portrait TV */
+  .hall-grid{
+    grid-template-columns:
+      repeat(3,1fr);
+
+    gap:8px;
   }
 
   .hall-card{
+    height:170px;
+
     grid-template-columns:1fr;
-    min-height:180px;
-    padding:16px;
+
+    padding:13px;
   }
 
   .hall-icon{
-    width:43px;
-    height:43px;
-    font-size:20px;
+    width:40px;
+    height:40px;
   }
 
   .hall-name{
-    font-size:15px;
+    font-size:14px;
   }
 
   .status{
-    font-size:17px;
+    font-size:16px;
+  }
+
+  .status-detail{
+    font-size:10px;
   }
 
   .schedule-grid{
     grid-template-columns:1fr;
+  }
+
+  .schedule-box{
+    height:auto;
+    min-height:150px;
+  }
+
+  .schedule-content{
+    height:auto;
   }
 
   .lower-grid{
     grid-template-columns:1fr;
   }
 
-  .building-card img{
-    height:390px;
-    min-height:390px;
-  }
-
   .month-calendar td{
-    height:105px;
+    height:90px;
   }
 
   .hall-mini{
-    font-size:8px;
+    grid-template-columns:
+      28px
+      7px
+      1fr;
+
+    font-size:7.5px;
   }
+
+  .mini-dot{
+    width:6px;
+    height:6px;
+  }
+
+  .day-number{
+    font-size:10px;
+  }
+
+  .building-column{
+    justify-content:center;
+  }
+
+  .building-card{
+    width:420px;
+    height:270px;
+  }
+
 }
 
-/* =========================
+/* =========================================================
    MOBILE
-========================= */
+========================================================= */
 
 @media(max-width:650px){
 
   .header{
-    min-height:72px;
-    padding:7px 10px;
+    height:68px;
+    min-height:68px;
+
+    padding:6px 9px;
+  }
+
+  .header-left{
+    gap:7px;
   }
 
   .ashoka{
-    width:38px;
-    height:50px;
+    width:35px;
+    height:48px;
   }
 
   .department{
-    font-size:11px;
+    font-size:10px;
   }
 
   .government{
-    font-size:8px;
-    margin-top:3px;
-  }
-
-  #time{
-    font-size:17px;
-  }
-
-  #date{
+    margin-top:2px;
     font-size:7px;
   }
 
+  #time{
+    font-size:16px;
+  }
+
+  #date{
+    font-size:6px;
+  }
+
   .page{
-    padding:10px 8px 5px;
+    padding:8px;
   }
 
   .title-area h1{
-    font-size:19px;
+    font-size:18px;
   }
 
   .subtitle{
-    font-size:9px;
+    font-size:8px;
   }
 
-  .subtitle:before,
-  .subtitle:after{
+  .subtitle::before,
+  .subtitle::after{
     width:35px;
   }
 
   .hall-grid{
     grid-template-columns:1fr;
+    gap:6px;
   }
 
   .hall-card{
-    grid-template-columns:42px 1fr;
-    min-height:0;
-    padding:11px;
+    height:auto;
+    min-height:105px;
+
+    grid-template-columns:40px 1fr;
+
+    padding:10px;
   }
 
   .hall-icon{
-    width:38px;
-    height:38px;
+    width:37px;
+    height:37px;
+
+    font-size:15px;
   }
 
   .hall-name{
     font-size:13px;
-    margin-bottom:5px;
   }
 
   .status{
     font-size:14px;
-    margin-bottom:6px;
   }
 
   .schedule-grid{
     grid-template-columns:1fr;
   }
 
+  .schedule-box{
+    height:auto;
+    min-height:145px;
+  }
+
+  .schedule-content{
+    height:auto;
+  }
+
   .section-title{
-    font-size:12px;
+    font-size:11px;
   }
 
   .date-badge{
-    font-size:7px;
+    font-size:6px;
   }
 
   .lower-grid{
@@ -851,36 +1152,50 @@ body{
   }
 
   .month-toolbar{
+    height:auto;
+
     flex-direction:column;
+
+    padding:7px;
   }
 
   .legend{
-    flex-wrap:wrap;
     justify-content:center;
   }
 
   .month-calendar td{
-    height:78px;
-    padding:3px;
+    height:75px;
   }
 
   .hall-mini{
-    grid-template-columns:18px 6px 1fr;
-    font-size:5.5px;
+    grid-template-columns:
+      17px
+      5px
+      1fr;
+
+    font-size:5px;
   }
 
-  .day-number{
-    font-size:8px;
+  .building-column{
+    justify-content:center;
   }
 
-  .building-card img{
-    height:250px;
-    min-height:250px;
+  .building-card{
+    width:100%;
+    max-width:310px;
+    height:210px;
   }
 
   .footer{
-    font-size:7px;
+    height:auto;
+
+    gap:8px;
+
+    flex-direction:column;
+
+    text-align:center;
   }
+
 }
 
 </style>
@@ -888,7 +1203,10 @@ body{
 
 <body>
 
-<!-- HEADER -->
+
+<!-- ======================================================
+     HEADER
+====================================================== -->
 
 <header class="header">
 
@@ -901,6 +1219,7 @@ body{
     >
 
     <div>
+
       <div class="department">
         PLANNING &amp; PROGRAMME IMPLEMENTATION DEPARTMENT
       </div>
@@ -908,302 +1227,482 @@ body{
       <div class="government">
         GOVERNMENT OF MIZORAM
       </div>
+
     </div>
 
   </div>
 
+
   <div class="clock">
+
     <div id="time"></div>
+
     <div id="date"></div>
+
   </div>
 
 </header>
 
 
+<!-- ======================================================
+     PAGE
+====================================================== -->
+
 <main class="page">
 
-  <!-- TITLE -->
 
-  <section class="title-area">
+<!-- TITLE -->
 
-    <h1>MEETING HALL AVAILABILITY</h1>
+<section class="title-area">
 
-    <div class="subtitle">
-      Real-time Meeting Hall Status
+  <h1>
+    MEETING HALL AVAILABILITY
+  </h1>
+
+  <div class="subtitle">
+    Real-time Meeting Hall Status
+  </div>
+
+</section>
+
+
+<!-- HALL CARDS -->
+
+<section
+  id="hallCards"
+  class="hall-grid"
+>
+
+  <div class="hall-card">
+
+    <div class="hall-icon">
+      CH
     </div>
-
-  </section>
-
-
-  <!-- HALL STATUS -->
-
-  <section
-    id="hallCards"
-    class="hall-grid"
-  >
-  </section>
-
-
-  <!-- TODAY / TOMORROW -->
-
-  <section class="schedule-grid">
-
-    <div class="schedule-box">
-
-      <div class="section-header">
-
-        <div class="section-title">
-          <span class="calendar-icon">▣</span>
-          TODAY'S MEETING SCHEDULE
-        </div>
-
-        <div
-          id="todayBadge"
-          class="date-badge"
-        ></div>
-
-      </div>
-
-      <div id="todaySchedule"></div>
-
-    </div>
-
-
-    <div class="schedule-box">
-
-      <div class="section-header">
-
-        <div class="section-title">
-          <span class="calendar-icon">▣</span>
-          TOMORROW'S MEETING SCHEDULE
-        </div>
-
-        <div
-          id="tomorrowBadge"
-          class="date-badge"
-        ></div>
-
-      </div>
-
-      <div id="tomorrowSchedule"></div>
-
-    </div>
-
-  </section>
-
-
-  <!-- MONTH + BUILDING -->
-
-  <section class="lower-grid">
-
-    <!-- MONTH CALENDAR -->
-
-    <div class="month-panel">
-
-      <div class="month-top">
-        <span class="calendar-icon">▣</span>
-        &nbsp;&nbsp;MONTHLY CALENDAR
-      </div>
-
-
-      <div class="month-toolbar">
-
-        <div class="month-name">
-
-          <button
-            class="month-arrow"
-            onclick="changeMonth(-1)"
-          >
-            ‹
-          </button>
-
-          <span id="monthTitle"></span>
-
-          <button
-            class="month-arrow"
-            onclick="changeMonth(1)"
-          >
-            ›
-          </button>
-
-        </div>
-
-
-        <div class="legend">
-
-          <span class="legend-item">
-            <span class="legend-dot legend-green"></span>
-            Available
-          </span>
-
-          <span class="legend-item">
-            <span class="legend-dot legend-red"></span>
-            Booked
-          </span>
-
-          <span class="legend-item">
-            <b>CH</b> Conference Hall
-          </span>
-
-          <span class="legend-item">
-            <b>CR</b> Committee Room
-          </span>
-
-          <span class="legend-item">
-            <b>VCR</b> Video Conference Room
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="calendar-wrap">
-
-        <table class="month-calendar">
-
-          <thead>
-            <tr>
-              <th>Sun</th>
-              <th>Mon</th>
-              <th>Tue</th>
-              <th>Wed</th>
-              <th>Thu</th>
-              <th>Fri</th>
-              <th>Sat</th>
-            </tr>
-          </thead>
-
-          <tbody id="monthBody"></tbody>
-
-        </table>
-
-      </div>
-
-
-      <div class="calendar-note">
-        Green = Available • Red = Booked.
-        Meeting title / organiser is shown in smaller text where available.
-      </div>
-
-    </div>
-
-
-    <!-- BUILDING -->
-
-    <div class="building-card">
-
-      <img
-        src="planning-building.png"
-        alt="Planning and Programme Implementation Department Building"
-      >
-
-      <div class="building-overlay">
-
-        <div class="building-title">
-          PLANNING FOR A BETTER MIZORAM
-        </div>
-
-        <div class="building-subtitle">
-          PEOPLE • PLANS • PROGRESS
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- FOOTER -->
-
-  <footer class="footer">
 
     <div>
-      Planning &amp; Programme Implementation Department
-      &nbsp;•&nbsp;
-      Government of Mizoram
+
+      <div class="hall-name">
+        CONFERENCE HALL
+      </div>
+
+      <div class="status AVAILABLE">
+
+        <span class="status-dot"></span>
+
+        LOADING
+
+      </div>
+
     </div>
 
-    <div id="lastUpdated"></div>
+  </div>
 
-  </footer>
+
+  <div class="hall-card">
+
+    <div class="hall-icon">
+      CR
+    </div>
+
+    <div>
+
+      <div class="hall-name">
+        COMMITTEE ROOM
+      </div>
+
+      <div class="status AVAILABLE">
+
+        <span class="status-dot"></span>
+
+        LOADING
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="hall-card">
+
+    <div class="hall-icon">
+      VC
+    </div>
+
+    <div>
+
+      <div class="hall-name">
+        VIDEO CONFERENCE ROOM
+      </div>
+
+      <div class="status AVAILABLE">
+
+        <span class="status-dot"></span>
+
+        LOADING
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- TODAY / TOMORROW -->
+
+<section class="schedule-grid">
+
+
+<!-- TODAY -->
+
+<div class="schedule-box">
+
+  <div class="section-header">
+
+    <div class="section-title">
+
+      <span class="calendar-icon">
+        ▣
+      </span>
+
+      TODAY'S MEETING SCHEDULE
+
+    </div>
+
+
+    <div
+      id="todayBadge"
+      class="date-badge"
+    ></div>
+
+  </div>
+
+
+  <div
+    id="todaySchedule"
+    class="schedule-content"
+  >
+
+    <div class="empty">
+      Loading...
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- TOMORROW -->
+
+<div class="schedule-box">
+
+  <div class="section-header">
+
+    <div class="section-title">
+
+      <span class="calendar-icon">
+        ▣
+      </span>
+
+      TOMORROW'S MEETING SCHEDULE
+
+    </div>
+
+
+    <div
+      id="tomorrowBadge"
+      class="date-badge"
+    ></div>
+
+  </div>
+
+
+  <div
+    id="tomorrowSchedule"
+    class="schedule-content"
+  >
+
+    <div class="empty">
+      Loading...
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- ======================================================
+     MONTH + SMALL BUILDING
+====================================================== -->
+
+<section class="lower-grid">
+
+
+<!-- MONTH -->
+
+<div class="month-panel">
+
+
+  <div class="month-top">
+
+    <span class="calendar-icon">
+      ▣
+    </span>
+
+    &nbsp;&nbsp;
+
+    MONTHLY CALENDAR
+
+  </div>
+
+
+  <div class="month-toolbar">
+
+
+    <div class="month-name">
+
+      <button
+        class="month-arrow"
+        onclick="changeMonth(-1)"
+        aria-label="Previous month"
+      >
+        ‹
+      </button>
+
+
+      <span id="monthTitle">
+        Month
+      </span>
+
+
+      <button
+        class="month-arrow"
+        onclick="changeMonth(1)"
+        aria-label="Next month"
+      >
+        ›
+      </button>
+
+    </div>
+
+
+    <div class="legend">
+
+      <span class="legend-item">
+
+        <span
+          class="legend-dot legend-green"
+        ></span>
+
+        Available
+
+      </span>
+
+
+      <span class="legend-item">
+
+        <span
+          class="legend-dot legend-red"
+        ></span>
+
+        Booked
+
+      </span>
+
+
+      <span class="legend-item">
+        <b>CH</b> Conference Hall
+      </span>
+
+
+      <span class="legend-item">
+        <b>CR</b> Committee Room
+      </span>
+
+
+      <span class="legend-item">
+        <b>VCR</b> Video Conference Room
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="calendar-wrap">
+
+    <table class="month-calendar">
+
+      <thead>
+
+        <tr>
+
+          <th>Sun</th>
+          <th>Mon</th>
+          <th>Tue</th>
+          <th>Wed</th>
+          <th>Thu</th>
+          <th>Fri</th>
+          <th>Sat</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody id="monthBody"></tbody>
+
+    </table>
+
+  </div>
+
+
+  <div class="calendar-note">
+
+    Green = Available • Red = Booked.
+    Meeting title is shown in smaller text.
+
+  </div>
+
+</div>
+
+
+<!-- SMALL BUILDING -->
+
+<div class="building-column">
+
+  <div class="building-card">
+
+    <img
+      src="planning-building.png"
+      alt="Planning and Programme Implementation Department Building"
+    >
+
+
+    <div class="building-overlay">
+
+      <div class="building-title">
+        PLANNING FOR A BETTER MIZORAM
+      </div>
+
+      <div class="building-subtitle">
+        PEOPLE • PLANS • PROGRESS
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+  <div>
+
+    Planning &amp; Programme Implementation Department
+    &nbsp;•&nbsp;
+    Government of Mizoram
+
+  </div>
+
+
+  <div id="lastUpdated">
+    Loading...
+  </div>
+
+</footer>
+
 
 </main>
 
 
 <script>
 
-/* ==========================================================
-   IMPORTANT
+/* =========================================================
+   GOOGLE API KEY
 
-   Replace only PASTE_YOUR_API_KEY_HERE
-   with your current working restricted API key.
-
-   Do not send your API key in ChatGPT.
-========================================================== */
+   IMPORTANT:
+   Replace PASTE_YOUR_API_KEY_HERE only.
+========================================================= */
 
 const API_KEY =
   "AIzaSyAp_nB9CvTK3PKTyazD_AWSKV0ezyzfCqo";
 
 
-/* ==========================================================
-   GOOGLE CALENDARS
-========================================================== */
+/* =========================================================
+   HALLS
+========================================================= */
 
 const HALLS = [
 
   {
-    name:"CONFERENCE HALL",
-    short:"CH",
-    icon:"♙",
+    name:
+      "CONFERENCE HALL",
+
+    short:
+      "CH",
 
     calendarId:
-    "1a727dbc052a4a88462feac7a0e03e122e7a1569d9bd58482771456420fc07a2@group.calendar.google.com"
+      "1a727dbc052a4a88462feac7a0e03e122e7a1569d9bd58482771456420fc07a2@group.calendar.google.com"
   },
 
+
   {
-    name:"COMMITTEE ROOM",
-    short:"CR",
-    icon:"♙",
+    name:
+      "COMMITTEE ROOM",
+
+    short:
+      "CR",
 
     calendarId:
-    "07dae74985fb0b53ce7019844db0100f4aaa1e0450024da9e8fde5b4200094fc@group.calendar.google.com"
+      "07dae74985fb0b53ce7019844db0100f4aaa1e0450024da9e8fde5b4200094fc@group.calendar.google.com"
   },
 
+
   {
-    name:"VIDEO CONFERENCE ROOM",
-    short:"VCR",
-    icon:"▣",
+    name:
+      "VIDEO CONFERENCE ROOM",
+
+    short:
+      "VCR",
 
     calendarId:
-    "e869e2932faa565e995f3b08e6fbf35b31d6f66770bdb6d02e947c3ab0e482b4@group.calendar.google.com"
+      "e869e2932faa565e995f3b08e6fbf35b31d6f66770bdb6d02e947c3ab0e482b4@group.calendar.google.com"
   }
 
 ];
 
 
-/* ==========================================================
-   VARIABLES
-========================================================== */
-
 let currentMonthDate =
   new Date();
+
 
 let monthData = {};
 
 
-/* ==========================================================
+/* =========================================================
    CLOCK
-========================================================== */
+========================================================= */
 
 function updateClock(){
 
   const now =
     new Date();
 
-  document.getElementById("time")
+
+  document
+    .getElementById("time")
     .textContent =
+
     now.toLocaleTimeString(
       "en-IN",
       {
@@ -1214,8 +1713,11 @@ function updateClock(){
       }
     );
 
-  document.getElementById("date")
+
+  document
+    .getElementById("date")
     .textContent =
+
     now.toLocaleDateString(
       "en-IN",
       {
@@ -1226,110 +1728,185 @@ function updateClock(){
         timeZone:"Asia/Kolkata"
       }
     );
+
 }
 
 
-/* ==========================================================
-   HELPERS
-========================================================== */
+/* =========================================================
+   HTML SAFETY
+========================================================= */
 
 function escapeHTML(value){
 
   return String(value || "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
 }
 
+
+/* =========================================================
+   FORMAT TIME
+========================================================= */
 
 function formatTime(timestamp){
 
   return new Date(timestamp)
     .toLocaleTimeString(
+
       "en-IN",
+
       {
         hour:"2-digit",
         minute:"2-digit",
         hour12:true,
         timeZone:"Asia/Kolkata"
       }
+
     );
+
 }
 
 
-function formatBadge(date){
+/* =========================================================
+   INDIA DATE PARTS
+========================================================= */
 
-  return date
-    .toLocaleDateString(
-      "en-IN",
-      {
-        weekday:"long",
-        day:"2-digit",
-        month:"short",
-        year:"numeric",
-        timeZone:"Asia/Kolkata"
-      }
-    )
-    .toUpperCase();
-}
-
-
-function indiaDateParts(date = new Date()){
+function indiaDateParts(
+  date = new Date()
+){
 
   const parts =
+
     new Intl.DateTimeFormat(
+
       "en-CA",
+
       {
-        timeZone:"Asia/Kolkata",
-        year:"numeric",
-        month:"2-digit",
-        day:"2-digit"
+        timeZone:
+          "Asia/Kolkata",
+
+        year:
+          "numeric",
+
+        month:
+          "2-digit",
+
+        day:
+          "2-digit"
       }
+
     )
+
     .formatToParts(date);
 
-  const obj = {};
 
-  parts.forEach(p => {
+  const result = {};
 
-    if(p.type !== "literal"){
-      obj[p.type] = p.value;
+
+  parts.forEach(
+    part => {
+
+      if(
+        part.type !==
+        "literal"
+      ){
+
+        result[part.type] =
+          part.value;
+
+      }
+
     }
+  );
 
-  });
 
-  return obj;
+  return result;
+
 }
 
 
-function getDayRange(addDays = 0){
+/* =========================================================
+   DAY RANGE
+========================================================= */
+
+function getDayRange(
+  addDays = 0
+){
 
   const p =
     indiaDateParts();
 
+
   const base =
+
     new Date(
+
       Date.UTC(
+
         Number(p.year),
+
         Number(p.month)-1,
-        Number(p.day)+addDays
+
+        Number(p.day)
+        +
+        addDays
+
       )
+
     );
+
 
   const year =
     base.getUTCFullYear();
 
+
   const month =
+
     String(
       base.getUTCMonth()+1
-    ).padStart(2,"0");
+    )
+
+    .padStart(
+      2,
+      "0"
+    );
+
 
   const day =
+
     String(
       base.getUTCDate()
-    ).padStart(2,"0");
+    )
+
+    .padStart(
+      2,
+      "0"
+    );
+
 
   return {
 
@@ -1344,12 +1921,39 @@ function getDayRange(addDays = 0){
       )
 
   };
+
 }
 
 
-/* ==========================================================
-   CALENDAR API
-========================================================== */
+/* =========================================================
+   DATE BADGE
+========================================================= */
+
+function formatBadge(date){
+
+  return date
+    .toLocaleDateString(
+
+      "en-IN",
+
+      {
+        weekday:"short",
+        day:"2-digit",
+        month:"short",
+        year:"numeric",
+        timeZone:"Asia/Kolkata"
+      }
+
+    )
+
+    .toUpperCase();
+
+}
+
+
+/* =========================================================
+   GOOGLE CALENDAR API
+========================================================= */
 
 async function getCalendarEvents(
   calendarId,
@@ -1360,65 +1964,104 @@ async function getCalendarEvents(
   const url =
 
     "https://www.googleapis.com/calendar/v3/calendars/"
+
     +
-    encodeURIComponent(calendarId)
+
+    encodeURIComponent(
+      calendarId
+    )
+
     +
+
     "/events"
+
     +
+
     "?key="
+
     +
-    encodeURIComponent(API_KEY)
+
+    encodeURIComponent(
+      API_KEY
+    )
+
     +
+
     "&timeMin="
+
     +
-    encodeURIComponent(start.toISOString())
+
+    encodeURIComponent(
+      start.toISOString()
+    )
+
     +
+
     "&timeMax="
+
     +
-    encodeURIComponent(end.toISOString())
+
+    encodeURIComponent(
+      end.toISOString()
+    )
+
     +
+
     "&singleEvents=true"
+
     +
+
     "&orderBy=startTime"
+
     +
+
     "&maxResults=250";
+
 
   const response =
     await fetch(url);
+
 
   if(!response.ok){
 
     const error =
       await response.text();
 
+
     console.error(
-      "Google Calendar API error:",
+      "Google Calendar API:",
       response.status,
       error
     );
+
 
     throw new Error(
       "Calendar API returned "
       +
       response.status
     );
+
   }
+
 
   const data =
     await response.json();
 
+
   return data.items || [];
+
 }
 
 
-/* ==========================================================
-   EVENT FORMAT
-========================================================== */
+/* =========================================================
+   GOOGLE EVENT → MEETING
+========================================================= */
 
 function eventToMeeting(event){
 
   let start;
   let end;
+
 
   if(
     event.start &&
@@ -1430,12 +2073,14 @@ function eventToMeeting(event){
         event.start.dateTime
       ).getTime();
 
+
     end =
       new Date(
         event.end.dateTime
       ).getTime();
 
   }
+
 
   else if(
     event.start &&
@@ -1444,40 +2089,59 @@ function eventToMeeting(event){
 
     start =
       new Date(
-        event.start.date +
+
+        event.start.date
+        +
         "T00:00:00+05:30"
+
       ).getTime();
+
 
     end =
       new Date(
-        event.end.date +
+
+        event.end.date
+        +
         "T00:00:00+05:30"
+
       ).getTime();
 
   }
 
+
   else{
+
     return null;
+
   }
 
 
   let organiser = "-";
 
+
   if(event.organizer){
 
     organiser =
+
       event.organizer.displayName
+
       ||
+
       event.organizer.email
+
       ||
+
       "-";
+
   }
 
 
   return {
 
     title:
-      event.summary || "Meeting",
+      event.summary
+      ||
+      "Meeting",
 
     organiser:
       organiser,
@@ -1489,66 +2153,102 @@ function eventToMeeting(event){
       end
 
   };
+
 }
 
 
-/* ==========================================================
-   LOAD TODAY / TOMORROW
-========================================================== */
+/* =========================================================
+   LOAD HALL
+========================================================= */
 
 async function loadHall(hall){
 
   const today =
     getDayRange(0);
 
+
   const tomorrow =
     getDayRange(1);
+
 
   const now =
     Date.now();
 
+
   try{
 
-    const result =
+
+    const results =
+
       await Promise.all([
 
         getCalendarEvents(
+
           hall.calendarId,
+
           today.start,
+
           today.end
+
         ),
 
+
         getCalendarEvents(
+
           hall.calendarId,
+
           tomorrow.start,
+
           tomorrow.end
+
         )
 
       ]);
 
 
     const todayMeetings =
-      result[0]
-      .map(eventToMeeting)
+
+      results[0]
+
+      .map(
+        eventToMeeting
+      )
+
       .filter(Boolean);
 
 
     const tomorrowMeetings =
-      result[1]
-      .map(eventToMeeting)
+
+      results[1]
+
+      .map(
+        eventToMeeting
+      )
+
       .filter(Boolean);
 
 
-    let currentMeeting = null;
-    let nextMeeting = null;
+    let currentMeeting =
+      null;
+
+
+    let nextMeeting =
+      null;
 
 
     todayMeetings.forEach(
+
       meeting => {
 
+
         if(
-          now >= meeting.start &&
+
+          now >= meeting.start
+
+          &&
+
           now < meeting.end
+
         ){
 
           currentMeeting =
@@ -1558,12 +2258,21 @@ async function loadHall(hall){
 
 
         if(
-          meeting.start > now &&
+
+          meeting.start > now
+
+          &&
+
           (
-            !nextMeeting ||
-            meeting.start <
+            !nextMeeting
+
+            ||
+
+            meeting.start
+            <
             nextMeeting.start
           )
+
         ){
 
           nextMeeting =
@@ -1572,6 +2281,7 @@ async function loadHall(hall){
         }
 
       }
+
     );
 
 
@@ -1586,11 +2296,19 @@ async function loadHall(hall){
 
     }
 
+
     else if(
-      nextMeeting &&
+
+      nextMeeting
+
+      &&
+
       nextMeeting.start - now
+
       <=
+
       30 * 60 * 1000
+
     ){
 
       status =
@@ -1603,15 +2321,25 @@ async function loadHall(hall){
 
       ...hall,
 
-      status,
-      currentMeeting,
-      nextMeeting,
-      todayMeetings,
-      tomorrowMeetings
+      status:
+        status,
+
+      currentMeeting:
+        currentMeeting,
+
+      nextMeeting:
+        nextMeeting,
+
+      todayMeetings:
+        todayMeetings,
+
+      tomorrowMeetings:
+        tomorrowMeetings
 
     };
 
   }
+
 
   catch(error){
 
@@ -1620,47 +2348,64 @@ async function loadHall(hall){
       error
     );
 
+
     return {
 
       ...hall,
 
-      status:"ERROR",
+      status:
+        "ERROR",
 
-      currentMeeting:null,
-      nextMeeting:null,
+      currentMeeting:
+        null,
 
-      todayMeetings:[],
-      tomorrowMeetings:[]
+      nextMeeting:
+        null,
+
+      todayMeetings:
+        [],
+
+      tomorrowMeetings:
+        []
 
     };
+
   }
+
 }
 
 
-/* ==========================================================
-   HALL CARDS
-========================================================== */
+/* =========================================================
+   DISPLAY HALL CARDS
+========================================================= */
 
 function displayHallCards(data){
 
   const container =
+
     document.getElementById(
       "hallCards"
     );
 
-  container.innerHTML = "";
+
+  container.innerHTML =
+    "";
 
 
   data.forEach(
+
     hall => {
+
 
       let label =
         "STATUS";
 
+
       let detail =
         "No booking at present";
 
-      let title =
+
+      let meetingTitle =
         "";
 
 
@@ -1672,21 +2417,29 @@ function displayHallCards(data){
         label =
           "CURRENT MEETING";
 
+
         detail =
+
           formatTime(
             hall.currentMeeting.start
           )
+
           +
+
           " – "
+
           +
+
           formatTime(
             hall.currentMeeting.end
           );
 
-        title =
+
+        meetingTitle =
           hall.currentMeeting.title;
 
       }
+
 
       else if(
         hall.nextMeeting
@@ -1695,27 +2448,36 @@ function displayHallCards(data){
         label =
           "NEXT BOOKING";
 
+
         detail =
+
           formatTime(
             hall.nextMeeting.start
           )
+
           +
+
           " – "
+
           +
+
           formatTime(
             hall.nextMeeting.end
           );
 
-        title =
+
+        meetingTitle =
           hall.nextMeeting.title;
 
       }
 
 
       const card =
+
         document.createElement(
           "div"
         );
+
 
       card.className =
         "hall-card";
@@ -1724,33 +2486,68 @@ function displayHallCards(data){
       card.innerHTML = `
 
         <div class="hall-icon">
-          ${escapeHTML(hall.icon)}
+
+          ${
+            hall.short === "VCR"
+            ?
+            "VC"
+            :
+            hall.short
+          }
+
         </div>
+
 
         <div>
 
           <div class="hall-name">
-            ${escapeHTML(hall.name)}
-          </div>
 
-          <div class="status ${hall.status}">
-
-            <span class="status-dot"></span>
-
-            ${escapeHTML(hall.status)}
+            ${escapeHTML(
+              hall.name
+            )}
 
           </div>
+
+
+          <div
+            class="status ${hall.status}"
+          >
+
+            <span
+              class="status-dot"
+            ></span>
+
+            ${escapeHTML(
+              hall.status
+            )}
+
+          </div>
+
 
           <div class="status-label">
-            ${escapeHTML(label)}
+
+            ${escapeHTML(
+              label
+            )}
+
           </div>
+
 
           <div class="status-detail">
-            ${escapeHTML(detail)}
+
+            ${escapeHTML(
+              detail
+            )}
+
           </div>
 
+
           <div class="status-title">
-            ${escapeHTML(title)}
+
+            ${escapeHTML(
+              meetingTitle
+            )}
+
           </div>
 
         </div>
@@ -1762,13 +2559,15 @@ function displayHallCards(data){
       );
 
     }
+
   );
+
 }
 
 
-/* ==========================================================
+/* =========================================================
    SCHEDULE TABLE
-========================================================== */
+========================================================= */
 
 function displaySchedule(
   elementId,
@@ -1777,26 +2576,38 @@ function displaySchedule(
 ){
 
   const container =
+
     document.getElementById(
       elementId
     );
 
-  const meetings = [];
+
+  const meetings =
+    [];
 
 
   data.forEach(
+
     hall => {
 
+
       const list =
+
         type === "today"
+
         ?
+
         hall.todayMeetings
+
         :
+
         hall.tomorrowMeetings;
 
 
       list.forEach(
+
         meeting => {
+
 
           meetings.push({
 
@@ -1808,15 +2619,19 @@ function displaySchedule(
           });
 
         }
+
       );
 
     }
+
   );
 
 
   meetings.sort(
+
     (a,b) =>
-    a.start - b.start
+      a.start - b.start
+
   );
 
 
@@ -1838,9 +2653,12 @@ function displaySchedule(
         }.
 
       </div>
+
     `;
 
+
     return;
+
   }
 
 
@@ -1869,11 +2687,14 @@ function displaySchedule(
       </thead>
 
       <tbody>
+
   `;
 
 
   meetings.forEach(
+
     meeting => {
+
 
       html += `
 
@@ -1897,6 +2718,7 @@ function displaySchedule(
 
           </td>
 
+
           <td>
 
             <span class="table-hall">
@@ -1909,6 +2731,7 @@ function displaySchedule(
 
           </td>
 
+
           <td class="table-title">
 
             ${escapeHTML(
@@ -1916,6 +2739,7 @@ function displaySchedule(
             )}
 
           </td>
+
 
           <td class="organiser">
 
@@ -1926,9 +2750,11 @@ function displaySchedule(
           </td>
 
         </tr>
+
       `;
 
     }
+
   );
 
 
@@ -1937,111 +2763,154 @@ function displaySchedule(
       </tbody>
 
     </table>
+
   `;
 
 
   container.innerHTML =
     html;
+
 }
 
 
-/* ==========================================================
+/* =========================================================
    MONTH RANGE
-========================================================== */
+========================================================= */
 
 function getMonthRange(date){
 
   const year =
     date.getFullYear();
 
+
   const month =
     date.getMonth();
+
+
+  const nextMonth =
+    new Date(
+      year,
+      month + 1,
+      1
+    );
 
 
   return {
 
     start:
       new Date(
-        `${year}-${String(month+1).padStart(2,"0")}-01T00:00:00+05:30`
+
+        `${year}-${String(
+          month + 1
+        ).padStart(2,"0")}-01T00:00:00+05:30`
+
       ),
+
 
     end:
       new Date(
-        new Date(
-          year,
-          month+1,
-          1
-        ).getTime()
+
+        nextMonth.getTime()
         -
         1
+
       )
 
   };
+
 }
 
 
-/* ==========================================================
-   DATE KEY
-========================================================== */
+/* =========================================================
+   INDIA DATE KEY
+========================================================= */
 
 function getIndiaDateKey(timestamp){
 
   const d =
     new Date(timestamp);
 
+
   const parts =
+
     new Intl.DateTimeFormat(
+
       "en-CA",
+
       {
-        timeZone:"Asia/Kolkata",
-        year:"numeric",
-        month:"2-digit",
-        day:"2-digit"
+        timeZone:
+          "Asia/Kolkata",
+
+        year:
+          "numeric",
+
+        month:
+          "2-digit",
+
+        day:
+          "2-digit"
       }
+
     )
+
     .formatToParts(d);
 
 
   const value = {};
 
+
   parts.forEach(
-    p => {
+
+    part => {
 
       if(
-        p.type !==
+        part.type !==
         "literal"
       ){
 
-        value[p.type] =
-          p.value;
+        value[part.type] =
+          part.value;
 
       }
 
     }
+
   );
 
 
   return (
+
     value.year
+
     +
+
     "-"
+
     +
+
     value.month
+
     +
+
     "-"
+
     +
+
     value.day
+
   );
+
 }
 
 
-/* ==========================================================
-   LOAD MONTH
-========================================================== */
+/* =========================================================
+   LOAD MONTHLY BOOKINGS
+========================================================= */
 
 async function loadMonth(){
 
   const range =
+
     getMonthRange(
       currentMonthDate
     );
@@ -2050,33 +2919,52 @@ async function loadMonth(){
   monthData = {};
 
 
-  const requests =
+  await Promise.all(
+
     HALLS.map(
+
       async hall => {
+
 
         try{
 
+
           const events =
+
             await getCalendarEvents(
+
               hall.calendarId,
+
               range.start,
+
               range.end
+
             );
 
 
           events
-          .map(eventToMeeting)
+
+          .map(
+            eventToMeeting
+          )
+
           .filter(Boolean)
+
           .forEach(
+
             meeting => {
 
+
               const key =
+
                 getIndiaDateKey(
                   meeting.start
                 );
 
 
-              if(!monthData[key]){
+              if(
+                !monthData[key]
+              ){
 
                 monthData[key] =
                   {};
@@ -2100,44 +2988,52 @@ async function loadMonth(){
                 );
 
             }
+
           );
 
         }
 
+
         catch(error){
 
           console.error(
-            "Monthly calendar:",
+
+            "Monthly calendar error:",
+
             hall.name,
+
             error
+
           );
 
         }
 
       }
-    );
 
+    )
 
-  await Promise.all(
-    requests
   );
 
 
   renderMonthCalendar();
+
 }
 
 
-/* ==========================================================
-   MONTH CALENDAR
-========================================================== */
+/* =========================================================
+   RENDER MONTH CALENDAR
+========================================================= */
 
 function renderMonthCalendar(){
 
   const year =
+
     currentMonthDate
       .getFullYear();
 
+
   const month =
+
     currentMonthDate
       .getMonth();
 
@@ -2153,45 +3049,65 @@ function renderMonthCalendar(){
       month,
       1
     )
+
     .toLocaleDateString(
+
       "en-IN",
+
       {
-        month:"long",
-        year:"numeric"
+        month:
+          "long",
+
+        year:
+          "numeric"
       }
+
     );
 
 
   const firstDay =
+
     new Date(
       year,
       month,
       1
-    ).getDay();
+    )
+    .getDay();
 
 
   const daysInMonth =
+
     new Date(
       year,
-      month+1,
+      month + 1,
       0
-    ).getDate();
+    )
+    .getDate();
 
 
-  const todayParts =
+  const today =
     indiaDateParts();
 
 
   const todayKey =
-    todayParts.year
+
+    today.year
+
     +
+
     "-"
+
     +
-    todayParts.month
+
+    today.month
+
     +
+
     "-"
+
     +
-    todayParts.day;
+
+    today.day;
 
 
   let day = 1;
@@ -2205,29 +3121,42 @@ function renderMonthCalendar(){
     week++
   ){
 
-    if(day > daysInMonth){
+    if(
+      day > daysInMonth
+    ){
+
       break;
+
     }
 
 
-    html += "<tr>";
+    html +=
+      "<tr>";
 
 
     for(
-      let dow = 0;
-      dow < 7;
-      dow++
+      let column = 0;
+      column < 7;
+      column++
     ){
 
+
       if(
-        week === 0 &&
-        dow < firstDay
+
+        week === 0
+
+        &&
+
+        column < firstDay
+
       ){
 
         html +=
-          `<td class="outside"></td>`;
+
+          '<td class="outside"></td>';
 
         continue;
+
       }
 
 
@@ -2236,32 +3165,55 @@ function renderMonthCalendar(){
       ){
 
         html +=
-          `<td class="outside"></td>`;
+
+          '<td class="outside"></td>';
 
         continue;
+
       }
 
 
       const key =
+
         year
+
         +
+
         "-"
+
         +
+
         String(
-          month+1
-        ).padStart(2,"0")
+          month + 1
+        )
+        .padStart(
+          2,
+          "0"
+        )
+
         +
+
         "-"
+
         +
+
         String(day)
-          .padStart(2,"0");
+        .padStart(
+          2,
+          "0"
+        );
 
 
       const todayClass =
+
         key === todayKey
+
         ?
+
         "today-cell"
+
         :
+
         "";
 
 
@@ -2270,52 +3222,57 @@ function renderMonthCalendar(){
         <td class="${todayClass}">
 
           <div class="day-number">
+
             ${day}
+
           </div>
+
       `;
 
 
       HALLS.forEach(
+
         hall => {
 
+
           const events =
+
             monthData[key]
+
             &&
+
             monthData[key][hall.short]
+
             ?
+
             monthData[key][hall.short]
+
             :
+
             [];
 
 
           const booked =
+
             events.length > 0;
 
 
-          let title =
+          const text =
+
             booked
+
             ?
+
             events
               .map(
-                e => e.title
+                event =>
+                  event.title
               )
               .join(", ")
+
             :
+
             "Available";
-
-
-          if(
-            booked &&
-            events[0].organiser &&
-            events[0].organiser !== "-"
-          ){
-
-            title +=
-              " • "
-              +
-              events[0].organiser;
-
-          }
 
 
           html += `
@@ -2323,51 +3280,65 @@ function renderMonthCalendar(){
             <div class="hall-mini">
 
               <span class="hall-short">
+
                 ${hall.short}
+
               </span>
 
+
               <span
-                class="mini-dot
-                ${
-                  booked
-                  ?
-                  "mini-booked"
-                  :
-                  "mini-available"
-                }"
+                class="
+                  mini-dot
+                  ${
+                    booked
+                    ?
+                    "mini-booked"
+                    :
+                    "mini-available"
+                  }
+                "
               ></span>
 
+
               <span
-                class="mini-title
-                ${
-                  booked
-                  ?
-                  "booked"
-                  :
-                  ""
-                }"
-                title="${escapeHTML(title)}"
+                class="
+                  mini-title
+                  ${
+                    booked
+                    ?
+                    "booked"
+                    :
+                    ""
+                  }
+                "
+
+                title="${escapeHTML(text)}"
               >
 
-                ${escapeHTML(title)}
+                ${escapeHTML(text)}
 
               </span>
 
             </div>
+
           `;
 
         }
+
       );
 
 
-      html += "</td>";
+      html +=
+        "</td>";
+
 
       day++;
 
     }
 
 
-    html += "</tr>";
+    html +=
+      "</tr>";
 
   }
 
@@ -2378,17 +3349,20 @@ function renderMonthCalendar(){
     )
     .innerHTML =
     html;
+
 }
 
 
-/* ==========================================================
+/* =========================================================
    CHANGE MONTH
-========================================================== */
+========================================================= */
 
 function changeMonth(amount){
 
   currentMonthDate =
+
     new Date(
+
       currentMonthDate
         .getFullYear(),
 
@@ -2398,22 +3372,26 @@ function changeMonth(amount){
         amount,
 
       1
+
     );
 
 
   loadMonth();
+
 }
 
 
-/* ==========================================================
-   DASHBOARD
-========================================================== */
+/* =========================================================
+   MAIN DASHBOARD LOAD
+========================================================= */
 
 async function loadDashboard(){
 
   if(
+
     API_KEY ===
     "PASTE_YOUR_API_KEY_HERE"
+
   ){
 
     document
@@ -2425,10 +3403,10 @@ async function loadDashboard(){
         <div
           style="
             grid-column:1/-1;
-            padding:30px;
-            text-align:center;
+            padding:25px;
             background:white;
-            border-radius:12px;
+            border-radius:10px;
+            text-align:center;
           "
         >
 
@@ -2436,14 +3414,18 @@ async function loadDashboard(){
           Google Calendar API key.
 
         </div>
+
       `;
 
+
     return;
+
   }
 
 
   const today =
     getDayRange(0);
+
 
   const tomorrow =
     getDayRange(1);
@@ -2454,6 +3436,7 @@ async function loadDashboard(){
       "todayBadge"
     )
     .textContent =
+
     formatBadge(
       today.start
     );
@@ -2464,16 +3447,20 @@ async function loadDashboard(){
       "tomorrowBadge"
     )
     .textContent =
+
     formatBadge(
       tomorrow.start
     );
 
 
   const data =
+
     await Promise.all(
+
       HALLS.map(
         loadHall
       )
+
     );
 
 
@@ -2483,16 +3470,24 @@ async function loadDashboard(){
 
 
   displaySchedule(
+
     "todaySchedule",
+
     data,
+
     "today"
+
   );
 
 
   displaySchedule(
+
     "tomorrowSchedule",
+
     data,
+
     "tomorrow"
+
   );
 
 
@@ -2503,26 +3498,39 @@ async function loadDashboard(){
     .textContent =
 
     "Last updated: "
+
     +
+
     new Date()
       .toLocaleTimeString(
+
         "en-IN",
+
         {
-          hour:"2-digit",
-          minute:"2-digit",
-          hour12:true,
-          timeZone:"Asia/Kolkata"
+          hour:
+            "2-digit",
+
+          minute:
+            "2-digit",
+
+          hour12:
+            true,
+
+          timeZone:
+            "Asia/Kolkata"
         }
+
       );
 
 }
 
 
-/* ==========================================================
+/* =========================================================
    START
-========================================================== */
+========================================================= */
 
 updateClock();
+
 
 setInterval(
   updateClock,
@@ -2532,10 +3540,12 @@ setInterval(
 
 loadDashboard();
 
+
 loadMonth();
 
 
 setInterval(
+
   function(){
 
     loadDashboard();
@@ -2545,6 +3555,7 @@ setInterval(
   },
 
   60000
+
 );
 
 </script>
