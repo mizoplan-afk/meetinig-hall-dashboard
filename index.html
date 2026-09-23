@@ -448,19 +448,15 @@ body{
 }
 
 .schedule-table th:nth-child(1){
-  width:21%;
+  width:25%;
 }
 
 .schedule-table th:nth-child(2){
-  width:23%;
+  width:25%;
 }
 
 .schedule-table th:nth-child(3){
-  width:35%;
-}
-
-.schedule-table th:nth-child(4){
-  width:21%;
+  width:50%;
 }
 
 .table-time{
@@ -2845,11 +2841,7 @@ function displaySchedule(
           <th>Hall</th>
 
           <th>
-            Meeting Title / Purpose
-          </th>
-
-          <th>
-            Organised by
+            User
           </th>
 
         </tr>
@@ -2910,14 +2902,6 @@ function displaySchedule(
 
           </td>
 
-
-          <td class="organiser">
-
-            ${escapeHTML(
-              meeting.organiser
-            )}
-
-          </td>
 
         </tr>
 
