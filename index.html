@@ -1610,6 +1610,19 @@ and
 @media(max-width:650px){
   .booking-clickable{touch-action:manipulation;}
 }
+
+.month-calendar td.booking-clickable{
+  cursor:pointer !important;
+  touch-action:manipulation !important;
+  -webkit-tap-highlight-color:rgba(11,95,133,.18);
+  user-select:none;
+  -webkit-user-select:none;
+}
+.month-calendar td.booking-clickable:active{
+  outline:2px solid #42a9cf;
+  outline-offset:-2px;
+}
+
 </style>
 </head>
 
@@ -3587,7 +3600,7 @@ function renderMonthCalendar(){
 
       html += `
 
-        <td class="${todayClass}${weekend ? " weekend-cell" : ""}${(!weekend && hasBookingsForDate(key)) ? " booking-clickable" : ""}" ${(!weekend && hasBookingsForDate(key)) ? `onclick="openBookingDetails('${key}')"` : ""}>
+        <td class="${todayClass}${weekend ? " weekend-cell" : ""}${(!weekend && hasBookingsForDate(key)) ? " booking-clickable" : ""}" ${(!weekend && hasBookingsForDate(key)) ? `data-booking-date="${key}" role="button" tabindex="0" aria-label="View booking details for ${key}"` : ""}>
 
           <div class="day-number">
 
@@ -3756,8 +3769,28 @@ function closeBookingModal(event){
   document.body.style.overflow="";
 }
 
+// Robust calendar interaction for mobile Safari/Chrome and desktop.
+// Event delegation keeps taps working even after the calendar is re-rendered.
+document.addEventListener("click", function(event){
+  const cell = event.target.closest ? event.target.closest("td.booking-clickable[data-booking-date]") : null;
+  if(!cell) return;
+  event.preventDefault();
+  openBookingDetails(cell.dataset.bookingDate);
+});
+
+document.addEventListener("touchend", function(event){
+  const cell = event.target.closest ? event.target.closest("td.booking-clickable[data-booking-date]") : null;
+  if(!cell) return;
+  event.preventDefault();
+  openBookingDetails(cell.dataset.bookingDate);
+}, {passive:false});
+
 document.addEventListener("keydown",event=>{
   if(event.key === "Escape") closeBookingModal();
+  if((event.key === "Enter" || event.key === " ") && event.target.matches && event.target.matches("td.booking-clickable[data-booking-date]")){
+    event.preventDefault();
+    openBookingDetails(event.target.dataset.bookingDate);
+  }
 });
 
 /* =========================================================
