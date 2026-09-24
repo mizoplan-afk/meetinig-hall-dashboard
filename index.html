@@ -1603,6 +1603,13 @@ and
   .booking-detail-user{font-size:16px;}
 }
 
+
+/* Clean calendar: booking names are shown only in the details popup. */
+.booking-clickable{cursor:pointer;}
+.booking-clickable:active{background:#e8f5fb;}
+@media(max-width:650px){
+  .booking-clickable{touch-action:manipulation;}
+}
 </style>
 </head>
 
@@ -3663,25 +3670,6 @@ function renderMonthCalendar(){
               ></span>
 
 
-              <span
-                class="
-                  mini-title
-                  ${
-                    booked
-                    ?
-                    "booked"
-                    :
-                    ""
-                  }
-                "
-
-                title="${escapeHTML(text)}"
-              >
-
-                ${escapeHTML(text)}
-
-              </span>
-
             </div>
 
           `;
@@ -3692,9 +3680,6 @@ function renderMonthCalendar(){
 
       }
 
-      if(!weekend && hasBookingsForDate(key)){
-        html += '<div class="booking-tap-hint">Tap for details</div>';
-      }
 
       html +=
         "</td>";
