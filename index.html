@@ -1398,6 +1398,55 @@ and
   .hall-icon svg{width:23px;height:23px;}
 }
 
+
+/* ===== LARGER TODAY / TOMORROW SCHEDULE TEXT ===== */
+.schedule-table th{
+  padding:8px 12px;
+  font-size:13px;
+  font-weight:600;
+}
+.schedule-table td{
+  padding:10px 12px;
+  font-size:13px;
+  line-height:1.25;
+}
+.table-time{
+  font-size:13px;
+  font-weight:500;
+  white-space:nowrap;
+}
+.table-hall{
+  padding:5px 8px;
+  font-size:10px;
+  font-weight:600;
+  border-radius:7px;
+}
+.table-title{
+  font-size:13px;
+  font-weight:500;
+}
+.schedule-content{
+  height:118px;
+}
+.schedule-box{
+  height:160px;
+}
+@media (min-width:1000px) and (orientation:landscape){
+  .schedule-grid{flex:0 0 160px;}
+}
+@media (min-width:1500px){
+  .schedule-table th{font-size:14px;}
+  .schedule-table td,.table-time,.table-title{font-size:14px;}
+  .table-hall{font-size:10px;}
+}
+@media(max-width:650px){
+  .schedule-table th{font-size:10px;padding:7px 6px;}
+  .schedule-table td,.table-time,.table-title{font-size:10px;padding:7px 6px;}
+  .table-hall{font-size:8px;padding:4px 5px;}
+  .schedule-box{height:auto;min-height:145px;}
+  .schedule-content{height:auto;}
+}
+
 </style>
 </head>
 
