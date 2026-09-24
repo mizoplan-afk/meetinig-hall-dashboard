@@ -3751,7 +3751,9 @@ function formatBookingDate(key){
 function formatMeetingTime(meeting){
   if(!meeting || !meeting.start || !meeting.end) return "";
   const opts={hour:"2-digit",minute:"2-digit",hour12:true,timeZone:"Asia/Kolkata"};
-  return meeting.start.toLocaleTimeString("en-IN",opts)+" – "+meeting.end.toLocaleTimeString("en-IN",opts);
+  const startDate = new Date(meeting.start);
+  const endDate = new Date(meeting.end);
+  return startDate.toLocaleTimeString("en-IN",opts)+" – "+endDate.toLocaleTimeString("en-IN",opts);
 }
 
 function openBookingDetails(key){
