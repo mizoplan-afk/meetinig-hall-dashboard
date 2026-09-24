@@ -1522,6 +1522,59 @@ and
   .table-title{font-size:10px !important;}
 }
 
+
+
+/* ===== FINAL COMPACT CALENDAR LAYOUT ===== */
+/* Weekend columns are intentionally only wide enough for SUN/SAT. */
+.month-calendar col.weekend-col{ width:4.5%; }
+.month-calendar col.weekday-col{ width:18.2%; }
+
+/* No separate MONTHLY CALENDAR title bar; toolbar becomes the calendar header. */
+.month-toolbar{
+  border-radius:11px 11px 0 0;
+}
+
+/* Saturday & Sunday: no availability rows, only a red date. */
+.month-calendar th:first-child,
+.month-calendar th:last-child{
+  white-space:nowrap;
+  padding-left:2px;
+  padding-right:2px;
+}
+.month-calendar td.weekend-cell{
+  background:#fff1f1;
+  padding-left:5px;
+  padding-right:5px;
+}
+.month-calendar td.weekend-cell .day-number{
+  color:#e11d2e;
+  font-weight:700;
+}
+.month-calendar td.outside:first-child,
+.month-calendar td.outside:last-child{
+  background:#fff7f7;
+}
+
+/* Working days: show only CH/CR/VCR + dot when available.
+   Booking user/title remains visible in red. */
+.hall-mini{
+  grid-template-columns:31px 9px minmax(0,1fr);
+}
+.mini-title:empty{ display:none; }
+
+@media (min-width:1500px){
+  .month-calendar col.weekend-col{ width:4%; }
+  .month-calendar col.weekday-col{ width:18.4%; }
+}
+
+@media (max-width:650px){
+  .month-calendar col.weekend-col{ width:8%; }
+  .month-calendar col.weekday-col{ width:16.8%; }
+  .month-calendar th:first-child,
+  .month-calendar th:last-child{ font-size:8px; }
+  .month-calendar td.weekend-cell{ padding:3px 2px; }
+  .month-calendar td.weekend-cell .day-number{ font-size:10px; }
+}
 </style>
 </head>
 
@@ -1763,21 +1816,6 @@ and
 <!-- MONTH -->
 
 <div class="month-panel">
-
-
-  <div class="month-top">
-
-    <span class="calendar-icon">
-      ▣
-    </span>
-
-    &nbsp;&nbsp;
-
-    MONTHLY CALENDAR
-
-  </div>
-
-
   <div class="month-toolbar">
 
 
@@ -1809,18 +1847,6 @@ and
 
 
     <div class="legend">
-
-      <span class="legend-item">
-
-        <span
-          class="legend-dot legend-green"
-        ></span>
-
-        Available
-
-      </span>
-
-
       <span class="legend-item">
 
         <span
@@ -1854,6 +1880,16 @@ and
   <div class="calendar-wrap">
 
     <table class="month-calendar">
+
+      <colgroup>
+        <col class="weekend-col">
+        <col class="weekday-col">
+        <col class="weekday-col">
+        <col class="weekday-col">
+        <col class="weekday-col">
+        <col class="weekday-col">
+        <col class="weekend-col">
+      </colgroup>
 
       <thead>
 
@@ -3502,9 +3538,11 @@ function renderMonthCalendar(){
         "";
 
 
+      const weekend = column === 0 || column === 6;
+
       html += `
 
-        <td class="${todayClass}">
+        <td class="${todayClass}${weekend ? " weekend-cell" : ""}">
 
           <div class="day-number">
 
@@ -3514,6 +3552,8 @@ function renderMonthCalendar(){
 
       `;
 
+
+      if(!weekend){
 
       HALLS.forEach(
 
@@ -3557,7 +3597,7 @@ function renderMonthCalendar(){
 
             :
 
-            "Available";
+            "";
 
 
           html += `
@@ -3611,6 +3651,8 @@ function renderMonthCalendar(){
         }
 
       );
+
+      }
 
 
       html +=
