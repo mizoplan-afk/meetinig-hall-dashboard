@@ -1623,6 +1623,10 @@ and
   outline-offset:-2px;
 }
 
+
+.mobile-booking-list{display:none;}
+@media (min-width:651px){.month-calendar .mini-title{display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.08}.month-calendar .mini-title.booked{color:#e53935!important;font-weight:600}}
+@media (max-width:650px){.month-toolbar{padding-bottom:0!important;gap:0!important}.legend{row-gap:0!important;margin:0!important;padding:0 0 2px!important;line-height:1.05!important}.legend-item{margin:0!important}.calendar-wrap{padding-top:0!important;padding-bottom:0!important}.month-calendar .mini-title{display:none!important}.calendar-note{display:none!important}.mobile-booking-list{display:block;margin:0 12px 12px;border:1px solid #d7e3e8;border-radius:0 0 10px 10px;background:#fff;overflow:hidden}.mobile-booking-title{padding:9px 10px;background:linear-gradient(110deg,#075681,#0780b6);color:#fff;font-size:11px;font-weight:700;letter-spacing:.3px}.mobile-booking-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}.mobile-booking-table{width:100%;border-collapse:collapse;table-layout:auto;font-size:9px;color:#173f59}.mobile-booking-table th{background:#eef5f8;color:#173f59;font-size:8px;font-weight:700;text-align:left;padding:7px 5px;border:1px solid #d7e3e8;white-space:nowrap}.mobile-booking-table td{padding:7px 5px;border:1px solid #d7e3e8;vertical-align:top;line-height:1.25}.mobile-booking-table th:nth-child(1),.mobile-booking-table td:nth-child(1){min-width:78px;white-space:nowrap}.mobile-booking-table th:nth-child(2),.mobile-booking-table td:nth-child(2){min-width:105px;white-space:nowrap}.mobile-booking-table th:nth-child(3),.mobile-booking-table td:nth-child(3){min-width:34px;white-space:nowrap;font-weight:700}.mobile-booking-table th:nth-child(4),.mobile-booking-table td:nth-child(4){min-width:120px;overflow-wrap:anywhere}.mobile-no-booking{text-align:center;color:#70838f;padding:14px!important}}
 </style>
 </head>
 
@@ -1961,6 +1965,8 @@ and
     </table>
 
   </div>
+
+  <div class="mobile-booking-list"><div class="mobile-booking-title">BOOKING DETAILS</div><div class="mobile-booking-scroll"><table class="mobile-booking-table"><thead><tr><th>Date of Booking</th><th>Time</th><th>Hall</th><th>User</th></tr></thead><tbody id="mobileBookingBody"></tbody></table></div></div>
 
 
   <div class="calendar-note">
@@ -3682,6 +3688,7 @@ function renderMonthCalendar(){
                 "
               ></span>
 
+              <span class="mini-title ${booked ? "booked" : ""}">${booked ? escapeHTML(text) : ""}</span>
 
             </div>
 
@@ -3716,9 +3723,18 @@ function renderMonthCalendar(){
     .innerHTML =
     html;
 
+  renderMobileBookingTable();
+
 }
 
 
+
+function renderMobileBookingTable(){
+  const body=document.getElementById("mobileBookingBody"); if(!body) return; const rows=[];
+  Object.keys(monthData).sort().forEach(key=>HALLS.forEach(hall=>{ const events=(monthData[key]&&monthData[key][hall.short])?monthData[key][hall.short]:[]; events.forEach(meeting=>rows.push({key,hall,meeting})); }));
+  if(!rows.length){body.innerHTML='<tr><td colspan="4" class="mobile-no-booking">No bookings this month.</td></tr>';return;}
+  body.innerHTML=rows.map(({key,hall,meeting})=>{const d=key.split("-").map(Number);const date=new Date(d[0],d[1]-1,d[2]).toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});return `<tr><td>${escapeHTML(date)}</td><td>${escapeHTML(formatMeetingTime(meeting))}</td><td>${escapeHTML(hall.short)}</td><td>${escapeHTML(meeting.title||"Booked")}</td></tr>`;}).join("");
+}
 
 function hasBookingsForDate(key){
   if(!monthData[key]) return false;
