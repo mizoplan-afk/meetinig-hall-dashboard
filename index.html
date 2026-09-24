@@ -1447,6 +1447,39 @@ and
   .schedule-content{height:auto;}
 }
 
+
+
+/* ===== HALL PHOTO CARDS ===== */
+.hall-card{
+  padding:0 0 0 16px;
+  grid-template-columns:56px minmax(0,1fr) 43%;
+  gap:11px;
+  align-items:center;
+  overflow:hidden;
+}
+.hall-photo{
+  width:100%;
+  height:121px;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  align-self:stretch;
+}
+.hall-card:nth-child(1) .hall-photo{object-position:center 48%;}
+.hall-card:nth-child(2) .hall-photo{object-position:center 52%;}
+.hall-card:nth-child(3) .hall-photo{object-position:center 52%;}
+@media (min-width:1500px){
+  .hall-card{grid-template-columns:60px minmax(0,1fr) 43%;}
+}
+@media (orientation:portrait) and (min-width:651px){
+  .hall-card{padding:10px;grid-template-columns:44px minmax(0,1fr);}
+  .hall-photo{display:none;}
+}
+@media(max-width:650px){
+  .hall-card{padding:10px;grid-template-columns:40px minmax(0,1fr);}
+  .hall-photo{display:none;}
+}
+
 </style>
 </head>
 
@@ -2602,6 +2635,12 @@ function getHallIcon(short){
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1.8"/><path d="M8 21h8M12 17v4"/><circle cx="12" cy="9" r="1.6"/><path d="M8.8 14c.5-1.5 1.6-2.3 3.2-2.3s2.7.8 3.2 2.3"/></svg>`;
 }
 
+function getHallImage(short){
+  if(short === "CH") return "conference-hall.jpg";
+  if(short === "CR") return "committee-room.jpg";
+  return "video-conference-room.jpg";
+}
+
 function displayHallCards(data){
 
   const container =
@@ -2766,6 +2805,8 @@ function displayHallCards(data){
           </div>
 
         </div>
+
+        <img class="hall-photo" src="${getHallImage(hall.short)}" alt="${escapeHTML(hall.name)}">
       `;
 
 
