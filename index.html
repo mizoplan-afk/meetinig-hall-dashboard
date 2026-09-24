@@ -1575,6 +1575,34 @@ and
   .month-calendar td.weekend-cell{ padding:3px 2px; }
   .month-calendar td.weekend-cell .day-number{ font-size:10px; }
 }
+
+
+/* ===== BOOKING DETAILS POPUP ===== */
+.month-calendar td.booking-clickable{cursor:pointer;}
+.month-calendar td.booking-clickable:active{transform:scale(.985);}
+.booking-modal{position:fixed;inset:0;background:rgba(8,24,40,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:99999;}
+.booking-modal.show{display:flex;}
+.booking-modal-card{width:min(520px,94vw);max-height:82vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.28);}
+.booking-modal-head{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;background:#0b3558;color:#fff;border-radius:16px 16px 0 0;z-index:2;}
+.booking-modal-title{font-size:17px;font-weight:700;line-height:1.2;}
+.booking-modal-close{width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:24px;line-height:1;cursor:pointer;}
+.booking-modal-body{padding:14px;}
+.booking-detail{border:1px solid #dce5ec;border-left:4px solid #ef4444;border-radius:10px;padding:11px 12px;margin-bottom:10px;background:#fff;}
+.booking-detail:last-child{margin-bottom:0;}
+.booking-detail-hall{font-size:13px;font-weight:700;color:#0b3558;margin-bottom:5px;}
+.booking-detail-time{font-size:12px;font-weight:600;color:#536779;margin-bottom:5px;}
+.booking-detail-user{font-size:15px;font-weight:700;color:#172b3a;line-height:1.35;overflow-wrap:anywhere;}
+.booking-tap-hint{display:none;}
+@media(max-width:650px){
+  .month-calendar td.booking-clickable{background-image:linear-gradient(rgba(239,68,68,.025),rgba(239,68,68,.025));}
+  .booking-tap-hint{display:block;font-size:8px;color:#c62828;font-weight:700;margin-top:2px;line-height:1;}
+  .booking-modal{padding:10px;align-items:center;}
+  .booking-modal-card{width:96vw;max-height:86vh;border-radius:14px;}
+  .booking-modal-head{padding:14px;border-radius:14px 14px 0 0;}
+  .booking-modal-title{font-size:16px;}
+  .booking-detail-user{font-size:16px;}
+}
+
 </style>
 </head>
 
@@ -1950,6 +1978,16 @@ and
 
 </main>
 
+
+<div id="bookingModal" class="booking-modal" onclick="closeBookingModal(event)" aria-hidden="true">
+  <div class="booking-modal-card" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle" onclick="event.stopPropagation()">
+    <div class="booking-modal-head">
+      <div id="bookingModalTitle" class="booking-modal-title">Booking Details</div>
+      <button class="booking-modal-close" type="button" onclick="closeBookingModal()" aria-label="Close">×</button>
+    </div>
+    <div id="bookingModalBody" class="booking-modal-body"></div>
+  </div>
+</div>
 
 <script>
 
@@ -3542,7 +3580,7 @@ function renderMonthCalendar(){
 
       html += `
 
-        <td class="${todayClass}${weekend ? " weekend-cell" : ""}">
+        <td class="${todayClass}${weekend ? " weekend-cell" : ""}${(!weekend && hasBookingsForDate(key)) ? " booking-clickable" : ""}" ${(!weekend && hasBookingsForDate(key)) ? `onclick="openBookingDetails('${key}')"` : ""}>
 
           <div class="day-number">
 
@@ -3654,6 +3692,9 @@ function renderMonthCalendar(){
 
       }
 
+      if(!weekend && hasBookingsForDate(key)){
+        html += '<div class="booking-tap-hint">Tap for details</div>';
+      }
 
       html +=
         "</td>";
@@ -3679,6 +3720,60 @@ function renderMonthCalendar(){
 
 }
 
+
+
+function hasBookingsForDate(key){
+  if(!monthData[key]) return false;
+  return HALLS.some(hall => monthData[key][hall.short] && monthData[key][hall.short].length > 0);
+}
+
+function formatBookingDate(key){
+  const parts = key.split("-").map(Number);
+  return new Date(parts[0], parts[1]-1, parts[2]).toLocaleDateString("en-IN",{
+    day:"numeric", month:"long", year:"numeric"
+  });
+}
+
+function formatMeetingTime(meeting){
+  if(!meeting || !meeting.start || !meeting.end) return "";
+  const opts={hour:"2-digit",minute:"2-digit",hour12:true,timeZone:"Asia/Kolkata"};
+  return meeting.start.toLocaleTimeString("en-IN",opts)+" – "+meeting.end.toLocaleTimeString("en-IN",opts);
+}
+
+function openBookingDetails(key){
+  const modal=document.getElementById("bookingModal");
+  const title=document.getElementById("bookingModalTitle");
+  const body=document.getElementById("bookingModalBody");
+  title.textContent=formatBookingDate(key);
+  let html="";
+  HALLS.forEach(hall=>{
+    const events=(monthData[key] && monthData[key][hall.short]) ? monthData[key][hall.short] : [];
+    events.forEach(meeting=>{
+      html += `<div class="booking-detail">
+        <div class="booking-detail-hall">${escapeHTML(hall.name)}</div>
+        <div class="booking-detail-time">${escapeHTML(formatMeetingTime(meeting))}</div>
+        <div class="booking-detail-user">${escapeHTML(meeting.title || "Booked")}</div>
+      </div>`;
+    });
+  });
+  body.innerHTML=html || '<div class="booking-detail-user">No booking details.</div>';
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+}
+
+function closeBookingModal(event){
+  if(event && event.target && event.target.closest && event.target.closest('.booking-modal-card')) return;
+  const modal=document.getElementById("bookingModal");
+  if(!modal) return;
+  modal.classList.remove("show");
+  modal.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+}
+
+document.addEventListener("keydown",event=>{
+  if(event.key === "Escape") closeBookingModal();
+});
 
 /* =========================================================
    CHANGE MONTH
