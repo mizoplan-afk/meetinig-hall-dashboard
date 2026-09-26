@@ -1,29 +1,24 @@
-const CACHE_NAME = "meeting-halls-v3";
+const CACHE_NAME = "meeting-halls-v4";
 const APP_SHELL = [
-  "./", "./index.html", "./manifest-v3.webmanifest",
-  "./planning-apple-icon-v3.png", "./planning-icon-192-v3.png", "./planning-icon-512-v3.png",
-  "./planning-favicon-32-v3.png", "./planning-favicon-48-v3.png",
-  "./Ashoka-Pillar.png", "./planning-building.png",
-  "./conference-hall.jpg.jpg", "./committee-room.jpg.jpg", "./video-conference-room.jpg.jpg"
+ "./", "./index.html", "./manifest-v4.webmanifest",
+ "./planning-apple-v4.png", "./planning-pwa-192-v4.png",
+ "./planning-pwa-512-v4.png", "./planning-maskable-512-v4.png",
+ "./planning-favicon-32-v4.png", "./planning-favicon-48-v4.png",
+ "./Ashoka-Pillar.png", "./planning-building.png",
+ "./conference-hall.jpg.jpg", "./committee-room.jpg.jpg", "./video-conference-room.jpg.jpg"
 ];
-self.addEventListener("install", event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)));
-  self.skipWaiting();
+self.addEventListener("install", e => {
+ e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(APP_SHELL)));
+ self.skipWaiting();
 });
-self.addEventListener("activate", event => {
-  event.waitUntil(caches.keys().then(keys =>
-    Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-  ));
-  self.clients.claim();
+self.addEventListener("activate", e => {
+ e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))));
+ self.clients.claim();
 });
-self.addEventListener("fetch", event => {
-  const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin || url.hostname.includes("googleapis.com")) return;
-  event.respondWith(
-    fetch(event.request).then(response => {
-      const copy = response.clone();
-      caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-      return response;
-    }).catch(() => caches.match(event.request).then(r => r || caches.match("./index.html")))
-  );
+self.addEventListener("fetch", e => {
+ const u = new URL(e.request.url);
+ if (u.origin !== self.location.origin || u.hostname.includes("googleapis.com")) return;
+ e.respondWith(fetch(e.request).then(r => {
+   const copy=r.clone(); caches.open(CACHE_NAME).then(c=>c.put(e.request,copy)); return r;
+ }).catch(()=>caches.match(e.request).then(r=>r||caches.match("./index.html"))));
 });
