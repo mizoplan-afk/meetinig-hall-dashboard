@@ -1683,6 +1683,28 @@ and
     line-height:1.2;
   }
 }
+
+/* ===== GOVERNMENT OF MIZORAM OFFICIAL HOLIDAYS 2026 ===== */
+.month-calendar td.govt-holiday-cell{
+  background:#fff0f0 !important;
+}
+.month-calendar td.govt-holiday-cell .day-number{
+  color:#d71920 !important;
+  font-weight:800 !important;
+}
+.govt-holiday-name{
+  margin-top:7px;
+  color:#d71920;
+  font-size:12px;
+  line-height:1.2;
+  font-weight:700;
+  text-align:center;
+  overflow-wrap:anywhere;
+}
+@media(max-width:650px){
+  .govt-holiday-name{font-size:8px;margin-top:4px;line-height:1.1;}
+}
+
 </style>
 </head>
 
@@ -2127,6 +2149,43 @@ const HALLS = [
 
 ];
 
+
+/* Government of Mizoram: Holidays to be observed in Government Offices during 2026.
+   Saturdays and Sundays are handled separately as weekly closures. */
+const MIZORAM_GOVT_HOLIDAYS_2026 = {
+  "2026-01-01":"New Year's Day",
+  "2026-01-02":"New Year Celebration",
+  "2026-01-11":"Missionary Day",
+  "2026-01-26":"Republic Day",
+  "2026-02-20":"State Day",
+  "2026-03-04":"Holi",
+  "2026-03-13":"Chapchar Kut",
+  "2026-03-21":"Id-ul-Fitr",
+  "2026-03-26":"Ram Navami",
+  "2026-03-31":"Mahavir Jayanti",
+  "2026-04-03":"Good Friday",
+  "2026-05-01":"Buddha Purnima",
+  "2026-05-27":"Id-ul-Zuha (Bakrid)",
+  "2026-06-15":"YMA Day",
+  "2026-06-26":"Muharram",
+  "2026-06-30":"Remna Ni",
+  "2026-07-06":"MHIP Day",
+  "2026-08-15":"Independence Day",
+  "2026-08-26":"Milad-un-Nabi / Id-e-Milad",
+  "2026-09-04":"Janmashtami",
+  "2026-10-02":"Mahatma Gandhi's Birthday",
+  "2026-10-20":"Dussehra",
+  "2026-11-08":"Diwali (Deepavali)",
+  "2026-11-24":"Guru Nanak's Birthday",
+  "2026-12-24":"Christmas Eve",
+  "2026-12-25":"Christmas Day",
+  "2026-12-26":"Christmas Celebration",
+  "2026-12-31":"New Year's Eve"
+};
+
+function getMizoramHoliday(key){
+  return MIZORAM_GOVT_HOLIDAYS_2026[key] || "";
+}
 
 let currentMonthDate =
   new Date();
@@ -3659,10 +3718,13 @@ function renderMonthCalendar(){
 
 
       const weekend = column === 0 || column === 6;
+      const holidayName = !weekend ? getMizoramHoliday(key) : "";
+      const isGovtHoliday = Boolean(holidayName);
+      const canShowBooking = !weekend && !isGovtHoliday && hasBookingsForDate(key);
 
       html += `
 
-        <td class="${todayClass}${weekend ? " weekend-cell" : ""}${(!weekend && hasBookingsForDate(key)) ? " booking-clickable" : ""}" ${(!weekend && hasBookingsForDate(key)) ? `data-booking-date="${key}" role="button" tabindex="0" aria-label="View booking details for ${key}"` : ""}>
+        <td class="${todayClass}${weekend ? " weekend-cell" : ""}${isGovtHoliday ? " govt-holiday-cell" : ""}${canShowBooking ? " booking-clickable" : ""}" ${canShowBooking ? `data-booking-date="${key}" role="button" tabindex="0" aria-label="View booking details for ${key}"` : ""}>
 
           <div class="day-number">
 
@@ -3670,10 +3732,12 @@ function renderMonthCalendar(){
 
           </div>
 
+          ${isGovtHoliday ? `<div class="govt-holiday-name">${escapeHTML(holidayName)}</div>` : ""}
+
       `;
 
 
-      if(!weekend){
+      if(!weekend && !isGovtHoliday){
 
       HALLS.forEach(
 
