@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#bd322b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Meeting Halls">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 
 <title>Meeting Hall Availability</title>
 
@@ -4135,6 +4143,17 @@ setInterval(
   60000
 
 );
+
+
+/* PWA: cache the app shell for fast Home Screen launches.
+   Calendar data still refreshes from Google whenever online. */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("./service-worker.js").catch(function(error){
+      console.warn("Service worker registration failed:", error);
+    });
+  });
+}
 
 </script>
 
